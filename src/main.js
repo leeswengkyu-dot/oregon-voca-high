@@ -22,20 +22,64 @@ const rankOf = (n) => RANKS.filter((r) => n >= r.min).pop();
 const nextRank = (n) => RANKS.find((r) => r.min > n);
 
 // ---- 소리: 발음(TTS)과 효과음 ----
-let enVoice = null;
+// 기기마다 음성이 늦게 로드되거나(크롬), 첫 터치 전에는 소리를 막거나(아이폰·안드로이드),
+// 취소 직후 바로 말하면 소리가 사라지는(크롬) 문제가 있어 아래처럼 보완합니다.
+const hasTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+let enVoice = null; let voicesChecked = false; let ttsUnlocked = false; let speakTimer = null;
 function pickVoice() {
-  if (!('speechSynthesis' in window)) return;
-  const vs = speechSynthesis.getVoices().filter((v) => /^en[-_]/i.test(v.lang));
-  enVoice = vs.find((v) => /en[-_]US/i.test(v.lang) && /Google|Samantha|Aria|Jenny|Zira/i.test(v.name))
-    || vs.find((v) => /en[-_]US/i.test(v.lang)) || vs[0] || null;
+  if (!hasTTS) return;
+  const all = speechSynthesis.getVoices();
+  if (all.length) voicesChecked = true;
+  const vs = all.filter((v) => /^en([-_]|$)/i.test(v.lang));
+  const us = vs.filter((v) => /en[-_]US/i.test(v.lang));
+  enVoice = us.find((v) => /Google|Samantha|Aria|Jenny|Ava|Zira|Natural/i.test(v.name))
+    || us[0] || vs.find((v) => /GB|AU/i.test(v.lang)) || vs[0] || null;
 }
-if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+if (hasTTS) {
+  pickVoice();
+  speechSynthesis.addEventListener?.('voiceschanged', pickVoice);
+  speechSynthesis.onvoiceschanged = pickVoice;
+  // 일부 브라우저는 voiceschanged 이벤트를 보내지 않아 몇 번 더 확인
+  let tries = 0; const poll = setInterval(() => { pickVoice(); if (enVoice || ++tries > 20) { voicesChecked = true; clearInterval(poll); } }, 250);
+  // 첫 터치 때 무음 발화로 음성 기능을 깨워 둠 (모바일 자동재생 제한 대응)
+  const unlock = () => {
+    if (ttsUnlocked) return; ttsUnlocked = true;
+    try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; u.lang = 'en-US'; speechSynthesis.speak(u); } catch { /* noop */ }
+    try { speechSynthesis.resume(); } catch { /* noop */ }
+  };
+  window.addEventListener('pointerdown', unlock, { capture: true });
+  window.addEventListener('keydown', unlock, { capture: true });
+}
 function speak(text, rate = 0.85) {
-  if (!('speechSynthesis' in window) || !text) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US'; u.rate = rate; if (enVoice) u.voice = enVoice;
-  speechSynthesis.speak(u);
+  if (!hasTTS || !text) return;
+  if (!enVoice) pickVoice();
+  clearTimeout(speakTimer);
+  if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
+  // 취소 직후 곧바로 말하면 크롬에서 소리가 사라지므로 잠깐 쉬고 말함
+  speakTimer = setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = enVoice ? enVoice.lang : 'en-US'; u.rate = rate; u.pitch = 1.05; u.volume = 1;
+    if (enVoice) u.voice = enVoice;
+    try { speechSynthesis.resume(); } catch { /* noop */ }
+    speechSynthesis.speak(u);
+  }, 80);
+}
+function stopSpeak() { if (hasTTS) { clearTimeout(speakTimer); speechSynthesis.cancel(); } }
+function voiceHelp(always = false) {
+  const st = voiceStatus();
+  if (st.ok && !always) return '';
+  return `<div class="voice-help ${st.ok ? 'ok' : ''}"><b>${st.ok ? '🔊' : '🔇'} ${st.msg}</b>
+    ${st.ok ? '<small>소리가 안 들리면 기기 음량과 무음(매너) 모드를 확인해 주세요.</small>' : `<ul>
+      <li><b>윈도우 PC</b>: 설정 → 시간 및 언어 → 음성 → 음성 추가 → <i>English (United States)</i> 설치 후 새로고침 (크롬·엣지 권장)</li>
+      <li><b>안드로이드</b>: 설정 → 일반 → 텍스트 음성 변환 → Google 음성 엔진 → 영어(미국) 음성 데이터 설치</li>
+      <li><b>아이폰·아이패드</b>: 설정 → 손쉬운 사용 → 읽기 및 말하기 → 음성 → 영어 음성 다운로드, 무음 모드 해제</li>
+      <li>카카오톡·네이버 앱 안에서 열었다면 <b>크롬이나 사파리</b>로 다시 열어 주세요.</li></ul>`}</div>`;
+}
+function voiceStatus() {
+  if (!hasTTS) return { ok: false, msg: '이 브라우저는 읽어 주기 기능을 지원하지 않아요. 크롬이나 사파리로 열어 주세요.' };
+  if (enVoice) return { ok: true, msg: `영어 음성: ${enVoice.name}` };
+  if (!voicesChecked) return { ok: false, msg: '음성을 불러오는 중이에요. 잠시 뒤 다시 눌러 주세요.' };
+  return { ok: false, msg: '이 기기에 영어 음성이 없어요. 아래 방법으로 영어 음성을 추가해 주세요.' };
 }
 let actx = null;
 function beep(good) {
@@ -97,7 +141,7 @@ const routes = {};
 function go(hash) { if (location.hash === hash) render(); else location.hash = hash; }
 window.addEventListener('hashchange', render);
 async function render() {
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  stopSpeak();
   const [path, ...args] = (location.hash.replace(/^#\/?/, '') || 'home').split('/');
   if (path === 'teacher') return routes.teacher();
   if (!state.me) return routes.login();
@@ -243,6 +287,7 @@ function settingsSheet() {
     <label class="row"><span>효과음</span><input type="checkbox" id="snd" ${state.sound ? 'checked' : ''}></label>
     <label class="row"><span>한글 자막 보기</span><input type="checkbox" id="sub" ${state.subtitle ? 'checked' : ''}></label>
     <button class="btn" id="test">🔊 발음 소리 확인</button>
+    <div id="vstat"></div>
     <button class="btn danger" id="out">로그아웃</button>
     <button class="btn ghost" id="close">닫기</button>
   </div>`;
@@ -251,7 +296,10 @@ function settingsSheet() {
   d.onclick = (e) => { if (e.target === d) close(); };
   d.querySelector('#snd').onchange = (e) => { state.sound = e.target.checked; store.set('ojv_sound', state.sound); };
   d.querySelector('#sub').onchange = (e) => { state.subtitle = e.target.checked; store.set('ojv_sub', state.subtitle); };
-  d.querySelector('#test').onclick = () => speak('Hello! Welcome to New Oregon English Academy.');
+  d.querySelector('#test').onclick = () => {
+    speak('Hello! Welcome to New Oregon English Academy.');
+    setTimeout(() => { d.querySelector('#vstat').innerHTML = voiceHelp(true); }, 400);
+  };
   d.querySelector('#out').onclick = () => { session.clear(); state.me = null; close(); go('#/login'); };
   d.querySelector('#close').onclick = close;
 }
@@ -302,8 +350,10 @@ routes.learn = (id) => {
         <button class="btn ghost" id="prev" ${i === 0 ? 'disabled' : ''}>◀ 이전</button>
         <button class="btn primary" id="next">${i === t.words.length - 1 ? '다 봤어요! ✅' : '다음 ▶'}</button>
       </div>
+      <div id="vhelp"></div>
     </div>`;
     speak(w.en);
+    setTimeout(() => { const h = $('#vhelp'); if (h) h.innerHTML = voiceHelp(); }, 1500);
     $('#card').onclick = () => { flipped = !flipped; $('#card').classList.toggle('flipped', flipped); if (flipped) setTimeout(() => speak(w.ex), 300); };
     $('#say').onclick = () => speak(w.en);
     $('#slow').onclick = () => speak(w.en, 0.5);
@@ -353,7 +403,10 @@ routes.quiz = (id) => {
         : `<p class="ask">그림에 맞는 영어 단어를 골라요</p><div class="pic xl">${q.w.pic}</div>${state.subtitle ? `<p class="muted">${esc(q.w.ko)}</p>` : ''}
            <div class="opts words">${q.opts.map((o) => `<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>`}
     </div>`;
-    if (q.type === 'listen') { speak(q.w.en); $('#play').onclick = () => speak(q.w.en); }
+    if (q.type === 'listen') {
+      speak(q.w.en); $('#play').onclick = () => speak(q.w.en);
+      if (i === 0) setTimeout(() => { const st = voiceStatus(); if (!st.ok && $('.page')) $('.page').insertAdjacentHTML('beforeend', voiceHelp()); }, 1500);
+    }
     let locked = false;
     $$('.opt').forEach((b) => b.onclick = () => {
       if (locked) return; locked = true;

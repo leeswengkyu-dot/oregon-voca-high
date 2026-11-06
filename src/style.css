@@ -220,3 +220,8 @@ section { padding: 0 14px; }
   .two { grid-template-columns: 1fr; } .village { width: 92%; }
   .hard { grid-template-columns: 40px 1fr 80px; } .hard .bar { display: none; } .hard .num { grid-column: 3; }
 }
+
+/* 음성 안내 */
+.voice-help { background: #fff4e5; border: 2px solid #ffc078; border-radius: 14px; padding: 12px 14px; text-align: left; font-size: 14px; margin-top: 6px; max-width: 520px; }
+.voice-help.ok { background: var(--mint); border-color: var(--leaf); }
+.voice-help ul { margin: 8px 0 0; padding-left: 18px; } .voice-help li { margin: 4px 0; } .voice-help small { display: block; color: var(--muted); margin-top: 4px; }
