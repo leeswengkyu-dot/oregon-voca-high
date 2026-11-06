@@ -174,8 +174,8 @@ returns json language plpgsql security definer set search_path = public as $$
 begin
   if not ojv__teacher_ok(p_pw) then raise exception '선생님 비밀번호가 맞지 않아요'; end if;
   return json_build_object(
-    'ojv_classes', coalesce((select json_agg(json_build_object('id', id, 'name', name) order by id) from ojv_classes), '[]'::json),
-    'ojv_students', coalesce((select json_agg(x order by x.class_id, x.name) from (
+    'classes', coalesce((select json_agg(json_build_object('id', id, 'name', name) order by id) from ojv_classes), '[]'::json),
+    'students', coalesce((select json_agg(x order by x.class_id, x.name) from (
         select s.id, s.class_id, s.name, s.acorns, s.badges, s.last_active,
           (select count(*) from ojv_word_progress p where p.student_id = s.id and p.correct > 0) as learned,
           (select coalesce(sum(a.acorns), 0) from ojv_activity a where a.student_id = s.id
