@@ -120,23 +120,23 @@ const local = {
 
 // ---------------- Supabase 모드 ----------------
 const remote = {
-  listClasses: () => rpc('list_classes', {}),
-  enter: (classId, name, pin) => rpc('student_enter', { p_class_id: classId, p_name: name, p_pin: pin }),
-  state: (sid, token) => rpc('student_state', { p_sid: sid, p_token: token }),
-  saveResult: (sid, token, r) => rpc('save_result', {
+  listClasses: () => rpc('ojv_list_classes', {}),
+  enter: (classId, name, pin) => rpc('ojv_student_enter', { p_class_id: classId, p_name: name, p_pin: pin }),
+  state: (sid, token) => rpc('ojv_student_state', { p_sid: sid, p_token: token }),
+  saveResult: (sid, token, r) => rpc('ojv_save_result', {
     p_sid: sid, p_token: token, p_kind: r.kind, p_topic: r.topic || null, p_score: r.score, p_total: r.total,
     p_acorns: r.acorns, p_words: r.words || [], p_badge: r.badge || null,
   }),
-  weeklyTop: (sid, token) => rpc('class_weekly_top', { p_sid: sid, p_token: token }),
-  teacherOverview: (pw) => rpc('teacher_overview', { p_pw: pw }),
-  teacherAddClass: (pw, name) => rpc('teacher_add_class', { p_pw: pw, p_name: name }),
-  teacherRenameClass: (pw, id, name) => rpc('teacher_rename_class', { p_pw: pw, p_class_id: id, p_name: name }),
-  teacherDeleteClass: (pw, id) => rpc('teacher_delete_class', { p_pw: pw, p_class_id: id }),
-  teacherAddStudent: (pw, classId, name, pin) => rpc('teacher_add_student', { p_pw: pw, p_class_id: classId, p_name: name, p_pin: pin }),
-  teacherResetPin: (pw, sid, pin) => rpc('teacher_reset_pin', { p_pw: pw, p_sid: sid, p_pin: pin }),
-  teacherMoveStudent: (pw, sid, classId) => rpc('teacher_move_student', { p_pw: pw, p_sid: sid, p_class_id: classId }),
-  teacherDeleteStudent: (pw, sid) => rpc('teacher_delete_student', { p_pw: pw, p_sid: sid }),
-  teacherSetPassword: (pw, np) => rpc('teacher_set_password', { p_pw: pw, p_new: np }),
+  weeklyTop: (sid, token) => rpc('ojv_class_weekly_top', { p_sid: sid, p_token: token }),
+  teacherOverview: (pw) => rpc('ojv_teacher_overview', { p_pw: pw }),
+  teacherAddClass: (pw, name) => rpc('ojv_teacher_add_class', { p_pw: pw, p_name: name }),
+  teacherRenameClass: (pw, id, name) => rpc('ojv_teacher_rename_class', { p_pw: pw, p_class_id: id, p_name: name }),
+  teacherDeleteClass: (pw, id) => rpc('ojv_teacher_delete_class', { p_pw: pw, p_class_id: id }),
+  teacherAddStudent: (pw, classId, name, pin) => rpc('ojv_teacher_add_student', { p_pw: pw, p_class_id: classId, p_name: name, p_pin: pin }),
+  teacherResetPin: (pw, sid, pin) => rpc('ojv_teacher_reset_pin', { p_pw: pw, p_sid: sid, p_pin: pin }),
+  teacherMoveStudent: (pw, sid, classId) => rpc('ojv_teacher_move_student', { p_pw: pw, p_sid: sid, p_class_id: classId }),
+  teacherDeleteStudent: (pw, sid) => rpc('ojv_teacher_delete_student', { p_pw: pw, p_sid: sid }),
+  teacherSetPassword: (pw, np) => rpc('ojv_teacher_set_password', { p_pw: pw, p_new: np }),
 };
 
 export const api = sb ? remote : local;
