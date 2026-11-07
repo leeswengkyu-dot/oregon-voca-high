@@ -52,12 +52,31 @@ export async function parseContentWorkbook(file) {
     }
   }
 
+  const sentences = objects(workbook.Sentences, 'Sentences').filter((row) => row.content_key || row.action);
+  const exercises = objects(workbook.Exercises, 'Exercises').filter((row) => row.content_key || row.action);
+  const assets = objects(workbook.Assets, 'Assets').filter((row) => row.content_key || row.action);
+  for (const row of sentences) {
+    row.action=text(row.action||'UPSERT').toUpperCase();row.content_key=text(row.content_key);row.unit_code=text(row.unit_code);row.sentence_en=text(row.sentence_en);row.sentence_ko=text(row.sentence_ko);row.target_keys=text(row.target_keys);row.status=text(row.status||'draft');
+    if(!row.content_key)errors.push({sheet:'Sentences',row:row.row,message:'content_key가 필요해요'});
+    if(row.action!=='ARCHIVE'&&(!row.unit_code||!row.sentence_en||!row.sentence_ko))errors.push({sheet:'Sentences',row:row.row,message:'Unit 코드와 영문·한글 문장이 필요해요'});
+  }
+  for (const row of exercises) {
+    row.action=text(row.action||'UPSERT').toUpperCase();row.content_key=text(row.content_key);row.unit_code=text(row.unit_code);row.type=text(row.type);row.prompt=text(row.prompt);row.answer=text(row.answer);row.choices=text(row.choices);row.explanation_ko=text(row.explanation_ko);row.status=text(row.status||'draft');
+    if(!row.content_key)errors.push({sheet:'Exercises',row:row.row,message:'content_key가 필요해요'});
+    if(row.action!=='ARCHIVE'&&(!row.unit_code||!row.type||!row.prompt||!row.answer))errors.push({sheet:'Exercises',row:row.row,message:'Unit·문제 유형·질문·정답이 필요해요'});
+    if(row.type==='multiple_choice'&&row.choices.split('|').filter(Boolean).length<2)errors.push({sheet:'Exercises',row:row.row,message:'객관식 choices는 |로 구분한 보기 2개 이상이어야 해요'});
+  }
+  for (const row of assets) {
+    row.action=text(row.action||'UPSERT').toUpperCase();row.content_key=text(row.content_key);row.kind=text(row.kind);row.filename=text(row.filename);row.linked_content_key=text(row.linked_content_key);row.alt_or_transcript=text(row.alt_or_transcript);
+    if(row.action!=='ARCHIVE'&&(!['image','audio'].includes(row.kind)||!row.filename||!row.linked_content_key))errors.push({sheet:'Assets',row:row.row,message:'kind(image/audio), filename, linked_content_key가 필요해요'});
+  }
+
   return {
     payload: {
       vocabulary,
-      sentences: objects(workbook.Sentences, 'Sentences'),
-      exercises: objects(workbook.Exercises, 'Exercises'),
-      assets: objects(workbook.Assets, 'Assets'),
+      sentences,
+      exercises,
+      assets,
     },
     errors,
     summary: { vocabulary: vocabulary.length, sentences: Math.max(0, workbook.Sentences.length - 1), exercises: Math.max(0, workbook.Exercises.length - 1), assets: Math.max(0, workbook.Assets.length - 1) },

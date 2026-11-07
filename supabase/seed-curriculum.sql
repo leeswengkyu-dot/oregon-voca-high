@@ -1280,4 +1280,5 @@ INSERT INTO ojv.word_aliases (legacy_id,word_id) VALUES
 ('sports:dance','actions:dance'),
 ('food:hamburger','shopping:hamburger')
 ON CONFLICT(legacy_id) DO UPDATE SET word_id=excluded.word_id;
+UPDATE ojv.content_versions SET snapshot=ojv.content_snapshot() WHERE version='2026.11.07.1';
 COMMIT;

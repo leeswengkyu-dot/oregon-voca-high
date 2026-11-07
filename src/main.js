@@ -123,6 +123,7 @@ const state = {
   subtitle: store.get('ojv_sub', true),
   stage: stageById(store.get('ojv_stage', 'sprout')).id,
   teacherPw: null,
+  parentReady: false,
 };
 const session = { get: () => store.get('ojv_session', null), set: (v) => store.set('ojv_session', v), clear: () => store.del('ojv_session') };
 
@@ -153,6 +154,7 @@ async function render() {
   stopSpeak();clearTimeout(recognitionTimer);if(activeRecognizer){try{activeRecognizer.abort();}catch{}activeRecognizer=null;}
   const [path, ...args] = (location.hash.replace(/^#\/?/, '') || 'home').split('/');
   if (path === 'teacher') return routes.teacher();
+  if (path === 'parent') return routes.parent();
   if (!state.me) return routes.login();
   const fn = routes[path] || routes.home;
   window.scrollTo(0, 0);
@@ -185,6 +187,7 @@ routes.login = async () => {
       <button class="btn big primary" type="submit">탐험 시작! 🚀</button>
     </form>
     <a class="teacher-link" href="#/teacher">👩‍🏫 선생님 화면</a>
+    ${isOnline ? '<a class="teacher-link" href="#/parent">👨‍👩‍👧 보호자 화면</a>' : ''}
     ${isOnline ? '' : '<p class="demo">체험 모드: 기록이 이 기기에만 저장돼요</p>'}
   </div>`;
   let classId = store.get('ojv_last_class', null);
@@ -211,6 +214,18 @@ routes.login = async () => {
       go('#/home');
     } catch (ex) { err.textContent = ex.message; btn.disabled = false; }
   };
+};
+
+routes.parent = async () => {
+  if (!state.parentReady) {
+    app.innerHTML=`<div class="login"><img class="login-logo small" src="/logo.png" alt="뉴오리건영어학원"><h1 class="title-kid">보호자 화면</h1><p class="muted">연결된 자녀의 주간 학습량과 취약단어 수만 확인합니다.</p><form class="card form" id="pf"><label>보호자 이메일</label><input id="pemail" type="email" autocomplete="username" required><label>비밀번호</label><input id="ppw" type="password" autocomplete="current-password" required><p class="err" id="perr"></p><button class="btn big primary">확인하기</button></form><a class="teacher-link" href="#/home">← 학생 화면으로</a></div>`;
+    $('#pf').onsubmit=async(e)=>{e.preventDefault();try{await api.parentLogin($('#pemail').value,$('#ppw').value);state.parentReady=true;render();}catch(ex){$('#perr').textContent=ex.message;}};return;
+  }
+  try {
+    const children=await api.parentOverview();
+    app.innerHTML=`<header class="topbar t"><a class="back" href="#/home">←</a><h1>👨‍👩‍👧 보호자 화면</h1><button class="btn ghost small" id="pout">나가기</button></header><div class="page wide"><p class="muted">개인정보는 별명·반과 학습 요약만 표시합니다.</p><div class="two">${children.map(c=>`<div class="card"><h2>${esc(c.name)}</h2><p>${esc(c.class_name)}</p><div class="stat-row"><div class="stat"><b>${c.week_sessions}</b><small>7일 학습</small></div><div class="stat"><b>${c.learned}</b><small>익힌 단어</small></div><div class="stat"><b>${c.weak_words}</b><small>취약단어</small></div></div><p>🌰 도토리 ${c.acorns}개</p></div>`).join('')||'<div class="card"><p class="muted">연결된 학생이 없어요. 학원 관리자에게 보호자 연결을 요청해 주세요.</p></div>'}</div></div>`;
+    $('#pout').onclick=async()=>{await api.parentLogout();state.parentReady=false;go('#/home');};
+  } catch(ex){state.parentReady=false;toast(ex.message);render();}
 };
 
 // ================= 홈(숲 지도) =================
@@ -744,10 +759,11 @@ routes.teacher = async () => {
     body.innerHTML = `<div class="card form"><b>Excel 콘텐츠 관리</b><p class="muted">양식을 내려받아 수정한 뒤 먼저 검증하세요. 오류가 있으면 데이터베이스는 바뀌지 않습니다.</p>
       <a class="btn ghost" href="/뉴오리건_VOCA_콘텐츠_업로드_양식.xlsx" download>📥 Excel 양식 다운로드</a>
       <input id="content-file" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-      <div class="row-btns"><button class="btn" id="content-validate">검증·미리보기</button><button class="btn primary" id="content-publish" disabled>게시</button></div><div id="content-result"></div></div>`;
+      <div class="row-btns"><button class="btn" id="content-validate">검증·미리보기</button><button class="btn primary" id="content-publish" disabled>게시</button></div><div id="content-result"></div></div><div class="card"><b>게시 버전·롤백</b><div id="content-versions"><p class="muted">버전을 불러오는 중…</p></div></div>`;
     let parsed=null; const result=$('#content-result');
     $('#content-validate').onclick=async()=>{const file=$('#content-file').files[0];if(!file)return toast('Excel 파일을 선택해 주세요');result.innerHTML='<p class="muted">파일을 검사하는 중…</p>';try{parsed=await parseContentWorkbook(file);if(parsed.errors.length){$('#content-publish').disabled=true;result.innerHTML=`<p class="err"><b>${parsed.errors.length}개 오류</b></p><ol>${parsed.errors.slice(0,50).map(x=>`<li>${esc(x.sheet)} ${x.row||'-'}행: ${esc(x.message)}</li>`).join('')}</ol>`;return;}$('#content-publish').disabled=false;result.innerHTML=`<p class="good"><b>검증 통과</b></p><p>단어 ${parsed.summary.vocabulary} · 문장 ${parsed.summary.sentences} · 문제 ${parsed.summary.exercises} · 자산 ${parsed.summary.assets}</p>`;}catch(ex){parsed=null;$('#content-publish').disabled=true;result.innerHTML=`<p class="err">${esc(ex.message)}</p>`;}};
     $('#content-publish').onclick=async()=>{const file=$('#content-file').files[0];if(!parsed||!file)return;if(!confirm('검증한 내용을 새 콘텐츠 버전으로 게시할까요?'))return;try{const out=await api.adminImportContent(file.name,parsed.payload,true);if(!out.ok){result.innerHTML=`<p class="err">게시 차단: ${esc(JSON.stringify(out.errors))}</p>`;return;}result.innerHTML=`<p class="good"><b>${esc(out.version)} 게시 완료</b></p><p>추가 ${out.added} · 수정 ${out.changed} · 보관 ${out.archived}</p>`;$('#content-publish').disabled=true;}catch(ex){result.innerHTML=`<p class="err">${esc(ex.message)}</p>`;}};
+    try{const versions=await api.adminContentVersions();$('#content-versions').innerHTML=versions.map(v=>`<div class="class-row"><span><b>${esc(v.version)}</b><small> ${esc(v.status)}</small></span><button class="mini" data-rollback="${esc(v.version)}">이 버전으로 복원</button></div>`).join('')||'<p class="muted">저장된 버전이 없어요.</p>';$('#content-versions').onclick=async e=>{const b=e.target.closest('[data-rollback]');if(!b||!confirm(`${b.dataset.rollback} 버전으로 콘텐츠를 복원할까요? 학생 학습 기록은 유지됩니다.`))return;try{const out=await api.adminRollbackContent(b.dataset.rollback);toast(`${out.restored_from} 버전으로 복원했어요`);render();}catch(ex){toast(ex.message);}};}catch(ex){$('#content-versions').innerHTML=`<p class="err">${esc(ex.message)}</p>`;}
   } else if (tab === 'classes') {
     body.innerHTML = `<div class="card">
       ${data.classes.map((c) => `<div class="class-row"><b>${esc(c.name)}</b><span class="muted">${data.students.filter((s) => s.class_id === c.id).length}명</span>

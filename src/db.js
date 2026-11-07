@@ -128,6 +128,11 @@ const local = {
   async studentAssignments(){ return []; },
   async teacherSetAssignment(pw,classId,unitId,dueAt){const d=ldb();lteacher(d,pw);d.assignments||=[];d.assignments=d.assignments.filter(x=>!(x.class_id===classId&&x.unit_id===unitId));d.assignments.push({class_id:classId,unit_id:unitId,due_at:dueAt});lsave(d);},
   async adminImportContent(){ throw new Error('Excel 게시 기능은 Supabase 온라인 모드에서만 사용할 수 있어요'); },
+  async adminContentVersions(){ return []; },
+  async adminRollbackContent(){ throw new Error('롤백은 Supabase 온라인 모드에서만 사용할 수 있어요'); },
+  async parentLogin(){ throw new Error('보호자 화면은 Supabase 온라인 모드에서만 사용할 수 있어요'); },
+  async parentOverview(){ return []; },
+  async parentLogout(){},
 };
 
 // ---------------- Supabase 모드 ----------------
@@ -156,6 +161,11 @@ const remote = {
   studentAssignments: (sid, token) => rpc('ojv_student_assignments', { p_sid: sid, p_token: token }),
   teacherSetAssignment: (pw,classId,unitId,dueAt) => rpc('ojv_teacher_set_assignment',{p_pw:pw,p_class_id:classId,p_unit_id:unitId,p_due_at:dueAt||null}),
   adminImportContent: (fileName,payload,publish=false) => rpc('ojv_admin_import_content',{p_file_name:fileName,p_payload:payload,p_publish:publish}),
+  adminContentVersions: () => rpc('ojv_admin_content_versions',{}),
+  adminRollbackContent: (version) => rpc('ojv_admin_rollback_content',{p_version:version}),
+  async parentLogin(email,password){const {error}=await sb.auth.signInWithPassword({email:email.trim(),password});if(error)throw new Error('보호자 이메일과 비밀번호를 확인해 주세요');},
+  parentOverview: () => rpc('ojv_parent_overview',{}),
+  async parentLogout(){await sb.auth.signOut();},
   async teacherSetPassword(pw,np){if(np.length<8)throw new Error('새 비밀번호는 8자 이상이어야 해요');const {error}=await sb.auth.updateUser({password:np});if(error)throw new Error('비밀번호 변경에 실패했어요. 다시 로그인해 주세요');},
 };
 
