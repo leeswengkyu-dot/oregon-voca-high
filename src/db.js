@@ -7,6 +7,8 @@ import { createClient } from '@supabase/supabase-js';
 
 const URL_ = import.meta.env.VITE_SUPABASE_URL;
 const KEY_ = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const callbackParams = new URLSearchParams((location.hash || '').replace(/^#/, '') || (location.search || '').replace(/^\?/, ''));
+let authFlowType = callbackParams.get('type');
 const sb = URL_ && KEY_ ? createClient(URL_, KEY_, { auth: { persistSession: true } }) : null;
 
 export const isOnline = !!sb;
@@ -46,6 +48,8 @@ function weekStart() {
 const lteacher = (d, pw) => { if (pw !== d.teacherPw) throw new Error('선생님 비밀번호가 맞지 않아요'); };
 
 const local = {
+  needsPasswordSetup: () => false,
+  async completePasswordSetup(){ throw new Error('비밀번호 설정은 Supabase 온라인 모드에서만 사용할 수 있어요'); },
   async teacherLogin(email,pw){const d=ldb();lteacher(d,pw);return pw;},
   async teacherLogout(){},
   async checkpoint(sid,token,topic,part,index,complete){const d=ldb(),s=d.students.find(x=>x.id===sid&&x.token===token);if(!s)throw new Error('다시 로그인해 주세요');s.checkpoints||={};s.checkpoints[topic+':'+part]={index,complete};lsave(d);return lstate(d,s);},
@@ -137,6 +141,15 @@ const local = {
 
 // ---------------- Supabase 모드 ----------------
 const remote = {
+  needsPasswordSetup: () => authFlowType === 'invite' || authFlowType === 'recovery',
+  async completePasswordSetup(password){
+    if(password.length<8)throw new Error('비밀번호는 8자 이상이어야 해요');
+    const {data:{session}}=await sb.auth.getSession();
+    if(!session)throw new Error('초대 링크가 만료되었어요. 새 초대 메일을 요청해 주세요');
+    const {error}=await sb.auth.updateUser({password});
+    if(error)throw new Error('비밀번호를 설정하지 못했어요. 새 초대 메일로 다시 시도해 주세요');
+    authFlowType=null;
+  },
   async teacherLogin(email,password){const {error}=await sb.auth.signInWithPassword({email:email.trim(),password});if(error)throw new Error('선생님 이메일과 비밀번호를 확인해 주세요');return 'authenticated';},
   async teacherLogout(){await sb.auth.signOut();},
   checkpoint:(sid,token,topic,part,index,complete)=>rpc('ojv_save_checkpoint',{p_sid:sid,p_token:token,p_topic:topic,p_part:part,p_index:index,p_complete:complete}),

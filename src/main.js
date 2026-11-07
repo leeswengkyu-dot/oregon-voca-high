@@ -152,6 +152,7 @@ function go(hash) { if (location.hash === hash) render(); else location.hash = h
 window.addEventListener('hashchange', render);
 async function render() {
   stopSpeak();clearTimeout(recognitionTimer);if(activeRecognizer){try{activeRecognizer.abort();}catch{}activeRecognizer=null;}
+  if (api.needsPasswordSetup?.()) return routes.setPassword();
   const [path, ...args] = (location.hash.replace(/^#\/?/, '') || 'home').split('/');
   if (path === 'teacher') return routes.teacher();
   if (path === 'parent') return routes.parent();
@@ -160,6 +161,30 @@ async function render() {
   window.scrollTo(0, 0);
   return fn(...args.map(decodeURIComponent));
 }
+
+routes.setPassword = async () => {
+  app.innerHTML = `<div class="login">
+    <img class="login-logo small" src="/logo.png" alt="뉴오리건영어학원">
+    <h1 class="title-kid">관리자 계정 만들기</h1>
+    <p class="muted">앞으로 선생님 화면에 로그인할 비밀번호를 정해 주세요.</p>
+    <form class="card form" id="setup-password-form">
+      <label for="setup-password">새 비밀번호 (8자 이상)</label>
+      <input id="setup-password" type="password" minlength="8" autocomplete="new-password" required>
+      <label for="setup-password-confirm">비밀번호 확인</label>
+      <input id="setup-password-confirm" type="password" minlength="8" autocomplete="new-password" required>
+      <p class="err" id="setup-password-error" role="alert"></p>
+      <button class="btn big primary">비밀번호 설정하기</button>
+    </form>
+  </div>`;
+  $('#setup-password-form').onsubmit = async (event) => {
+    event.preventDefault();
+    const password=$('#setup-password').value;
+    if(password!==$('#setup-password-confirm').value){$('#setup-password-error').textContent='비밀번호가 서로 달라요';return;}
+    const button=event.submitter;button.disabled=true;
+    try{await api.completePasswordSetup(password);state.teacherPw='authenticated';location.hash='#/teacher';toast('관리자 계정이 준비됐어요');render();}
+    catch(error){$('#setup-password-error').textContent=error.message;button.disabled=false;}
+  };
+};
 
 function topbar(title, back = '#/home') {
   return `<header class="topbar">
