@@ -1,17 +1,27 @@
 {
   "name": "oregon-voca-junior",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prebuild": "node scripts/check-env.mjs",
+    "seed:generate": "node scripts/seed-curriculum.mjs",
+    "test": "node tests/curriculum.test.mjs && node tests/database.test.mjs && node tests/ui.test.mjs && node tests/environment.test.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0"
+    "@supabase/supabase-js": "2.119.0",
+    "read-excel-file": "9.3.14"
   },
   "devDependencies": {
-    "vite": "^5.4.0"
+    "@electric-sql/pglite": "0.5.15",
+    "css-tree": "3.2.1",
+    "linkedom": "0.18.15",
+    "vite": "8.3.6"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

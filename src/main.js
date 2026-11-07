@@ -1,7 +1,9 @@
 import './style.css';
-import { STAGES, TOPICS, WORD_BY_ID, topicById } from './data/words.js';
+import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.js';
+import { stageById, wordProgress, levelProgress, quizForTopic, passingScore, normalizeSentence } from './data/levels.js';
 import { SCENES, sceneById } from './data/scenes.js';
 import { api, isOnline, store } from './db.js';
+import { parseContentWorkbook } from './excel.js';
 
 // ================= 공통 도우미 =================
 const app = document.getElementById('app');
@@ -25,6 +27,7 @@ const nextRank = (n) => RANKS.find((r) => r.min > n);
 // 기기마다 음성이 늦게 로드되거나(크롬), 첫 터치 전에는 소리를 막거나(아이폰·안드로이드),
 // 취소 직후 바로 말하면 소리가 사라지는(크롬) 문제가 있어 아래처럼 보완합니다.
 const hasTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+let activeRecognizer=null,recognitionTimer=null;
 let enVoice = null; let voicesChecked = false; let ttsUnlocked = false; let speakTimer = null;
 function pickVoice() {
   if (!hasTTS) return;
@@ -118,30 +121,36 @@ const state = {
   me: null,             // { id, name, class_name, acorns, badges, progress, token }
   sound: store.get('ojv_sound', true),
   subtitle: store.get('ojv_sub', true),
-  stage: store.get('ojv_stage', 'sprout'),
+  stage: stageById(store.get('ojv_stage', 'sprout')).id,
   teacherPw: null,
 };
 const session = { get: () => store.get('ojv_session', null), set: (v) => store.set('ojv_session', v), clear: () => store.del('ojv_session') };
 
 async function save(result) {
-  try {
-    const me = await api.saveResult(state.me.id, state.me.token, result);
-    const before = rankOf(state.me.acorns);
-    state.me = me;
-    const after = rankOf(me.acorns);
-    if (after.min > before.min) setTimeout(() => { confetti(); toast(`${after.icon} ${after.name}(으)로 승급했어요!`); }, 600);
-  } catch (e) {
-    toast('저장하지 못했어요: ' + e.message);
+  result.requestId ||= crypto.randomUUID();const savedRoute=location.hash;
+  for(;;){
+    try{
+      const me=await api.saveResult(state.me.id,state.me.token,result),before=rankOf(state.me.acorns);state.me=me;
+      document.getElementById('save-retry-banner')?.remove();
+      if(location.hash!==savedRoute)return new Promise(()=>{});
+      const after=rankOf(me.acorns);if(after.min>before.min)setTimeout(()=>{confetti();toast(`${after.icon} ${after.name}(으)로 승급했어요!`);},600);
+      return;
+    }catch(error){
+      if(location.hash!==savedRoute)return new Promise(()=>{});
+      let banner=document.getElementById('save-retry-banner');if(!banner){banner=document.createElement('div');banner.id='save-retry-banner';banner.className='save-banner';banner.setAttribute('role','alert');app.prepend(banner);}
+      banner.innerHTML=`<p>기록을 저장하지 못했어요. ${esc(error.message)}</p><button class="btn small" id="retry-result">다시 저장하기</button>`;
+      await new Promise(resolve=>{document.getElementById('retry-result').onclick=()=>{document.getElementById('retry-result').disabled=true;resolve();};});
+    }
   }
 }
-const learnedIn = (topic) => topic.words.filter((w) => (state.me.progress[w.id] || [0])[0] > 0).length;
+const learnedIn = (topic) => topic.words.filter((w) => wordProgress(state.me.progress, w)[0] > 0).length;
 
 // ================= 라우터 =================
 const routes = {};
 function go(hash) { if (location.hash === hash) render(); else location.hash = hash; }
 window.addEventListener('hashchange', render);
 async function render() {
-  stopSpeak();
+  stopSpeak();clearTimeout(recognitionTimer);if(activeRecognizer){try{activeRecognizer.abort();}catch{}activeRecognizer=null;}
   const [path, ...args] = (location.hash.replace(/^#\/?/, '') || 'home').split('/');
   if (path === 'teacher') return routes.teacher();
   if (!state.me) return routes.login();
@@ -209,7 +218,10 @@ routes.home = async () => {
   const me = state.me; const r = rankOf(me.acorns); const nx = nextRank(me.acorns);
   const pct = nx ? Math.round(((me.acorns - r.min) / (nx.min - r.min)) * 100) : 100;
   const topics = TOPICS.filter((t) => t.stage === state.stage);
-  const stage = STAGES.find((s) => s.id === state.stage);
+  const stage = stageById(state.stage);
+  const lp = levelProgress(me.progress, TOPICS, stage.id);
+  let assignments = [];
+  try { assignments = await api.studentAssignments(me.id, me.token); } catch { /* 과제는 보조 정보 */ }
   app.innerHTML = `
   <header class="hero">
     <div class="hero-row">
@@ -226,10 +238,16 @@ routes.home = async () => {
   </header>
 
   <nav class="stage-tabs">
-    ${STAGES.map((s) => `<button class="stage-tab ${s.id === state.stage ? 'on' : ''}" data-s="${s.id}">${s.icon} ${s.name}<small>${s.grade}</small></button>`).join('')}
+    ${STAGES.map((s) => `<button class="stage-tab ${s.id === state.stage ? 'on' : ''}" data-s="${s.id}"><span>LEVEL ${s.level} · ${s.icon} ${s.name}</span><small>${s.grade} · ${s.target}단어</small></button>`).join('')}
   </nav>
 
+  <section class="level-summary" aria-label="선택한 레벨 학습 현황">
+    <div><span class="level-kicker">LEVEL ${stage.level} · ${stage.grade}</span><h2>${stage.description}</h2><p>${stage.skills}</p></div>
+    <div class="level-counter"><strong>${lp.learned}<small> / ${lp.total}</small></strong><span>학습한 단어 · ${stage.units}개 마을</span></div>
+    <div class="level-track" role="progressbar" aria-label="레벨 진도" aria-valuenow="${lp.learned}" aria-valuemin="0" aria-valuemax="${lp.total}"><i style="width:${lp.learned/lp.total*100}%"></i></div>
+  </section>
   <section>
+    ${assignments.length ? `<div class="card assignment-card"><h2 class="sec">📌 선생님 과제</h2>${assignments.slice(0, 5).map((a) => `<a class="class-row" href="#/topic/${encodeURIComponent(a.unit_id)}"><b>${esc(a.title_ko || a.unit_id)}</b><span>${a.due_at ? new Date(a.due_at).toLocaleDateString('ko-KR') + '까지' : '기한 없음'} →</span></a>`).join('')}</div>` : ''}
     <h2 class="sec">${stage.icon} ${stage.name} 마을 지도</h2>
     <div class="trail">
       ${topics.map((t, i) => {
@@ -237,8 +255,8 @@ routes.home = async () => {
         return `<a class="village ${i % 2 ? 'r' : 'l'}" href="#/topic/${t.id}">
           <span class="v-icon">${t.icon}</span>
           <span class="v-name">${t.name}<small>${t.en}</small></span>
-          <span class="v-prog"><i style="width:${n * 10}%"></i></span>
-          <span class="v-count">${badge ? '🏅' : `${n}/10`}</span>
+          <span class="v-prog"><i style="width:${Math.round(n / t.words.length * 100)}%"></i></span>
+          <span class="v-count">${badge ? '🏅' : `${n}/${t.words.length}`}</span>
         </a>`;
       }).join('')}
     </div>
@@ -255,12 +273,12 @@ routes.home = async () => {
 
   <section class="two">
     <div class="card">
-      <h3>🏆 이번 주 우리 반 열심상</h3>
-      <ol class="top5" id="top5"><li class="muted">불러오는 중…</li></ol>
+      <h3>🌳 이번 주 우리 반 공동 목표</h3>
+      <div id="top5"><p class="muted">도토리를 모으는 중…</p></div>
     </div>
     <div class="card">
       <h3>🏅 내 배지 (${me.badges.length})</h3>
-      <div class="badges">${me.badges.length ? me.badges.map(badgeChip).join('') : '<span class="muted">마을 퀴즈 8개 이상 맞히면 배지를 받아요!</span>'}</div>
+      <div class="badges">${me.badges.length ? me.badges.map(badgeChip).join('') : '<span class="muted">레벨별 마을 퀴즈에서 80% 이상 맞히면 배지를 받아요!</span>'}</div>
     </div>
   </section>
   <footer class="foot">뉴오리건영어학원 · New Oregon English Academy</footer>`;
@@ -269,10 +287,10 @@ routes.home = async () => {
   $('#menu').onclick = settingsSheet;
   try {
     const top = await api.weeklyTop(me.id, me.token);
-    $('#top5').innerHTML = top.length
-      ? top.map((t, i) => `<li><span class="medal">${['🥇', '🥈', '🥉', '4', '5'][i]}</span>${esc(t.name)}<b>🌰 ${t.acorns}</b></li>`).join('')
-      : '<li class="muted">이번 주 첫 번째 주인공이 되어 봐요!</li>';
-  } catch { $('#top5').innerHTML = '<li class="muted">순위를 불러오지 못했어요</li>'; }
+    if(!$('#top5'))return;
+    const total = top.reduce((sum, item) => sum + Number(item.acorns || 0), 0); const goal = Math.max(100, Math.ceil((total + 1) / 100) * 100);
+    $('#top5').innerHTML = `<p><b>🌰 ${total} / ${goal}</b></p><div class="level-track"><i style="width:${Math.min(100, total / goal * 100)}%"></i></div><p class="muted small">친구 이름과 순위 없이, 반 친구 모두 함께 키우는 숲이에요.</p>`;
+  } catch { if(!$('#top5'))return;$('#top5').innerHTML = '<li class="muted">순위를 불러오지 못했어요</li>'; }
 };
 function badgeChip(b) {
   const [kind, id] = b.split(':');
@@ -312,15 +330,17 @@ routes.topic = (id) => {
   app.innerHTML = `${topbar(`${t.icon} ${t.name}`)}
   <div class="page">
     <div class="modes">
-      <a class="mode m1" href="#/learn/${t.id}"><span>📖</span><b>단어 카드</b><small>보고 듣고 따라 말하기</small></a>
+      <a class="mode m1" href="#/learn/${t.id}/0"><span>📖</span><b>단어 카드</b><small>5개씩, 가볍게 만나요</small></a>
       <a class="mode m2" href="#/match/${t.id}"><span>🃏</span><b>짝 맞추기</b><small>그림과 단어 짝 찾기</small></a>
       <a class="mode m3" href="#/spell/${t.id}"><span>🎈</span><b>스펠링 풍선</b><small>철자 순서대로 터뜨리기</small></a>
       ${hasSTT ? `<a class="mode m4" href="#/speak/${t.id}"><span>🎤</span><b>말하기 도전</b><small>소리 내어 읽어 봐요</small></a>` : ''}
-      <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>마을 퀴즈</b><small>${badge ? '배지 획득 완료! 다시 도전해 도토리 모으기' : '10문제 중 8개 이상 맞히면 배지!'}</small></a>
+      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span>🧱</span><b>${t.stage==='sprout'?'첫 문장 블록':t.stage==='stem'?'생활 문장 블록':'문장 구조 탐험'}</b><small>${t.stage==='tree'?'부사·전치사·접속사를 문장 속에서 배워요':'단어를 이어 문장을 만들어요'}</small></a>
+      <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>마을 퀴즈</b><small>${badge ? '배지를 모았어요! 다시 도전할 수 있어요' : `${stageById(t.stage).quizSize}문제 중 ${passingScore(stageById(t.stage).quizSize)}개 이상 맞히면 배지!`}</small></a>
     </div>
-    <h2 class="sec">이 마을 단어 (${learnedIn(t)}/10 익힘)</h2>
+    <section class="lesson-parts"><h2 class="sec">🌱 오늘은 다섯 단어만!</h2><div class="part-grid">${Array.from({length:4},(_,part)=>{const cp=state.me.checkpoints?.[t.id+':'+part];return `<a href="#/learn/${t.id}/${part}" class="part-card ${cp?.complete?'complete':''}"><b>${cp?.complete?'✓':'📖'} 탐험 ${part+1}</b><small>${t.words.slice(part*5,part*5+5).map(w=>esc(w.en)).join(' · ')}</small><span>${cp?.complete?'다시 만나기':cp?.index?'이어서 학습':'5개 단어 만나기'} →</span></a>`;}).join('')}</div></section>
+    <h2 class="sec">이 마을 단어 (${learnedIn(t)}/${t.words.length} 학습)</h2>
     <div class="word-grid">
-      ${t.words.map((w) => { const p = state.me.progress[w.id] || [0, 0];
+      ${t.words.map((w) => { const p = wordProgress(state.me.progress, w);
         return `<button class="word-tile ${p[0] > 0 ? 'done' : ''}" data-en="${esc(w.en)}"><span class="pic">${w.pic}</span><b>${esc(w.en)}</b><small>${esc(w.ko)}</small></button>`; }).join('')}
     </div>
   </div>`;
@@ -328,44 +348,26 @@ routes.topic = (id) => {
 };
 
 // ---- 단어 카드 ----
-routes.learn = (id) => {
-  const t = topicById(id); if (!t) return go('#/home');
-  let i = 0; let flipped = false;
-  const draw = () => {
-    const w = t.words[i];
-    app.innerHTML = `${topbar('📖 단어 카드', '#/topic/' + t.id)}
-    <div class="page center">
-      <div class="dots">${t.words.map((_, k) => `<i class="${k === i ? 'on' : k < i ? 'done' : ''}"></i>`).join('')}</div>
-      <div class="flash ${flipped ? 'flipped' : ''}" id="card">
-        <div class="face front"><span class="pic xl">${w.pic}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻이 나와요</small></div>
-        <div class="face back"><span class="pic">${w.pic}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span>
-          <p class="ex">${esc(w.ex)}</p>${state.subtitle ? `<p class="ex-ko">${esc(w.exKo)}</p>` : ''}</div>
-      </div>
-      <div class="row-btns">
-        <button class="btn" id="say">🔊 단어</button>
-        <button class="btn" id="slow">🐢 천천히</button>
-        <button class="btn" id="sent">💬 예문</button>
-      </div>
-      <div class="row-btns">
-        <button class="btn ghost" id="prev" ${i === 0 ? 'disabled' : ''}>◀ 이전</button>
-        <button class="btn primary" id="next">${i === t.words.length - 1 ? '다 봤어요! ✅' : '다음 ▶'}</button>
-      </div>
-      <div id="vhelp"></div>
-    </div>`;
-    speak(w.en);
-    setTimeout(() => { const h = $('#vhelp'); if (h) h.innerHTML = voiceHelp(); }, 1500);
-    $('#card').onclick = () => { flipped = !flipped; $('#card').classList.toggle('flipped', flipped); if (flipped) setTimeout(() => speak(w.ex), 300); };
-    $('#say').onclick = () => speak(w.en);
-    $('#slow').onclick = () => speak(w.en, 0.5);
-    $('#sent').onclick = () => speak(w.ex);
-    $('#prev').onclick = () => { i--; flipped = false; draw(); };
-    $('#next').onclick = async () => {
-      if (i < t.words.length - 1) { i++; flipped = false; draw(); return; }
-      await save({ kind: 'learn', topic: t.id, score: 10, total: 10, acorns: 3 });
-      finish({ title: '단어 카드 완료!', emoji: '📖', lines: ['10개 단어를 모두 살펴봤어요.'], acorns: 3, back: '#/topic/' + t.id, again: '#/learn/' + t.id });
+routes.learn = (id, partValue='0') => {
+  const t=topicById(id);if(!t)return go('#/home');const part=Number(partValue);if(!Number.isInteger(part)||part<0||part>3)return go('#/topic/'+id);
+  const words=t.words.slice(part*5,part*5+5),key=t.id+':'+part;
+  const cp=state.me.checkpoints?.[key];let i=cp&&!cp.complete?Math.min(4,cp.index):0,flipped=false;const completionId=crypto.randomUUID();
+  const draw=()=>{const w=words[i];
+    app.innerHTML=`${topbar('📖 다섯 단어 탐험 '+(part+1),'#/topic/'+t.id)}<div class="page center">
+      <p class="muted small">LEVEL ${stageById(t.stage).level} · ${t.name} · ${i+1} / ${words.length}</p>
+      <div class="dots">${words.map((_,k)=>`<i class="${k===i?'on':k<i?'done':''}"></i>`).join('')}</div>
+      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="pic xl">${w.pic}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="pic">${w.pic}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span>`:''}</span></button>
+      <div class="row-btns"><button class="btn" id="say">🔊 단어</button><button class="btn" id="slow">🐢 천천히</button><button class="btn" id="sent">💬 예문</button></div>
+      <div class="row-btns"><button class="btn ghost" id="prev" ${i===0?'disabled':''}>◀ 이전</button><button class="btn primary" id="next">${i===words.length-1?'다 봤어요! ✅':'다음 ▶'}</button></div><p class="err" id="save-error" role="alert"></p><div id="vhelp"></div></div>`;
+    speak(w.en);$('#card').onclick=()=>{flipped=!flipped;$('#card').classList.toggle('flipped',flipped);if(flipped)speak(w.ex);};
+    $('#say').onclick=()=>speak(w.en);$('#slow').onclick=()=>speak(w.en,.5);$('#sent').onclick=()=>speak(w.ex);
+    const step=async(next,complete=false)=>{const b=$('#next');b.disabled=true;$('#prev').disabled=true;try{state.me=await api.checkpoint(state.me.id,state.me.token,t.id,part,next,complete);return true;}catch(err){$('#save-error').textContent='진도를 저장하지 못했어요: '+err.message;b.disabled=false;$('#prev').disabled=i===0;return false;}};
+    $('#prev').onclick=async()=>{if(await step(i-1)){i--;flipped=false;draw();}};
+    $('#next').onclick=async()=>{if(i<words.length-1){if(await step(i+1)){i++;flipped=false;draw();}return;}
+      try{await save({requestId:completionId,kind:'learn',topic:t.id,score:words.length,total:words.length,acorns:3,words:words.map(w=>({id:w.id,ok:true}))});if(!await step(i,true))return;
+      finish({title:'다섯 단어와 친구가 됐어요!',emoji:'📖',lines:[`${words.length}개 단어와 예문을 모두 살펴봤어요.`],acorns:3,back:'#/topic/'+t.id,again:'#/learn/'+t.id+'/'+part});}catch(err){$('#save-error').textContent='기록을 저장하지 못했어요: '+err.message;$('#next').disabled=false;}
     };
-  };
-  draw();
+  };draw();
 };
 
 // ---- 결과 화면 ----
@@ -389,7 +391,7 @@ function finish({ title, emoji, lines = [], acorns = 0, stars = 0, back, again, 
 // ---- 마을 퀴즈 (듣고 고르기 + 보고 고르기) ----
 routes.quiz = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
-  const qs = shuffle(t.words).map((w, k) => ({ w, type: k % 2 ? 'read' : 'listen', opts: shuffle([w, ...sample(t.words.filter((x) => x.id !== w.id), 3)]) }));
+  const qs = quizForTopic(t); const threshold=passingScore(qs.length);
   let i = 0; let score = 0; const log = [];
   const draw = () => {
     const q = qs[i];
@@ -399,8 +401,8 @@ routes.quiz = (id) => {
       <div class="progress"><i style="width:${(i / qs.length) * 100}%"></i></div>
       ${q.type === 'listen'
         ? `<p class="ask">잘 듣고 알맞은 그림을 골라요</p><button class="speaker" id="play">🔊</button>
-           <div class="opts pics">${q.opts.map((o) => `<button class="opt" data-id="${o.id}"><span class="pic">${o.pic}</span></button>`).join('')}</div>`
-        : `<p class="ask">그림에 맞는 영어 단어를 골라요</p><div class="pic xl">${q.w.pic}</div>${state.subtitle ? `<p class="muted">${esc(q.w.ko)}</p>` : ''}
+           <div class="opts pics">${q.opts.map((o) => `<button class="opt" data-id="${o.id}"><span class="pic">${o.pic}</span><small>${esc(o.ko)}</small></button>`).join('')}</div>`
+        : q.type==='context' ? `<p class="ask">뜻과 문맥에 맞는 단어를 골라요</p><p class="context-ko">${esc(q.w.ko)}</p><p class="context-sentence">${esc(q.cloze)}</p>${state.subtitle?`<p class="muted">${esc(q.w.exKo)}</p>`:''}<div class="opts words">${q.opts.map(o=>`<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>` : `<p class="ask">그림과 뜻에 맞는 영어 단어를 골라요</p><div class="pic xl">${q.w.pic}</div>${state.subtitle ? `<p class="muted">${esc(q.w.ko)}</p>` : ''}
            <div class="opts words">${q.opts.map((o) => `<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>`}
     </div>`;
     if (q.type === 'listen') {
@@ -417,11 +419,11 @@ routes.quiz = (id) => {
       speak(q.w.en);
       setTimeout(async () => {
         i++; if (i < qs.length) return draw();
-        const pass = score >= 8; const key = 'topic:' + t.id; const isNew = pass && !state.me.badges.includes(key);
+        const pass = score >= threshold; const key = 'topic:' + t.id; const isNew = pass && !state.me.badges.includes(key);
         const ac = score + (isNew ? 10 : 0);
         await save({ kind: 'quiz', topic: t.id, score, total: qs.length, acorns: ac, words: log, badge: pass ? key : null });
-        finish({ title: pass ? '퀴즈 통과! 🎉' : '조금만 더 힘내요!', emoji: pass ? '🏆' : '💪', stars: score >= 10 ? 3 : score >= 8 ? 2 : score >= 5 ? 1 : 0,
-          lines: [`${qs.length}문제 중 <b>${score}개</b> 맞혔어요.`, pass ? '' : '8개 이상 맞히면 배지를 받아요.'],
+        finish({ title: pass ? '퀴즈 통과! 🎉' : '조금만 더 힘내요!', emoji: pass ? '🏆' : '💪', stars: score===qs.length?3:pass?2:score>=Math.ceil(qs.length*.5)?1:0,
+          lines: [`${qs.length}문제 중 <b>${score}개</b> 맞혔어요.`, pass ? '' : `${threshold}개 이상 맞히면 배지를 받아요.`],
           acorns: ac, badge: isNew ? `${t.icon} ${t.name}` : null, back: '#/topic/' + t.id, again: '#/quiz/' + t.id });
       }, ok ? 900 : 1600);
     });
@@ -439,7 +441,7 @@ routes.match = (id) => {
   <div class="page center">
     <p class="ask">그림 카드와 영어 단어 카드의 짝을 찾아요!</p>
     <div class="qhead"><span>찾은 짝 <b id="found">0</b>/6</span><span>시도 <b id="tries">0</b></span></div>
-    <div class="memory">${cards.map((c, k) => `<button class="mcard" data-k="${k}"><span class="back">🌲</span><span class="front">${c.side === 'pic' ? `<span class="pic">${c.w.pic}</span>` : `<b>${esc(c.w.en)}</b>`}</span></button>`).join('')}</div>
+    <div class="memory">${cards.map((c, k) => `<button class="mcard" data-k="${k}"><span class="back">🌲</span><span class="front">${c.side === 'pic' ? `<span class="pic">${c.w.pic}</span><small>${esc(c.w.ko)}</small>` : `<b>${esc(c.w.en)}</b>`}</span></button>`).join('')}</div>
   </div>`;
   $$('.mcard').forEach((b) => b.onclick = () => {
     const k = Number(b.dataset.k);
@@ -468,6 +470,7 @@ routes.match = (id) => {
 routes.spell = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
   const words = sample(t.words.filter((w) => /^[a-z]+$/.test(w.en) && w.en.length <= 10), 5);
+  if (!words.length) return go('#/sentence/'+id);
   let i = 0; let total = 0; const log = [];
   const colors = ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#9775fa', '#f783ac'];
   const draw = () => {
@@ -508,11 +511,12 @@ routes.spell = (id) => {
 // ---- 말하기 도전 ----
 routes.speak = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
+  if (!state.me.voice_consent) { app.innerHTML=`${topbar('🎤 말하기 안내','#/topic/'+id)}<div class="page center"><h2>보호자 동의를 먼저 확인해 주세요.</h2><p>말하기는 브라우저 제공 음성 인식 서비스로 전달돼요. 학원에서 보호자의 동의를 확인하면 사용할 수 있어요.</p><p>말하기를 하지 않아도 다른 게임과 레벨 학습은 모두 가능해요.</p><a class="btn primary" href="#/topic/${id}">다른 게임 하러 가기</a></div>`;return;}
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) return go('#/topic/' + id);
   const words = sample(t.words, 5); let i = 0; let total = 0; const log = [];
   const draw = () => {
-    const w = words[i]; let tries = 0;
+    const w = words[i]; let tries = 0;let advanced=false;const speakingRoute=location.hash;
     app.innerHTML = `${topbar('🎤 말하기 도전', '#/topic/' + t.id)}
     <div class="page center">
       <div class="qhead"><span>${i + 1} / ${words.length}</span><span>🌰 ${total}</span></div>
@@ -520,32 +524,34 @@ routes.speak = (id) => {
       <b class="word">${esc(w.en)}</b><p class="muted">${esc(w.ko)}</p>
       <button class="btn" id="listen">🔊 먼저 들어 보기</button>
       <button class="mic" id="mic">🎤</button>
-      <p class="ask" id="msg">마이크를 누르고 단어를 말해 봐요!</p>
+      <p class="ask" id="msg">마이크를 누르고 단어를 말해 봐요! 음성 인식 결과를 비교하며 발음 점수는 매기지 않아요.</p>
       <button class="btn ghost small" id="skip">건너뛰기 ▶</button>
     </div>`;
     speak(w.en);
     const next = async (ok, ac) => {
+      if(advanced)return;advanced=true;clearTimeout(recognitionTimer);if(activeRecognizer){try{activeRecognizer.abort();}catch{}activeRecognizer=null;}
       log.push({ id: w.id, ok }); total += ac; i++;
       if (i < words.length) return setTimeout(draw, 900);
       const good = log.filter((l) => l.ok).length;
-      await save({ kind: 'speak', topic: t.id, score: good, total: words.length, acorns: total, words: log });
-      finish({ title: '말하기 도전 끝!', emoji: '🎤', stars: good === 5 ? 3 : good >= 3 ? 2 : 1, lines: [`${words.length}개 중 ${good}개를 정확히 말했어요.`], acorns: total, back: '#/topic/' + t.id, again: '#/speak/' + t.id });
+      await save({ kind: 'speak', topic: t.id, score: good, total: words.length, acorns: total, words: log.filter(x=>typeof x.ok==='boolean') });
+      finish({ title: '말하기 도전 끝!', emoji: '🎤', stars: good === 5 ? 3 : good >= 3 ? 2 : 1, lines: [`${words.length}개 중 ${good}개가 같은 표현으로 인식됐어요.`], acorns: total, back: '#/topic/' + t.id, again: '#/speak/' + t.id });
     };
     $('#listen').onclick = () => speak(w.en);
-    $('#skip').onclick = () => next(false, 0);
+    $('#skip').onclick = () => next(null, 0);
     $('#mic').onclick = () => {
-      const rec = new SR(); rec.lang = 'en-US'; rec.maxAlternatives = 5; rec.interimResults = false;
+      if(activeRecognizer)return;const rec = new SR();activeRecognizer=rec;rec.lang = 'en-US'; rec.maxAlternatives = 5; rec.interimResults = false;
       const mic = $('#mic'); mic.classList.add('on'); $('#msg').textContent = '듣고 있어요… 🎧';
       rec.onresult = (e) => {
+        if(advanced||location.hash!==speakingRoute)return;
         const alts = [...e.results[0]].map((r) => r.transcript.toLowerCase());
-        const ok = alts.some((a) => a.replace(/[^a-z ]/g, '').includes(w.en));
+        const ok = alts.some((a) => normalizeSentence(a) === normalizeSentence(w.en));
         tries++;
         if (ok) { beep(true); $('#msg').innerHTML = `<b class="good">훌륭해요! 🎉</b> "${esc(alts[0])}"`; next(true, 2); }
         else { beep(false); $('#msg').innerHTML = `"${esc(alts[0])}"(으)로 들렸어요. ${tries >= 2 ? '' : '다시 해 볼까요?'}`; if (tries >= 3) next(false, 1); }
       };
-      rec.onerror = () => { $('#msg').textContent = '소리를 못 들었어요. 다시 눌러 주세요.'; };
-      rec.onend = () => mic.classList.remove('on');
-      try { rec.start(); } catch { /* 이미 듣는 중 */ }
+      rec.onerror = () => { if(advanced||location.hash!==speakingRoute||!$('#msg'))return;$('#msg').textContent = '소리를 못 들었어요. 다시 눌러 주세요.'; };
+      rec.onend = () => {clearTimeout(recognitionTimer);if(activeRecognizer===rec)activeRecognizer=null;mic.classList.remove('on');};
+      try { rec.start();recognitionTimer=setTimeout(()=>{try{rec.stop();}catch{}},10000); } catch {activeRecognizer=null;mic.classList.remove('on');}
     };
   };
   draw();
@@ -620,6 +626,23 @@ routes.scene = (id) => {
   $('#start').onclick = step;
 };
 
+// ---- 레벨별 문장 블록: 반복 단어도 블록별 식별자로 구분 ----
+routes.sentence = (id) => {
+  const t=topicById(id);if(!t)return go('#/home');
+  const words=sample(t.words,t.stage==='sprout'?3:t.stage==='stem'?4:5);let i=0,score=0;const log=[];
+  const draw=()=>{const w=words[i],blocks=shuffle(w.ex.split(/\s+/).map((text,index)=>({text,index})));let selected=[],checked=false;
+    app.innerHTML=`${topbar(t.stage==='tree'?'🧱 문장 구조 탐험':'🧱 문장 블록 놀이','#/topic/'+id)}<div class="page center"><p class="qhead">${i+1} / ${words.length} · LEVEL ${stageById(t.stage).level}</p><p class="ask">${esc(w.exKo)}</p><p class="muted">블록을 순서대로 눌러 문장을 만들어요.</p><div class="sentence-answer" id="sentence-answer" aria-label="내가 만든 문장"></div><div class="sentence-pool" id="sentence-pool"></div><p id="sentence-feedback" role="status"></p><div class="row-btns"><button class="btn ghost" id="sentence-hint">🔊 문장 듣기</button><button class="btn primary" id="sentence-check">문장 확인</button></div></div>`;
+    const repaint=()=>{const tray=$('#sentence-answer'),pool=$('#sentence-pool');tray.innerHTML=selected.map(k=>`<button class="sentence-block chosen" data-k="${k}" ${checked?'disabled':''}>${esc(blocks.find(b=>b.index===k).text)}</button>`).join('')||'<span class="muted">여기에 문장이 만들어져요</span>';pool.innerHTML=blocks.map(b=>`<button class="sentence-block ${selected.includes(b.index)?'used':''}" data-k="${b.index}" ${checked||selected.includes(b.index)?'disabled':''}>${esc(b.text)}</button>`).join('');pool.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked||b.disabled)return;selected.push(Number(b.dataset.k));repaint();};tray.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked)return;selected=selected.filter(k=>k!==Number(b.dataset.k));repaint();};};
+    $('#sentence-hint').onclick=()=>speak(w.ex,.7);
+    $('#sentence-check').onclick=async()=>{if(checked){i++;if(i<words.length)return draw();const good=score;try{await save({kind:'sentence',topic:id,score:good,total:words.length,acorns:good*2,words:log});finish({title:'문장 탐험 완료!',emoji:'🧱',lines:[`${words.length}개 중 ${good}개 문장을 첫 도전에 완성했어요.`],acorns:good*2,back:'#/topic/'+id,again:'#/sentence/'+id});}catch(err){i--;toast(err.message);}return;}
+      if(selected.length!==blocks.length){toast('모든 블록을 사용해 볼까요?');return;}
+      const answer=selected.map(k=>blocks.find(b=>b.index===k).text).join(' '),ok=normalizeSentence(answer)===normalizeSentence(w.ex);log.push({id:w.id,ok});if(ok)score++;checked=true;
+      $('#sentence-feedback').innerHTML=`<b class="${ok?'good':'muted'}">${ok?'🌟 멋지게 연결했어요!':'🌱 이 문장을 함께 읽어 봐요.'}</b><br>${esc(w.ex)}`;
+      $('#sentence-check').textContent=i===words.length-1?'모험 마치기':'다음 문장 →';repaint();beep(ok);speak(w.ex);
+    };repaint();
+  };draw();
+};
+
 // ================= 선생님 화면 =================
 routes.teacher = async () => {
   if (!state.teacherPw) {
@@ -627,7 +650,7 @@ routes.teacher = async () => {
       <img class="login-logo small" src="/logo.png" alt="뉴오리건영어학원">
       <h1 class="title-kid">선생님 화면</h1>
       <form class="card form" id="tf">
-        <label for="tpw">선생님 비밀번호</label>
+        ${isOnline?'<label for="temail">선생님 이메일</label><input id="temail" type="email" autocomplete="username" required>':''}<label for="tpw">선생님 비밀번호</label>
         <input id="tpw" type="password" autocomplete="current-password" required>
         <p class="err" id="err"></p>
         <button class="btn big primary">들어가기</button>
@@ -636,7 +659,7 @@ routes.teacher = async () => {
     </div>`;
     $('#tf').onsubmit = async (e) => {
       e.preventDefault();
-      try { const pw = $('#tpw').value; await api.teacherOverview(pw); state.teacherPw = pw; render(); }
+      try { const pw = await api.teacherLogin(isOnline?$('#temail').value:'', $('#tpw').value); await api.teacherOverview(pw); state.teacherPw = pw; render(); }
       catch (ex) { $('#err').textContent = ex.message; }
     };
     return;
@@ -653,12 +676,12 @@ routes.teacher = async () => {
     .sort((a, b) => b.wrong - a.wrong).slice(0, 20);
 
   app.innerHTML = `<header class="topbar t">
-    <a class="back" href="#/home">←</a><h1>👩‍🏫 선생님 화면</h1>
+    <button class="back" id="tback" aria-label="선생님 로그아웃 후 학생 화면으로">←</button><h1>👩‍🏫 선생님 화면</h1>
     <button class="btn ghost small" id="tout">나가기</button></header>
   <div class="page wide">
     ${isOnline ? '' : '<p class="demo">체험 모드: 이 기기에 저장된 기록만 보여요. 초기 비밀번호 oregon1234</p>'}
     <nav class="ttabs">
-      ${[['students', '학생 현황'], ['hard', '어려운 단어'], ['classes', '반 관리'], ['settings', '설정']].map(([k, n]) => `<button class="${k === tab ? 'on' : ''}" data-t="${k}">${n}</button>`).join('')}
+      ${[['students', '학생 현황'], ['hard', '어려운 단어'], ['assignments', '과제'], ['content', 'Excel 콘텐츠'], ['classes', '반 관리'], ['settings', '설정']].map(([k, n]) => `<button class="${k === tab ? 'on' : ''}" data-t="${k}">${n}</button>`).join('')}
     </nav>
     ${tab === 'students' || tab === 'hard' ? `<div class="class-pick">
       <button class="chip ${cls === 'all' ? 'on' : ''}" data-c="all">전체</button>
@@ -674,13 +697,13 @@ routes.teacher = async () => {
       <div class="stat"><b>${studs.length ? Math.round(studs.reduce((t, s) => t + Number(s.learned), 0) / studs.length) : 0}</b><small>평균 익힌 단어</small></div>
     </div>
     <div class="table-wrap"><table class="tbl">
-      <thead><tr><th>반</th><th>이름</th><th>도토리</th><th>7일 도토리</th><th>7일 학습</th><th>익힌 단어</th><th>배지</th><th>최근 접속</th><th></th></tr></thead>
+      <thead><tr><th>반</th><th>이름</th><th>도토리</th><th>7일 도토리</th><th>7일 학습</th><th>익힌 단어</th><th>배지</th><th>말하기 동의</th><th>최근 접속</th><th></th></tr></thead>
       <tbody>${studs.map((s) => `<tr>
         <td>${esc(cname(s.class_id))}</td><td><b>${esc(s.name)}</b></td><td>${s.acorns}</td><td>${s.week_acorns}</td><td>${s.week_sessions}회</td>
-        <td>${s.learned}/120</td><td>${(s.badges || []).length}</td><td>${fmt(s.last_active)}</td>
+        <td>${s.learned}/${ALL_WORDS.length}<br><small>${STAGES.map(stage=>`L${stage.level} ${s.learned_by_stage?.[stage.id]??0}/${stage.target}`).join(' · ')}</small></td><td>${(s.badges || []).length}</td><td><button class="mini" data-act="consent" data-id="${s.id}" data-value="${!s.voice_consent}">${s.voice_consent?'확인됨 ✓':'미확인'}</button></td><td>${fmt(s.last_active)}</td>
         <td class="acts"><button class="mini" data-act="pin" data-id="${s.id}" title="비밀번호 재설정">🔑</button>
           <button class="mini" data-act="move" data-id="${s.id}" title="반 이동">↔️</button>
-          <button class="mini" data-act="del" data-id="${s.id}" data-n="${esc(s.name)}" title="삭제">🗑️</button></td></tr>`).join('') || '<tr><td colspan="9" class="muted">아직 학생이 없어요. 학생이 첫 로그인하면 자동으로 등록돼요.</td></tr>'}</tbody>
+          <button class="mini" data-act="del" data-id="${s.id}" data-n="${esc(s.name)}" title="삭제">🗑️</button></td></tr>`).join('') || '<tr><td colspan="10" class="muted">아직 학생이 없어요. 학생이 첫 로그인하면 자동으로 등록돼요.</td></tr>'}</tbody>
     </table></div>
     <form class="card form inline" id="addst">
       <b>학생 미리 등록</b>
@@ -691,6 +714,7 @@ routes.teacher = async () => {
     body.onclick = async (e) => {
       const b = e.target.closest('[data-act]'); if (!b) return;
       try {
+        if(b.dataset.act==='consent'){const allow=b.dataset.value==='true';if(allow&&!confirm('보호자에게 브라우저 음성 인식 서비스 전송, 인식 결과 비교 목적, 말하기 선택 활동을 안내하고 필요한 동의를 받았나요?'))return;await api.teacherVoiceConsent(pw,b.dataset.id,allow);toast('말하기 동의 확인 상태를 저장했어요');}
         if (b.dataset.act === 'pin') { const p = prompt('새 비밀번호(숫자 4자리)'); if (!p) return; await api.teacherResetPin(pw, b.dataset.id, p); toast('비밀번호를 바꿨어요'); }
         if (b.dataset.act === 'move') {
           const list = data.classes.map((c, k) => `${k + 1}. ${c.name}`).join('\n'); const n = Number(prompt('옮길 반 번호를 입력하세요\n' + list));
@@ -710,6 +734,20 @@ routes.teacher = async () => {
       const rate = Math.round((h.wrong / (h.wrong + h.correct)) * 100);
       return `<div class="hard"><span class="pic">${w.pic}</span><b>${esc(w.en)}</b><small>${esc(w.ko)} · ${topicById(w.topic).name}</small>
         <span class="bar"><i style="width:${rate}%"></i></span><span class="num">오답 ${h.wrong}회 (${rate}%)</span></div>`; }).join('') || '<p class="muted">아직 기록이 없어요.</p>'}</div>`;
+  } else if (tab === 'assignments') {
+    body.innerHTML = `<form class="card form" id="assignment-form"><b>반 과제 배정</b>
+      <label>반</label><select id="as-class">${data.classes.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
+      <label>Unit</label><select id="as-unit">${TOPICS.map((t) => `<option value="${esc(t.id)}">LEVEL ${stageById(t.stage).level} · ${esc(t.name)} (${esc(t.en)})</option>`).join('')}</select>
+      <label>마감일</label><input id="as-due" type="date"><button class="btn primary">과제 저장</button></form>`;
+    $('#assignment-form').onsubmit = async (e) => { e.preventDefault(); const due=$('#as-due').value ? new Date($('#as-due').value+'T23:59:59+09:00').toISOString() : null; try { await api.teacherSetAssignment(pw,Number($('#as-class').value),$('#as-unit').value,due);toast('과제를 저장했어요'); } catch(ex){toast(ex.message);} };
+  } else if (tab === 'content') {
+    body.innerHTML = `<div class="card form"><b>Excel 콘텐츠 관리</b><p class="muted">양식을 내려받아 수정한 뒤 먼저 검증하세요. 오류가 있으면 데이터베이스는 바뀌지 않습니다.</p>
+      <a class="btn ghost" href="/뉴오리건_VOCA_콘텐츠_업로드_양식.xlsx" download>📥 Excel 양식 다운로드</a>
+      <input id="content-file" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+      <div class="row-btns"><button class="btn" id="content-validate">검증·미리보기</button><button class="btn primary" id="content-publish" disabled>게시</button></div><div id="content-result"></div></div>`;
+    let parsed=null; const result=$('#content-result');
+    $('#content-validate').onclick=async()=>{const file=$('#content-file').files[0];if(!file)return toast('Excel 파일을 선택해 주세요');result.innerHTML='<p class="muted">파일을 검사하는 중…</p>';try{parsed=await parseContentWorkbook(file);if(parsed.errors.length){$('#content-publish').disabled=true;result.innerHTML=`<p class="err"><b>${parsed.errors.length}개 오류</b></p><ol>${parsed.errors.slice(0,50).map(x=>`<li>${esc(x.sheet)} ${x.row||'-'}행: ${esc(x.message)}</li>`).join('')}</ol>`;return;}$('#content-publish').disabled=false;result.innerHTML=`<p class="good"><b>검증 통과</b></p><p>단어 ${parsed.summary.vocabulary} · 문장 ${parsed.summary.sentences} · 문제 ${parsed.summary.exercises} · 자산 ${parsed.summary.assets}</p>`;}catch(ex){parsed=null;$('#content-publish').disabled=true;result.innerHTML=`<p class="err">${esc(ex.message)}</p>`;}};
+    $('#content-publish').onclick=async()=>{const file=$('#content-file').files[0];if(!parsed||!file)return;if(!confirm('검증한 내용을 새 콘텐츠 버전으로 게시할까요?'))return;try{const out=await api.adminImportContent(file.name,parsed.payload,true);if(!out.ok){result.innerHTML=`<p class="err">게시 차단: ${esc(JSON.stringify(out.errors))}</p>`;return;}result.innerHTML=`<p class="good"><b>${esc(out.version)} 게시 완료</b></p><p>추가 ${out.added} · 수정 ${out.changed} · 보관 ${out.archived}</p>`;$('#content-publish').disabled=true;}catch(ex){result.innerHTML=`<p class="err">${esc(ex.message)}</p>`;}};
   } else if (tab === 'classes') {
     body.innerHTML = `<div class="card">
       ${data.classes.map((c) => `<div class="class-row"><b>${esc(c.name)}</b><span class="muted">${data.students.filter((s) => s.class_id === c.id).length}명</span>
@@ -728,10 +766,10 @@ routes.teacher = async () => {
   } else {
     body.innerHTML = `<form class="card form" id="cpw">
       <b>선생님 비밀번호 변경</b>
-      <input id="np" type="password" placeholder="새 비밀번호 (6자 이상)" required minlength="6" autocomplete="new-password">
+      <input id="np" type="password" placeholder="새 비밀번호 (8자 이상)" required minlength="8" autocomplete="new-password">
       <input id="np2" type="password" placeholder="새 비밀번호 확인" required autocomplete="new-password">
       <button class="btn primary">변경</button></form>
-      <div class="card"><b>앱 정보</b><p class="muted small">단어 ${Object.keys(WORD_BY_ID).length}개 · 주제 ${TOPICS.length}개 · 상황 ${SCENES.length}개<br>저장 방식: ${isOnline ? 'Supabase 온라인 저장' : '이 기기 저장(체험 모드)'}</p></div>`;
+      <div class="card"><b>앱 정보</b><p class="muted small">단어 ${ALL_WORDS.length}개 · 주제 ${TOPICS.length}개 · 상황 ${SCENES.length}개<br>저장 방식: ${isOnline ? 'Supabase 온라인 저장' : '이 기기 저장(체험 모드)'}</p></div>`;
     $('#cpw').onsubmit = async (e) => {
       e.preventDefault(); const a = $('#np').value;
       if (a !== $('#np2').value) return toast('두 비밀번호가 달라요');
@@ -740,11 +778,14 @@ routes.teacher = async () => {
   }
   $$('.ttabs button').forEach((b) => b.onclick = () => { store.set('ojv_ttab', b.dataset.t); render(); });
   $$('[data-c]').forEach((b) => b.onclick = () => { store.set('ojv_tcls', b.dataset.c); render(); });
-  $('#tout').onclick = () => { state.teacherPw = null; go('#/home'); };
+  $('#tout').onclick = $('#tback').onclick = async () => { await api.teacherLogout(); state.teacherPw=null; go('#/home'); };
 };
 
 // ================= 시작 =================
 (async function boot() {
+  if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+  window.addEventListener('online', async () => { const out=await api.flushPendingResults(); if(out.sent) toast(`오프라인 학습 ${out.sent}건을 저장했어요`); });
+  if (typeof navigator !== 'undefined' && navigator.onLine) api.flushPendingResults().catch(() => {});
   const s = session.get();
   if (s) { try { state.me = await api.state(s.id, s.token); } catch { session.clear(); } }
   render();

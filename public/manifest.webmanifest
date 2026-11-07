@@ -3,6 +3,9 @@
   "short_name": "보카주니어",
   "start_url": "/",
   "display": "standalone",
+  "scope": "/",
+  "orientation": "any",
+  "lang": "ko-KR",
   "background_color": "#fffaf0",
   "theme_color": "#0b4d2c",
   "icons": [
