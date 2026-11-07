@@ -1,7 +1,7 @@
 import './style.css';
 import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.js';
 import { stageById, wordProgress, levelProgress, quizForTopic, passingScore, normalizeSentence } from './data/levels.js';
-import { SCENES, sceneById } from './data/scenes.js';
+import { SCENES, sceneById, sceneForUnit } from './data/scenes.js';
 import { api, isOnline, store } from './db.js';
 import { parseContentWorkbook } from './excel.js';
 
@@ -305,9 +305,9 @@ routes.home = async () => {
   <section>
     <h2 class="sec">🎬 상황 시뮬레이션</h2>
     <div class="scene-grid">
-      ${SCENES.map((s) => `<a class="scene-card" href="#/scene/${s.id}" style="background:${s.bg}">
+      ${SCENES.filter((s) => s.stage === state.stage).map((s) => `<a class="scene-card" href="#/scene/${s.id}" style="background:${s.bg}">
         <span class="s-icon">${s.icon}</span><b>${s.name}</b>
-        <small>${s.npc} ${s.npcName}와 대화 ${me.badges.includes('scene:' + s.id) ? '· 🏅' : ''}</small></a>`).join('')}
+        <small>LEVEL ${s.level} · ${s.npc} ${s.npcName} ${me.badges.includes('scene:' + s.id) ? '· 🏅' : ''}</small></a>`).join('')}
     </div>
   </section>
 
@@ -367,6 +367,7 @@ const hasSTT = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 routes.topic = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
   const badge = state.me.badges.includes('topic:' + t.id);
+  const unitScene = sceneForUnit(t.id);
   app.innerHTML = `${topbar(`${t.icon} ${t.name}`)}
   <div class="page">
     <div class="modes">
@@ -375,6 +376,7 @@ routes.topic = (id) => {
       <a class="mode m3" href="#/spell/${t.id}"><span>🎈</span><b>스펠링 풍선</b><small>철자 순서대로 터뜨리기</small></a>
       ${hasSTT ? `<a class="mode m4" href="#/speak/${t.id}"><span>🎤</span><b>말하기 도전</b><small>소리 내어 읽어 봐요</small></a>` : ''}
       <a class="mode sentence-mode" href="#/sentence/${t.id}"><span>🧱</span><b>${t.stage==='sprout'?'첫 문장 블록':t.stage==='stem'?'생활 문장 블록':'문장 구조 탐험'}</b><small>${t.stage==='tree'?'부사·전치사·접속사를 문장 속에서 배워요':'단어를 이어 문장을 만들어요'}</small></a>
+      ${unitScene ? `<a class="mode m2 wide" href="#/scene/${unitScene.id}"><span>🎬</span><b>Unit 상황 미션</b><small>LEVEL ${unitScene.level} · ${esc(unitScene.name)}</small></a>` : ''}
       <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>마을 퀴즈</b><small>${badge ? '배지를 모았어요! 다시 도전할 수 있어요' : `${stageById(t.stage).quizSize}문제 중 ${passingScore(stageById(t.stage).quizSize)}개 이상 맞히면 배지!`}</small></a>
     </div>
     <section class="lesson-parts"><h2 class="sec">🌱 오늘은 다섯 단어만!</h2><div class="part-grid">${Array.from({length:4},(_,part)=>{const cp=state.me.checkpoints?.[t.id+':'+part];return `<a href="#/learn/${t.id}/${part}" class="part-card ${cp?.complete?'complete':''}"><b>${cp?.complete?'✓':'📖'} 탐험 ${part+1}</b><small>${t.words.slice(part*5,part*5+5).map(w=>esc(w.en)).join(' · ')}</small><span>${cp?.complete?'다시 만나기':cp?.index?'이어서 학습':'5개 단어 만나기'} →</span></a>`;}).join('')}</div></section>
@@ -600,18 +602,20 @@ routes.speak = (id) => {
 // ================= 상황 시뮬레이션 =================
 routes.scene = (id) => {
   const sc = sceneById(id); if (!sc) return go('#/home');
+  const sceneBack = sc.unitId ? '#/topic/' + sc.unitId : '#/home';
   let i = -1; let miss = 0;
   const chat = [];
   const bubble = (who, en, ko) => `<div class="msg ${who}"><span class="ava">${who === 'npc' ? sc.npc : '🧒'}</span><div class="bub"><button class="say" data-say="${esc(en)}">🔊</button> ${esc(en)}${ko && state.subtitle ? `<small>${esc(ko)}</small>` : ''}</div></div>`;
   const draw = () => {
     const st = sc.steps[i];
-    app.innerHTML = `${topbar(`${sc.icon} ${sc.name}`, '#/home')}
+    app.innerHTML = `${topbar(`${sc.icon} ${sc.name}`, sceneBack)}
     <div class="scene" style="background:${sc.bg}">
       <div class="stage-npc"><span class="npc-big">${sc.npc}</span><span class="npc-name">${sc.npcName}</span>
         <span class="step-dots">${sc.steps.map((_, k) => `<i class="${k < i ? 'done' : k === i ? 'on' : ''}"></i>`).join('')}</span></div>
       <div class="chat" id="chat">${chat.join('')}</div>
       <div class="answer">
         <p class="ask">👉 ${esc(st.prompt)}</p>
+        ${st.grammarTarget ? `<p class="level-kicker">문법 목표 · ${esc(st.grammarTarget)}</p>` : ''}
         <div class="opts ${st.type === 'pick' ? 'pics' : 'sentences'}">
           ${st.choices.map((c, k) => st.type === 'pick'
             ? `<button class="opt" data-k="${k}"><span class="pic">${c[0]}</span><small>${esc(c[1])}</small></button>`
@@ -648,19 +652,17 @@ routes.scene = (id) => {
     }
     const stars = miss === 0 ? 3 : miss <= 2 ? 2 : 1; const key = 'scene:' + sc.id; const isNew = !state.me.badges.includes(key);
     const ac = 4 + stars * 2 + (isNew ? 5 : 0);
-    const words = sc.steps.filter((s) => s.type === 'pick').map((s) => {
-      const en = s.choices[s.answer][1]; const w = Object.values(WORD_BY_ID).find((x) => x.en === en && sc.words.includes(x.topic));
-      return w ? { id: w.id, ok: true } : null; }).filter(Boolean);
+    const words = sc.steps.map((stepItem) => stepItem.wordId ? { id: stepItem.wordId, ok: true } : null).filter(Boolean);
     await save({ kind: 'scene', topic: sc.id, score: sc.steps.length, total: sc.steps.length + miss, acorns: ac, words, badge: key });
     finish({ title: '미션 성공!', emoji: sc.icon, stars, lines: [miss ? `실수 ${miss}번, 그래도 끝까지 해냈어요!` : '한 번도 틀리지 않았어요. 완벽해요!'], acorns: ac,
-      badge: isNew ? `${sc.icon} ${sc.name}` : null, back: '#/home', again: '#/scene/' + sc.id });
+      badge: isNew ? `${sc.icon} ${sc.name}` : null, back: sceneBack, again: '#/scene/' + sc.id });
   };
-  app.innerHTML = `${topbar(`${sc.icon} ${sc.name}`, '#/home')}
+  app.innerHTML = `${topbar(`${sc.icon} ${sc.name}`, sceneBack)}
   <div class="page center">
     <div class="big-emoji">${sc.npc}</div>
     <h2>${sc.name}</h2>
     <p>${sc.intro}</p>
-    <p class="muted small">상대방 말을 듣고 알맞은 대답을 골라요. 🔊를 누르면 다시 들을 수 있어요.</p>
+    <p class="muted small">${sc.level===1?'그림과 소리를 연결해요.':sc.level===2?'생활 속 예문으로 대화를 완성해요.':'동사·형용사·부사·전치사·접속사와 문장 구조를 확인해요.'} 🔊를 누르면 다시 들을 수 있어요.</p>
     <button class="btn big primary" id="start">시작하기 ▶</button>
   </div>`;
   $('#start').onclick = step;
