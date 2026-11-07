@@ -1,4 +1,4 @@
-const VERSION = 'ojv-2026.11.07.1';
+const VERSION = 'ojv-2026.11.08.1';
 const APP = [
   '/', '/index.html', '/manifest.webmanifest', '/logo.png', '/icon-192.png'
 ];
@@ -13,6 +13,13 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== location.origin) return;
+  if (event.request.mode === 'navigate') {
+    event.respondWith(fetch(event.request).then((response) => {
+      if (response.ok) caches.open(VERSION).then((cache) => cache.put('/index.html', response.clone()));
+      return response;
+    }).catch(() => caches.match('/index.html')));
+    return;
+  }
   event.respondWith(caches.match(event.request).then((cached) => {
     const fresh = fetch(event.request).then((response) => {
       if (response.ok) caches.open(VERSION).then((cache) => cache.put(event.request, response.clone()));
