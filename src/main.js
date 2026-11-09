@@ -29,6 +29,7 @@ const nextRank = (n) => RANKS.find((r) => r.min > n);
 const hasTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
 let activeRecognizer=null,recognitionTimer=null;
 let enVoice = null; let voicesChecked = false; let ttsUnlocked = false; let speakTimer = null;
+let speechFallbackTimer = null; let speechSequence = 0; let activeSpeech = null;
 function pickVoice() {
   if (!hasTTS) return;
   const all = speechSynthesis.getVoices();
@@ -53,21 +54,40 @@ if (hasTTS) {
   window.addEventListener('pointerdown', unlock, { capture: true });
   window.addEventListener('keydown', unlock, { capture: true });
 }
-function speak(text, rate = 0.85) {
-  if (!hasTTS || !text) return;
-  if (!enVoice) pickVoice();
-  clearTimeout(speakTimer);
-  if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
-  // 취소 직후 곧바로 말하면 크롬에서 소리가 사라지므로 잠깐 쉬고 말함
-  speakTimer = setTimeout(() => {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = enVoice ? enVoice.lang : 'en-US'; u.rate = rate; u.pitch = 1.05; u.volume = 1;
-    if (enVoice) u.voice = enVoice;
-    try { speechSynthesis.resume(); } catch { /* noop */ }
-    speechSynthesis.speak(u);
-  }, 80);
+function settleSpeech(sequence) {
+  if (!activeSpeech || activeSpeech.sequence !== sequence) return;
+  clearTimeout(speechFallbackTimer); speechFallbackTimer = null;
+  const resolve = activeSpeech.resolve; activeSpeech = null; resolve();
 }
-function stopSpeak() { if (hasTTS) { clearTimeout(speakTimer); speechSynthesis.cancel(); } }
+function interruptSpeech() {
+  speechSequence++;
+  clearTimeout(speakTimer); speakTimer = null;
+  clearTimeout(speechFallbackTimer); speechFallbackTimer = null;
+  if (activeSpeech) { const resolve = activeSpeech.resolve; activeSpeech = null; resolve(); }
+  if (hasTTS && (speechSynthesis.speaking || speechSynthesis.pending)) speechSynthesis.cancel();
+}
+function speak(text, rate = 0.85) {
+  interruptSpeech();
+  if (!hasTTS || !text) return Promise.resolve();
+  if (!enVoice) pickVoice();
+  const sequence = speechSequence;
+  return new Promise((resolve) => {
+    activeSpeech = { sequence, resolve };
+    // 취소 직후 곧바로 말하면 크롬에서 소리가 사라지므로 잠깐 쉬고 말함
+    speakTimer = setTimeout(() => {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = enVoice ? enVoice.lang : 'en-US'; u.rate = rate; u.pitch = 1.05; u.volume = 1;
+      if (enVoice) u.voice = enVoice;
+      u.onend = () => settleSpeech(sequence);
+      u.onerror = () => settleSpeech(sequence);
+      // 일부 모바일 브라우저가 종료 이벤트를 누락해도 진행이 멈추지 않도록 안전 타이머를 둡니다.
+      speechFallbackTimer = setTimeout(() => settleSpeech(sequence), Math.max(4000, text.length * 220));
+      try { speechSynthesis.resume(); } catch { /* noop */ }
+      speechSynthesis.speak(u);
+    }, 80);
+  });
+}
+function stopSpeak() { interruptSpeech(); }
 function voiceHelp(always = false) {
   const st = voiceStatus();
   if (st.ok && !always) return '';
@@ -627,19 +647,23 @@ routes.scene = (id) => {
     const ch = $('#chat'); ch.scrollTop = ch.scrollHeight;
     $$('.say').forEach((b) => b.onclick = () => speak(b.dataset.say));
     let locked = false;
-    $$('.opt').forEach((b) => b.onclick = () => {
+    $$('.opt').forEach((b) => b.onclick = async () => {
       if (locked) return;
       const k = Number(b.dataset.k); const c = st.choices[k];
       if (k === st.answer) {
         locked = true; beep(true); b.classList.add('right');
+        $$('.opt').forEach((option) => { option.disabled = true; });
+        $$('.say').forEach((button) => { button.disabled = true; });
         const mine = st.type === 'pick' ? `${c[0]} ${c[1]}` : c[0];
-        speak(st.type === 'pick' ? c[1] : c[0]);
-        setTimeout(() => {
-          chat.push(bubble('me', mine, st.type === 'pick' ? c[2] : c[1]));
-          chat.push(bubble('npc', st.after, ''));
-          speak(st.after);
-          setTimeout(step, 1300);
-        }, 600);
+        const mineKo = st.type === 'pick' ? c[2] : c[1];
+        chat.push(bubble('me', mine, mineKo));
+        const chatBox = $('#chat'); chatBox.insertAdjacentHTML('beforeend', bubble('me', mine, mineKo)); chatBox.scrollTop = chatBox.scrollHeight;
+        await speak(st.type === 'pick' ? c[1] : c[0]);
+        chat.push(bubble('npc', st.after, ''));
+        chatBox.insertAdjacentHTML('beforeend', bubble('npc', st.after, '')); chatBox.scrollTop = chatBox.scrollHeight;
+        await speak(st.after);
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        await step();
       } else {
         miss++; beep(false); b.classList.add('wrong', 'shake'); setTimeout(() => b.classList.remove('shake'), 400);
         speak(st.type === 'pick' ? c[1] : c[0]);
