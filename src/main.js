@@ -307,7 +307,7 @@ routes.home = async () => {
     <div class="scene-grid">
       ${SCENES.filter((s) => s.stage === state.stage).map((s) => `<a class="scene-card" href="#/scene/${s.id}" style="background:${s.bg}">
         <span class="s-icon">${s.icon}</span><b>${s.name}</b>
-        <small>LEVEL ${s.level} · ${s.npc} ${s.npcName} ${me.badges.includes('scene:' + s.id) ? '· 🏅' : ''}</small></a>`).join('')}
+        <small>LEVEL ${s.level} · 📍 ${esc(s.location)} ${me.badges.includes('scene:' + s.id) ? '· 🏅' : ''}</small><small>🎯 ${esc(s.goal)}</small></a>`).join('')}
     </div>
   </section>
 
@@ -612,6 +612,7 @@ routes.scene = (id) => {
     <div class="scene" style="background:${sc.bg}">
       <div class="stage-npc"><span class="npc-big">${sc.npc}</span><span class="npc-name">${sc.npcName}</span>
         <span class="step-dots">${sc.steps.map((_, k) => `<i class="${k < i ? 'done' : k === i ? 'on' : ''}"></i>`).join('')}</span></div>
+      <div class="scene-mission"><span>📍 ${esc(sc.location)}</span><span>🎭 ${esc(sc.role)}</span><small>🎯 ${esc(sc.goal)}</small></div>
       <div class="chat" id="chat">${chat.join('')}</div>
       <div class="answer">
         <p class="ask">👉 ${esc(st.prompt)}</p>
@@ -662,7 +663,8 @@ routes.scene = (id) => {
     <div class="big-emoji">${sc.npc}</div>
     <h2>${sc.name}</h2>
     <p>${sc.intro}</p>
-    <p class="muted small">${sc.level===1?'그림과 소리를 연결해요.':sc.level===2?'생활 속 예문으로 대화를 완성해요.':'동사·형용사·부사·전치사·접속사와 문장 구조를 확인해요.'} 🔊를 누르면 다시 들을 수 있어요.</p>
+    <div class="scene-brief"><p><b>📍 장소</b> ${esc(sc.location)}</p><p><b>🎭 내 역할</b> ${esc(sc.role)}</p><p><b>🎯 미션</b> ${esc(sc.goal)}</p></div>
+    <p class="muted small">${sc.level===1?'등장인물의 부탁을 듣고 그림을 골라 임무를 해결해요.':sc.level===2?'생활 속 상대방의 말을 듣고 알맞은 반응으로 대화를 이어가요.':'상황을 판단하고 이유·의견·제안으로 문제를 해결해요.'} 🔊를 누르면 다시 들을 수 있어요.</p>
     <button class="btn big primary" id="start">시작하기 ▶</button>
   </div>`;
   $('#start').onclick = step;

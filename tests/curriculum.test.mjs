@@ -9,19 +9,28 @@ test('all 120 existing vocabulary IDs remain resolvable and progress is not doub
 test('quiz difficulty changes by level; all choices are unique and include the answer',()=>{for(const topic of TOPICS){const stage=stageById(topic.stage),quiz=quizForTopic(topic,()=>.37);assert.equal(quiz.length,stage.quizSize);for(const q of quiz){assert.equal(q.opts.length,stage.choices);assert.equal(new Set(q.opts.map(o=>o.id)).size,q.opts.length);assert.equal(q.opts.filter(o=>o.id===q.w.id).length,1);assert.ok(topic.stage==='sprout'?['read','listen'].includes(q.type):q.type==='context');if(q.type==='context')assert.ok(q.cloze.includes('_____'),q.w.id);}}assert.deepEqual(STAGES.map(s=>passingScore(s.quizSize)),[8,10,12]);});
 test('all three levels reach their exact denominators without inflating aliases',()=>{const p=Object.fromEntries(ALL_WORDS.map(w=>[w.id,[1,0]]));for(const stage of STAGES)assert.deepEqual(levelProgress(p,TOPICS,stage.id),{learned:stage.target,total:stage.target});assert.equal(stageById('invalid').id,'sprout');});
 
-test('every unit has one level-specific scenario with matching words and difficulty',()=>{
-  assert.equal(SCENES.length,60);
-  assert.equal(new Set(SCENES.map(scene=>scene.unitId)).size,60);
+test('fifteen role-play simulations cover all 60 units with level-specific missions',()=>{
+  assert.equal(SCENES.length,15);
+  assert.deepEqual(STAGES.map(stage=>SCENES.filter(scene=>scene.stage===stage.id).length),[5,5,5]);
+  const covered=SCENES.flatMap(scene=>scene.words);
+  assert.equal(covered.length,60);
+  assert.deepEqual(new Set(covered),new Set(TOPICS.map(topic=>topic.id)));
+  for(const scene of SCENES){
+    const expectedSteps=scene.stage==='sprout'?4:scene.stage==='stem'?5:6;
+    assert.ok(scene.location&&scene.role&&scene.goal&&scene.intro,scene.id);
+    assert.equal(scene.steps.length,expectedSteps);
+    assert.equal(new Set(scene.steps.map(step=>step.say)).size,expectedSteps);
+    assert.ok(scene.steps.every(step=>step.choices.length===4&&step.answer>=0&&step.answer<4));
+    assert.ok(scene.steps.every(step=>scene.words.includes(WORD_BY_ID[step.wordId]?.topic)),scene.id);
+    assert.ok(scene.steps.every(step=>!/^Can you find “|^Let's use|^Choose the sentence that uses/.test(step.say)),scene.id);
+    if(scene.stage==='sprout')assert.ok(scene.steps.every(step=>step.type==='pick'));
+    if(scene.stage==='stem')assert.ok(scene.steps.every(step=>step.type==='reply'));
+    if(scene.stage==='tree')assert.ok(scene.steps.every(step=>step.type==='decision'&&step.grammarTarget));
+  }
   for(const topic of TOPICS){
     const scene=sceneForUnit(topic.id);
-    const expectedSteps=topic.stage==='sprout'?4:topic.stage==='stem'?5:6;
     assert.ok(scene,topic.id);
     assert.equal(scene.stage,topic.stage);
-    assert.equal(scene.steps.length,expectedSteps);
-    assert.ok(scene.steps.every(step=>topic.words.some(word=>word.id===step.wordId)));
-    if(topic.stage==='sprout')assert.ok(scene.steps.every(step=>step.type==='pick'));
-    if(topic.stage==='stem')assert.ok(scene.steps.every(step=>step.type==='reply'));
-    if(topic.stage==='tree')assert.ok(scene.steps.every(step=>step.type==='sentence'&&step.grammarTarget));
   }
 });
 test('sentence checking preserves grammar and ignores terminal punctuation and case',()=>{assert.equal(normalizeSentence(' I  can do it. '),normalizeSentence('i can do it'));assert.notEqual(normalizeSentence('I can do it.'),normalizeSentence('I do it.'));});

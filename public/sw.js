@@ -1,4 +1,4 @@
-const VERSION = 'ojv-2026.11.08.1';
+const VERSION = 'ojv-2026.11.09.1';
 const APP = [
   '/', '/index.html', '/manifest.webmanifest', '/logo.png', '/icon-192.png'
 ];

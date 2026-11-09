@@ -169,6 +169,10 @@ section { padding: 0 14px; }
 .scene { min-height: calc(100vh - 70px); display: flex; flex-direction: column; padding: 10px 12px 16px; }
 .stage-npc { display: flex; align-items: center; gap: 10px; padding: 4px 4px 8px; }
 .npc-big { font-size: 54px; } .npc-name { font-family: 'Jua'; font-size: 18px; color: var(--green); }
+.scene-brief { width: min(560px, 100%); margin: 8px auto 14px; padding: 12px 16px; border-radius: 18px; background: #fff; box-shadow: var(--shadow); text-align: left; }
+.scene-brief p { margin: 7px 0; }
+.scene-mission { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 4px 10px; padding: 9px 12px; border-radius: 14px; background: rgba(255,255,255,.88); color: var(--green); font-size: 13px; font-weight: 800; }
+.scene-mission small { flex-basis: 100%; color: var(--text); font-weight: 700; }
 .step-dots { margin-left: auto; display: flex; gap: 5px; } .step-dots i { width: 12px; height: 12px; border-radius: 50%; background: rgba(0,0,0,.1); }
 .step-dots i.on { background: var(--gold); } .step-dots i.done { background: var(--leaf); }
 .chat { flex: 1; overflow-y: auto; max-height: 42vh; display: flex; flex-direction: column; gap: 10px; padding: 4px; }
