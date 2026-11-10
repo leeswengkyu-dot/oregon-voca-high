@@ -1,13 +1,46 @@
 export const STAGES = [
- {id:'sprout',level:1,name:'새싹 숲',grade:'초등 1~2학년',icon:'🌱',color:'#7cc576',target:300,units:15,description:'그림과 소리로 만나는 첫 영어',skills:'친숙한 명사 · 쉬운 표현',quizSize:10,choices:3},
- {id:'stem',level:2,name:'줄기 숲',grade:'초등 3~4학년',icon:'🌿',color:'#3fa36b',target:400,units:20,description:'하루의 이야기를 영어로 말해요',skills:'생활 어휘 · 동작 동사 · 기초 형용사',quizSize:12,choices:4},
- {id:'tree',level:3,name:'나무 숲',grade:'초등 5~6학년',icon:'🌳',color:'#0b4d2c',target:500,units:25,description:'생각을 연결해 문장으로 표현해요',skills:'핵심 동사 · 형용사 · 부사 · 전치사 · 접속사',quizSize:15,choices:4},
+  { id: 'prep', level: 0, label: 'PREP', name: '예비고1', grade: '예비 고등학생', icon: '🚀', color: '#0f766e', target: 200, units: 10, description: '고등 영어를 시작하는 핵심 200단어', skills: '기본 독해 어휘 · 문맥 이해 · 철자', quizSize: 10, choices: 4 },
+  { id: 'grade1', level: 1, label: '고1', name: '고1', grade: '고등학교 1학년', icon: '📘', color: '#2563eb', target: 300, units: 15, description: '고1 모의고사 대비 핵심 어휘', skills: '기본 독해 · 어휘 추론 · 문장 적용', quizSize: 15, choices: 4 },
+  { id: 'grade2', level: 2, label: '고2', name: '고2', grade: '고등학교 2학년', icon: '📗', color: '#7c3aed', target: 300, units: 15, description: '고2 모의고사 대비 확장 어휘', skills: '문맥 분석 · 유의어 구별 · 빈칸 추론', quizSize: 15, choices: 4 },
+  { id: 'grade3', level: 3, label: '고3', name: '고3', grade: '고등학교 3학년', icon: '🎓', color: '#be123c', target: 300, units: 15, description: '고3 수능 대비 심화 어휘', skills: '수능 독해 · 고난도 문맥 · 어휘 완성', quizSize: 15, choices: 4 },
 ];
-export const stageById=id=>STAGES.find(s=>s.id===id)??STAGES[0];
-export const normalizeSentence=s=>String(s).normalize('NFKC').trim().toLowerCase().replace(/[.!?]+$/,'').trim().replace(/\s+/g,' ');
-export const passingScore=total=>Math.ceil(total*.8);
-export function wordProgress(progress,word){return [word.id,...(word.legacyIds??[])].reduce((sum,key)=>{const p=progress?.[key]??[0,0];return [sum[0]+Number(p[0]??0),sum[1]+Number(p[1]??0)];},[0,0]);}
-export function levelProgress(progress,topics,stage){const words=topics.filter(t=>t.stage===stage).flatMap(t=>t.words);return {learned:words.filter(w=>wordProgress(progress,w)[0]>0).length,total:words.length};}
-const shuffleWith=(items,random)=>{const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-export function clozeExample(word){const escaped=word.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return word.ex.replace(new RegExp('\\b'+escaped+'\\b','i'),'_____');}
-export function quizForTopic(topic,random=Math.random){const stage=stageById(topic.stage);return shuffleWith(topic.words,random).slice(0,stage.quizSize).map((w,k)=>({w,type:stage.level===1?(k%2?'read':'listen'):'context',opts:shuffleWith([w,...shuffleWith(topic.words.filter(o=>o.id!==w.id),random).slice(0,stage.choices-1)],random),cloze:clozeExample(w)}));}
+
+export const stageById = (id) => STAGES.find((stage) => stage.id === id) ?? STAGES[0];
+export const normalizeSentence = (sentence) => String(sentence).normalize('NFKC').trim().toLowerCase().replace(/[.!?]+$/, '').trim().replace(/\s+/g, ' ');
+export const passingScore = (total) => Math.ceil(total * 0.8);
+
+export function wordProgress(progress, word) {
+  return [word.id, ...(word.legacyIds ?? [])].reduce((sum, key) => {
+    const value = progress?.[key] ?? [0, 0];
+    return [sum[0] + Number(value[0] ?? 0), sum[1] + Number(value[1] ?? 0)];
+  }, [0, 0]);
+}
+
+export function levelProgress(progress, topics, stage) {
+  const words = topics.filter((topic) => topic.stage === stage).flatMap((topic) => topic.words);
+  return { learned: words.filter((word) => wordProgress(progress, word)[0] > 0).length, total: words.length };
+}
+
+const shuffleWith = (items, random) => {
+  const result = [...items];
+  for (let index = result.length - 1; index > 0; index--) {
+    const target = Math.floor(random() * (index + 1));
+    [result[index], result[target]] = [result[target], result[index]];
+  }
+  return result;
+};
+
+export function clozeExample(word) {
+  const escaped = word.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return word.ex.replace(new RegExp(`\\b${escaped}\\b`, 'i'), '_____');
+}
+
+export function quizForTopic(topic, random = Math.random) {
+  const stage = stageById(topic.stage);
+  return shuffleWith(topic.words, random).slice(0, stage.quizSize).map((word) => ({
+    w: word,
+    type: 'context',
+    opts: shuffleWith([word, ...shuffleWith(topic.words.filter((other) => other.id !== word.id), random).slice(0, stage.choices - 1)], random),
+    cloze: clozeExample(word),
+  }));
+}

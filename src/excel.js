@@ -1,7 +1,7 @@
 import readXlsxFile from 'read-excel-file/browser';
 
 const REQUIRED_SHEETS = ['README', 'Vocabulary', 'Sentences', 'Exercises', 'Assets'];
-const VOCAB_HEADERS = ['action', 'content_key', 'level', 'unit_code', 'word', 'meaning_ko', 'part_of_speech', 'difficulty', 'example_en', 'example_ko', 'image_filename', 'audio_filename', 'status'];
+const VOCAB_HEADERS = ['action', 'content_key', 'level', 'unit_code', 'word', 'meaning_ko', 'part_of_speech', 'difficulty', 'example_en', 'example_ko', 'example_en_2', 'example_ko_2', 'image_filename', 'audio_filename', 'status'];
 
 const text = (value) => String(value ?? '').trim();
 
@@ -36,6 +36,8 @@ export async function parseContentWorkbook(file) {
     row.difficulty = Number(row.difficulty || 1);
     row.example_en = text(row.example_en);
     row.example_ko = text(row.example_ko);
+    row.example_en_2 = text(row.example_en_2);
+    row.example_ko_2 = text(row.example_ko_2);
     row.image_filename = text(row.image_filename);
     row.audio_filename = text(row.audio_filename);
     row.status = text(row.status || 'draft').toLowerCase();
@@ -44,8 +46,8 @@ export async function parseContentWorkbook(file) {
     if (seen.has(row.content_key)) errors.push({ sheet: 'Vocabulary', row: row.row, message: `content_key 중복: ${row.content_key} (먼저 나온 행 ${seen.get(row.content_key)})` });
     else seen.set(row.content_key, row.row);
     if (row.action !== 'ARCHIVE') {
-      if (!['sprout', 'stem', 'tree'].includes(row.level)) errors.push({ sheet: 'Vocabulary', row: row.row, message: 'level은 sprout, stem, tree 중 하나여야 해요' });
-      for (const [key, label] of [['unit_code', 'Unit 코드'], ['word', '영단어'], ['meaning_ko', '뜻'], ['example_en', '영어 예문'], ['example_ko', '예문 해석']]) {
+      if (!['prep', 'grade1', 'grade2', 'grade3'].includes(row.level)) errors.push({ sheet: 'Vocabulary', row: row.row, message: 'level은 prep, grade1, grade2, grade3 중 하나여야 해요' });
+      for (const [key, label] of [['unit_code', 'Unit 코드'], ['word', '영단어'], ['meaning_ko', '뜻'], ['example_en', '영어 예문 1'], ['example_ko', '예문 해석 1'], ['example_en_2', '영어 예문 2'], ['example_ko_2', '예문 해석 2']]) {
         if (!row[key]) errors.push({ sheet: 'Vocabulary', row: row.row, message: `${label}이 필요해요` });
       }
       if (!Number.isInteger(row.difficulty) || row.difficulty < 1 || row.difficulty > 5) errors.push({ sheet: 'Vocabulary', row: row.row, message: 'difficulty는 1~5 정수여야 해요' });

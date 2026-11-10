@@ -1,4 +1,4 @@
-const VERSION = 'ojv-2026.11.09.2';
+const VERSION = 'ovh-2026.11.10.1';
 const APP = [
   '/', '/index.html', '/manifest.webmanifest', '/logo.png', '/icon-192.png'
 ];
@@ -8,7 +8,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('ojv-') && key !== VERSION).map((key) => caches.delete(key)))).then(() => self.clients.claim()));
+  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('ovh-') && key !== VERSION).map((key) => caches.delete(key)))).then(() => self.clients.claim()));
 });
 
 self.addEventListener('fetch', (event) => {

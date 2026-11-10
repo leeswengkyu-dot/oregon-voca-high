@@ -28,11 +28,11 @@ async function rpc(fn, args) {
 const cleanMsg = (m) => (m || '오류가 발생했어요').replace(/^.*?:\s(?=[가-힣])/, '');
 
 // ---------------- 체험 모드(로컬) ----------------
-const LDB = 'ojv_local_db';
-const PENDING = 'ojv_pending_results';
+const LDB = 'ovh_local_db';
+const PENDING = 'ovh_pending_results';
 function ldb() {
   return store.get(LDB, {
-    classes: [{ id: 1, name: '새싹반' }, { id: 2, name: '줄기반' }, { id: 3, name: '나무반' }],
+    classes: [{ id: 1, name: '예비고1반' }, { id: 2, name: '고1반' }, { id: 3, name: '고2반' }, { id: 4, name: '고3반' }],
     students: [], activity: [], teacherPw: 'oregon1234', seq: 4,
   });
 }
@@ -152,32 +152,32 @@ const remote = {
   },
   async teacherLogin(email,password){const {error}=await sb.auth.signInWithPassword({email:email.trim(),password});if(error)throw new Error('선생님 이메일과 비밀번호를 확인해 주세요');return 'authenticated';},
   async teacherLogout(){await sb.auth.signOut();},
-  checkpoint:(sid,token,topic,part,index,complete)=>rpc('ojv_save_checkpoint',{p_sid:sid,p_token:token,p_topic:topic,p_part:part,p_index:index,p_complete:complete}),
-  teacherVoiceConsent:(pw,sid,value)=>rpc('ojv_teacher_voice_consent',{p_pw:pw,p_sid:sid,p_value:value}),
-  listClasses: () => rpc('ojv_list_classes', {}),
-  async enter(classId,name,pin){await sb.auth.signOut();return rpc('ojv_student_enter',{p_class_id:classId,p_name:name,p_pin:pin});},
-  state: (sid, token) => rpc('ojv_student_state', { p_sid: sid, p_token: token }),
-  saveResult: (sid, token, r) => rpc('ojv_save_result_v2', {
+  checkpoint:(sid,token,topic,part,index,complete)=>rpc('ovh_save_checkpoint',{p_sid:sid,p_token:token,p_topic:topic,p_part:part,p_index:index,p_complete:complete}),
+  teacherVoiceConsent:(pw,sid,value)=>rpc('ovh_teacher_voice_consent',{p_pw:pw,p_sid:sid,p_value:value}),
+  listClasses: () => rpc('ovh_list_classes', {}),
+  async enter(classId,name,pin){await sb.auth.signOut();return rpc('ovh_student_enter',{p_class_id:classId,p_name:name,p_pin:pin});},
+  state: (sid, token) => rpc('ovh_student_state', { p_sid: sid, p_token: token }),
+  saveResult: (sid, token, r) => rpc('ovh_save_result_v2', {
     p_request_id:r.requestId,
     p_sid: sid, p_token: token, p_kind: r.kind, p_topic: r.topic || null, p_score: r.score, p_total: r.total,
     p_acorns: r.acorns, p_words: r.words || [], p_badge: r.badge || null,
   }),
-  weeklyTop: (sid, token) => rpc('ojv_class_weekly_top', { p_sid: sid, p_token: token }),
-  teacherOverview: (pw) => rpc('ojv_teacher_overview', { p_pw: pw }),
-  teacherAddClass: (pw, name) => rpc('ojv_teacher_add_class', { p_pw: pw, p_name: name }),
-  teacherRenameClass: (pw, id, name) => rpc('ojv_teacher_rename_class', { p_pw: pw, p_class_id: id, p_name: name }),
-  teacherDeleteClass: (pw, id) => rpc('ojv_teacher_delete_class', { p_pw: pw, p_class_id: id }),
-  teacherAddStudent: (pw, classId, name, pin) => rpc('ojv_teacher_add_student', { p_pw: pw, p_class_id: classId, p_name: name, p_pin: pin }),
-  teacherResetPin: (pw, sid, pin) => rpc('ojv_teacher_reset_pin', { p_pw: pw, p_sid: sid, p_pin: pin }),
-  teacherMoveStudent: (pw, sid, classId) => rpc('ojv_teacher_move_student', { p_pw: pw, p_sid: sid, p_class_id: classId }),
-  teacherDeleteStudent: (pw, sid) => rpc('ojv_teacher_delete_student', { p_pw: pw, p_sid: sid }),
-  studentAssignments: (sid, token) => rpc('ojv_student_assignments', { p_sid: sid, p_token: token }),
-  teacherSetAssignment: (pw,classId,unitId,dueAt) => rpc('ojv_teacher_set_assignment',{p_pw:pw,p_class_id:classId,p_unit_id:unitId,p_due_at:dueAt||null}),
-  adminImportContent: (fileName,payload,publish=false) => rpc('ojv_admin_import_content',{p_file_name:fileName,p_payload:payload,p_publish:publish}),
-  adminContentVersions: () => rpc('ojv_admin_content_versions',{}),
-  adminRollbackContent: (version) => rpc('ojv_admin_rollback_content',{p_version:version}),
+  weeklyTop: (sid, token) => rpc('ovh_class_weekly_top', { p_sid: sid, p_token: token }),
+  teacherOverview: (pw) => rpc('ovh_teacher_overview', { p_pw: pw }),
+  teacherAddClass: (pw, name) => rpc('ovh_teacher_add_class', { p_pw: pw, p_name: name }),
+  teacherRenameClass: (pw, id, name) => rpc('ovh_teacher_rename_class', { p_pw: pw, p_class_id: id, p_name: name }),
+  teacherDeleteClass: (pw, id) => rpc('ovh_teacher_delete_class', { p_pw: pw, p_class_id: id }),
+  teacherAddStudent: (pw, classId, name, pin) => rpc('ovh_teacher_add_student', { p_pw: pw, p_class_id: classId, p_name: name, p_pin: pin }),
+  teacherResetPin: (pw, sid, pin) => rpc('ovh_teacher_reset_pin', { p_pw: pw, p_sid: sid, p_pin: pin }),
+  teacherMoveStudent: (pw, sid, classId) => rpc('ovh_teacher_move_student', { p_pw: pw, p_sid: sid, p_class_id: classId }),
+  teacherDeleteStudent: (pw, sid) => rpc('ovh_teacher_delete_student', { p_pw: pw, p_sid: sid }),
+  studentAssignments: (sid, token) => rpc('ovh_student_assignments', { p_sid: sid, p_token: token }),
+  teacherSetAssignment: (pw,classId,unitId,dueAt) => rpc('ovh_teacher_set_assignment',{p_pw:pw,p_class_id:classId,p_unit_id:unitId,p_due_at:dueAt||null}),
+  adminImportContent: (fileName,payload,publish=false) => rpc('ovh_admin_import_content',{p_file_name:fileName,p_payload:payload,p_publish:publish}),
+  adminContentVersions: () => rpc('ovh_admin_content_versions',{}),
+  adminRollbackContent: (version) => rpc('ovh_admin_rollback_content',{p_version:version}),
   async parentLogin(email,password){const {error}=await sb.auth.signInWithPassword({email:email.trim(),password});if(error)throw new Error('보호자 이메일과 비밀번호를 확인해 주세요');},
-  parentOverview: () => rpc('ojv_parent_overview',{}),
+  parentOverview: () => rpc('ovh_parent_overview',{}),
   async parentLogout(){await sb.auth.signOut();},
   async teacherSetPassword(pw,np){if(np.length<8)throw new Error('새 비밀번호는 8자 이상이어야 해요');const {error}=await sb.auth.updateUser({password:np});if(error)throw new Error('비밀번호 변경에 실패했어요. 다시 로그인해 주세요');},
 };

@@ -1,13 +1,13 @@
 {
-  "name": "보카 트레일 주니어 - 뉴오리건영어학원",
-  "short_name": "보카주니어",
+  "name": "Oregon Voca High - 뉴오리건영어학원",
+  "short_name": "Voca High",
   "start_url": "/",
   "display": "standalone",
   "scope": "/",
   "orientation": "any",
   "lang": "ko-KR",
-  "background_color": "#fffaf0",
-  "theme_color": "#0b4d2c",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/logo.png", "sizes": "512x512", "type": "image/png" }

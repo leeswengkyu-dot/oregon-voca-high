@@ -14,11 +14,11 @@ const $ = (sel, root = app) => root.querySelector(sel);
 const $$ = (sel, root = app) => [...root.querySelectorAll(sel)];
 
 const RANKS = [
-  { min: 0, name: '새싹 대원', icon: '🌱' },
-  { min: 50, name: '다람쥐 대원', icon: '🐿️' },
-  { min: 150, name: '사슴 대원', icon: '🦌' },
-  { min: 300, name: '부엉이 대원', icon: '🦉' },
-  { min: 500, name: '숲지기', icon: '🌲' },
+  { min: 0, name: 'Starter', icon: '🚀' },
+  { min: 50, name: 'Explorer', icon: '📘' },
+  { min: 150, name: 'Challenger', icon: '🔥' },
+  { min: 300, name: 'Achiever', icon: '🏅' },
+  { min: 500, name: 'Master', icon: '🏆' },
 ];
 const rankOf = (n) => RANKS.filter((r) => n >= r.min).pop();
 const nextRank = (n) => RANKS.find((r) => r.min > n);
@@ -122,7 +122,7 @@ function beep(good) {
 }
 function confetti() {
   const box = document.createElement('div'); box.className = 'confetti';
-  const items = ['🌰', '⭐', '🍃', '🎉', '✨'];
+  const items = ['⭐', '⭐', '🍃', '🎉', '✨'];
   for (let i = 0; i < 26; i++) {
     const s = document.createElement('span'); s.textContent = items[i % items.length];
     s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * 0.5 + 's';
@@ -139,13 +139,13 @@ function toast(msg) {
 // ================= 상태 =================
 const state = {
   me: null,             // { id, name, class_name, acorns, badges, progress, token }
-  sound: store.get('ojv_sound', true),
-  subtitle: store.get('ojv_sub', true),
-  stage: stageById(store.get('ojv_stage', 'sprout')).id,
+  sound: store.get('ovh_sound', true),
+  subtitle: store.get('ovh_sub', true),
+  stage: stageById(store.get('ovh_stage', 'prep')).id,
   teacherPw: null,
   parentReady: false,
 };
-const session = { get: () => store.get('ojv_session', null), set: (v) => store.set('ojv_session', v), clear: () => store.del('ojv_session') };
+const session = { get: () => store.get('ovh_session', null), set: (v) => store.set('ovh_session', v), clear: () => store.del('ovh_session') };
 
 async function save(result) {
   result.requestId ||= crypto.randomUUID();const savedRoute=location.hash;
@@ -210,7 +210,7 @@ function topbar(title, back = '#/home') {
   return `<header class="topbar">
     <a class="back" href="${back}" aria-label="뒤로">←</a>
     <h1>${title}</h1>
-    <span class="acorn-pill">🌰 ${state.me ? state.me.acorns : 0}</span>
+    <span class="acorn-pill">⭐ ${state.me ? state.me.acorns : 0}</span>
   </header>`;
 }
 
@@ -218,8 +218,8 @@ function topbar(title, back = '#/home') {
 routes.login = async () => {
   app.innerHTML = `<div class="login">
     <img class="login-logo" src="/logo.png" alt="뉴오리건영어학원">
-    <h1 class="title-kid">보카 트레일 <span>주니어</span></h1>
-    <p class="sub">오리건 숲 탐험대에 입장해요! 🌲</p>
+    <h1 class="title-kid">Oregon Voca <span>High</span></h1>
+    <p class="sub">예비고1부터 고3까지, 오늘의 단어 학습을 시작하세요.</p>
     <form class="card form" id="f">
       <label>우리 반</label>
       <div class="class-pick" id="classes"><span class="muted">불러오는 중…</span></div>
@@ -227,15 +227,14 @@ routes.login = async () => {
       <input id="nm" maxlength="20" autocomplete="off" placeholder="예) 김하늘" required>
       <label for="pin">비밀번호 (숫자 4자리)</label>
       <input id="pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" type="password" placeholder="••••" required>
-      <p class="hint">처음이면 이름과 비밀번호를 정하면 바로 대원이 돼요.</p>
+      <p class="hint">처음이면 이름과 비밀번호를 정해 바로 학습할 수 있어요.</p>
       <p class="err" id="err"></p>
-      <button class="btn big primary" type="submit">탐험 시작! 🚀</button>
+      <button class="btn big primary" type="submit">학습 시작 🚀</button>
     </form>
     <a class="teacher-link" href="#/teacher">👩‍🏫 선생님 화면</a>
-    ${isOnline ? '<a class="teacher-link" href="#/parent">👨‍👩‍👧 보호자 화면</a>' : ''}
     ${isOnline ? '' : '<p class="demo">체험 모드: 기록이 이 기기에만 저장돼요</p>'}
   </div>`;
-  let classId = store.get('ojv_last_class', null);
+  let classId = store.get('ovh_last_class', null);
   try {
     const classes = await api.listClasses();
     const box = $('#classes');
@@ -254,7 +253,7 @@ routes.login = async () => {
     const btn = $('#f button[type=submit]'); btn.disabled = true;
     try {
       const me = await api.enter(classId, $('#nm').value, $('#pin').value);
-      state.me = me; session.set({ id: me.id, token: me.token }); store.set('ojv_last_class', classId);
+      state.me = me; session.set({ id: me.id, token: me.token }); store.set('ovh_last_class', classId);
       speak('Welcome, explorer!');
       go('#/home');
     } catch (ex) { err.textContent = ex.message; btn.disabled = false; }
@@ -268,7 +267,7 @@ routes.parent = async () => {
   }
   try {
     const children=await api.parentOverview();
-    app.innerHTML=`<header class="topbar t"><a class="back" href="#/home">←</a><h1>👨‍👩‍👧 보호자 화면</h1><button class="btn ghost small" id="pout">나가기</button></header><div class="page wide"><p class="muted">개인정보는 별명·반과 학습 요약만 표시합니다.</p><div class="two">${children.map(c=>`<div class="card"><h2>${esc(c.name)}</h2><p>${esc(c.class_name)}</p><div class="stat-row"><div class="stat"><b>${c.week_sessions}</b><small>7일 학습</small></div><div class="stat"><b>${c.learned}</b><small>익힌 단어</small></div><div class="stat"><b>${c.weak_words}</b><small>취약단어</small></div></div><p>🌰 도토리 ${c.acorns}개</p></div>`).join('')||'<div class="card"><p class="muted">연결된 학생이 없어요. 학원 관리자에게 보호자 연결을 요청해 주세요.</p></div>'}</div></div>`;
+    app.innerHTML=`<header class="topbar t"><a class="back" href="#/home">←</a><h1>👨‍👩‍👧 보호자 화면</h1><button class="btn ghost small" id="pout">나가기</button></header><div class="page wide"><p class="muted">개인정보는 별명·반과 학습 요약만 표시합니다.</p><div class="two">${children.map(c=>`<div class="card"><h2>${esc(c.name)}</h2><p>${esc(c.class_name)}</p><div class="stat-row"><div class="stat"><b>${c.week_sessions}</b><small>7일 학습</small></div><div class="stat"><b>${c.learned}</b><small>익힌 단어</small></div><div class="stat"><b>${c.weak_words}</b><small>취약단어</small></div></div><p>⭐ 포인트 ${c.acorns}개</p></div>`).join('')||'<div class="card"><p class="muted">연결된 학생이 없어요. 학원 관리자에게 보호자 연결을 요청해 주세요.</p></div>'}</div></div>`;
     $('#pout').onclick=async()=>{await api.parentLogout();state.parentReady=false;go('#/home');};
   } catch(ex){state.parentReady=false;toast(ex.message);render();}
 };
@@ -287,28 +286,28 @@ routes.home = async () => {
     <div class="hero-row">
       <img src="/emblem.png" alt="" class="emblem">
       <div class="hero-txt">
-        <div class="academy">NEW OREGON 초등부</div>
-        <div class="hello">${r.icon} <b>${esc(me.name)}</b> 대원님, 안녕!</div>
+        <div class="academy">NEW OREGON 고등부</div>
+        <div class="hello">${r.icon} <b>${esc(me.name)}</b> 학생, 반가워요!</div>
         <div class="muted small">${esc(me.class_name)} · ${r.name}</div>
       </div>
       <button class="icon-btn" id="menu" aria-label="설정">⚙️</button>
     </div>
     <div class="rank-bar"><div style="width:${pct}%"></div></div>
-    <div class="rank-meta"><span>🌰 도토리 ${me.acorns}개</span><span>${nx ? `${nx.icon} ${nx.name}까지 ${nx.min - me.acorns}개` : '최고 계급 달성! 🏆'}</span></div>
+    <div class="rank-meta"><span>⭐ 포인트 ${me.acorns}개</span><span>${nx ? `${nx.icon} ${nx.name}까지 ${nx.min - me.acorns}개` : '최고 계급 달성! 🏆'}</span></div>
   </header>
 
   <nav class="stage-tabs">
-    ${STAGES.map((s) => `<button class="stage-tab ${s.id === state.stage ? 'on' : ''}" data-s="${s.id}"><span>LEVEL ${s.level} · ${s.icon} ${s.name}</span><small>${s.grade} · ${s.target}단어</small></button>`).join('')}
+    ${STAGES.map((s) => `<button class="stage-tab ${s.id === state.stage ? 'on' : ''}" data-s="${s.id}"><span>${s.label} · ${s.icon} ${s.name}</span><small>${s.grade} · ${s.target}단어</small></button>`).join('')}
   </nav>
 
   <section class="level-summary" aria-label="선택한 레벨 학습 현황">
-    <div><span class="level-kicker">LEVEL ${stage.level} · ${stage.grade}</span><h2>${stage.description}</h2><p>${stage.skills}</p></div>
-    <div class="level-counter"><strong>${lp.learned}<small> / ${lp.total}</small></strong><span>학습한 단어 · ${stage.units}개 마을</span></div>
+    <div><span class="level-kicker">${stage.label} · ${stage.grade}</span><h2>${stage.description}</h2><p>${stage.skills}</p></div>
+    <div class="level-counter"><strong>${lp.learned}<small> / ${lp.total}</small></strong><span>학습한 단어 · ${stage.units}개 단원</span></div>
     <div class="level-track" role="progressbar" aria-label="레벨 진도" aria-valuenow="${lp.learned}" aria-valuemin="0" aria-valuemax="${lp.total}"><i style="width:${lp.learned/lp.total*100}%"></i></div>
   </section>
   <section>
     ${assignments.length ? `<div class="card assignment-card"><h2 class="sec">📌 선생님 과제</h2>${assignments.slice(0, 5).map((a) => `<a class="class-row" href="#/topic/${encodeURIComponent(a.unit_id)}"><b>${esc(a.title_ko || a.unit_id)}</b><span>${a.due_at ? new Date(a.due_at).toLocaleDateString('ko-KR') + '까지' : '기한 없음'} →</span></a>`).join('')}</div>` : ''}
-    <h2 class="sec">${stage.icon} ${stage.name} 마을 지도</h2>
+    <h2 class="sec">${stage.icon} ${stage.name} 단원 목록</h2>
     <div class="trail">
       ${topics.map((t, i) => {
         const n = learnedIn(t); const badge = me.badges.includes('topic:' + t.id);
@@ -322,34 +321,34 @@ routes.home = async () => {
     </div>
   </section>
 
-  <section>
+  ${SCENES.length ? `<section>
     <h2 class="sec">🎬 상황 시뮬레이션</h2>
     <div class="scene-grid">
       ${SCENES.filter((s) => s.stage === state.stage).map((s) => `<a class="scene-card" href="#/scene/${s.id}" style="background:${s.bg}">
         <span class="s-icon">${s.icon}</span><b>${s.name}</b>
-        <small>LEVEL ${s.level} · 📍 ${esc(s.location)} ${me.badges.includes('scene:' + s.id) ? '· 🏅' : ''}</small><small>🎯 ${esc(s.goal)}</small></a>`).join('')}
+        <small>${s.label} · 📍 ${esc(s.location)} ${me.badges.includes('scene:' + s.id) ? '· 🏅' : ''}</small><small>🎯 ${esc(s.goal)}</small></a>`).join('')}
     </div>
-  </section>
+  </section>` : ''}
 
   <section class="two">
     <div class="card">
       <h3>🌳 이번 주 우리 반 공동 목표</h3>
-      <div id="top5"><p class="muted">도토리를 모으는 중…</p></div>
+      <div id="top5"><p class="muted">포인트를 모으는 중…</p></div>
     </div>
     <div class="card">
       <h3>🏅 내 배지 (${me.badges.length})</h3>
-      <div class="badges">${me.badges.length ? me.badges.map(badgeChip).join('') : '<span class="muted">레벨별 마을 퀴즈에서 80% 이상 맞히면 배지를 받아요!</span>'}</div>
+      <div class="badges">${me.badges.length ? me.badges.map(badgeChip).join('') : '<span class="muted">레벨별 단원 퀴즈에서 80% 이상 맞히면 배지를 받아요!</span>'}</div>
     </div>
   </section>
   <footer class="foot">뉴오리건영어학원 · New Oregon English Academy</footer>`;
 
-  $$('.stage-tab').forEach((b) => b.onclick = () => { state.stage = b.dataset.s; store.set('ojv_stage', state.stage); render(); });
+  $$('.stage-tab').forEach((b) => b.onclick = () => { state.stage = b.dataset.s; store.set('ovh_stage', state.stage); render(); });
   $('#menu').onclick = settingsSheet;
   try {
     const top = await api.weeklyTop(me.id, me.token);
     if(!$('#top5'))return;
     const total = top.reduce((sum, item) => sum + Number(item.acorns || 0), 0); const goal = Math.max(100, Math.ceil((total + 1) / 100) * 100);
-    $('#top5').innerHTML = `<p><b>🌰 ${total} / ${goal}</b></p><div class="level-track"><i style="width:${Math.min(100, total / goal * 100)}%"></i></div><p class="muted small">친구 이름과 순위 없이, 반 친구 모두 함께 키우는 숲이에요.</p>`;
+    $('#top5').innerHTML = `<p><b>⭐ ${total} / ${goal}</b></p><div class="level-track"><i style="width:${Math.min(100, total / goal * 100)}%"></i></div><p class="muted small">친구 이름과 순위 없이, 반 친구 모두 함께 키우는 목표예요.</p>`;
   } catch { if(!$('#top5'))return;$('#top5').innerHTML = '<li class="muted">순위를 불러오지 못했어요</li>'; }
 };
 function badgeChip(b) {
@@ -372,8 +371,8 @@ function settingsSheet() {
   document.body.appendChild(d);
   const close = () => d.remove();
   d.onclick = (e) => { if (e.target === d) close(); };
-  d.querySelector('#snd').onchange = (e) => { state.sound = e.target.checked; store.set('ojv_sound', state.sound); };
-  d.querySelector('#sub').onchange = (e) => { state.subtitle = e.target.checked; store.set('ojv_sub', state.subtitle); };
+  d.querySelector('#snd').onchange = (e) => { state.sound = e.target.checked; store.set('ovh_sound', state.sound); };
+  d.querySelector('#sub').onchange = (e) => { state.subtitle = e.target.checked; store.set('ovh_sub', state.subtitle); };
   d.querySelector('#test').onclick = () => {
     speak('Hello! Welcome to New Oregon English Academy.');
     setTimeout(() => { d.querySelector('#vstat').innerHTML = voiceHelp(true); }, 400);
@@ -392,15 +391,15 @@ routes.topic = (id) => {
   <div class="page">
     <div class="modes">
       <a class="mode m1" href="#/learn/${t.id}/0"><span>📖</span><b>단어 카드</b><small>5개씩, 가볍게 만나요</small></a>
-      <a class="mode m2" href="#/match/${t.id}"><span>🃏</span><b>짝 맞추기</b><small>그림과 단어 짝 찾기</small></a>
-      <a class="mode m3" href="#/spell/${t.id}"><span>🎈</span><b>스펠링 풍선</b><small>철자 순서대로 터뜨리기</small></a>
+      <a class="mode m2" href="#/match/${t.id}"><span>🃏</span><b>짝 맞추기</b><small>영단어와 뜻 연결하기</small></a>
+      <a class="mode m3" href="#/spell/${t.id}"><span>⌨️</span><b>스펠링 연습</b><small>철자를 순서대로 완성하기</small></a>
       ${hasSTT ? `<a class="mode m4" href="#/speak/${t.id}"><span>🎤</span><b>말하기 도전</b><small>소리 내어 읽어 봐요</small></a>` : ''}
-      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span>🧱</span><b>${t.stage==='sprout'?'첫 문장 블록':t.stage==='stem'?'생활 문장 블록':'문장 구조 탐험'}</b><small>${t.stage==='tree'?'부사·전치사·접속사를 문장 속에서 배워요':'단어를 이어 문장을 만들어요'}</small></a>
+      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span>🧱</span><b>문장 구조 학습</b><small>문맥 속에서 단어가 쓰이는 방식을 익혀요</small></a>
       ${unitScene ? `<a class="mode m2 wide" href="#/scene/${unitScene.id}"><span>🎬</span><b>Unit 상황 미션</b><small>LEVEL ${unitScene.level} · ${esc(unitScene.name)}</small></a>` : ''}
-      <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>마을 퀴즈</b><small>${badge ? '배지를 모았어요! 다시 도전할 수 있어요' : `${stageById(t.stage).quizSize}문제 중 ${passingScore(stageById(t.stage).quizSize)}개 이상 맞히면 배지!`}</small></a>
+      <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>단원 퀴즈</b><small>${badge ? '배지를 모았어요! 다시 도전할 수 있어요' : `${stageById(t.stage).quizSize}문제 중 ${passingScore(stageById(t.stage).quizSize)}개 이상 맞히면 배지!`}</small></a>
     </div>
-    <section class="lesson-parts"><h2 class="sec">🌱 오늘은 다섯 단어만!</h2><div class="part-grid">${Array.from({length:4},(_,part)=>{const cp=state.me.checkpoints?.[t.id+':'+part];return `<a href="#/learn/${t.id}/${part}" class="part-card ${cp?.complete?'complete':''}"><b>${cp?.complete?'✓':'📖'} 탐험 ${part+1}</b><small>${t.words.slice(part*5,part*5+5).map(w=>esc(w.en)).join(' · ')}</small><span>${cp?.complete?'다시 만나기':cp?.index?'이어서 학습':'5개 단어 만나기'} →</span></a>`;}).join('')}</div></section>
-    <h2 class="sec">이 마을 단어 (${learnedIn(t)}/${t.words.length} 학습)</h2>
+    <section class="lesson-parts"><h2 class="sec">🌱 5개씩 집중 학습</h2><div class="part-grid">${Array.from({length:4},(_,part)=>{const cp=state.me.checkpoints?.[t.id+':'+part];return `<a href="#/learn/${t.id}/${part}" class="part-card ${cp?.complete?'complete':''}"><b>${cp?.complete?'✓':'📖'} 학습 ${part+1}</b><small>${t.words.slice(part*5,part*5+5).map(w=>esc(w.en)).join(' · ')}</small><span>${cp?.complete?'다시 만나기':cp?.index?'이어서 학습':'5개 단어 만나기'} →</span></a>`;}).join('')}</div></section>
+    <h2 class="sec">이 단원 단어 (${learnedIn(t)}/${t.words.length} 학습)</h2>
     <div class="word-grid">
       ${t.words.map((w) => { const p = wordProgress(state.me.progress, w);
         return `<button class="word-tile ${p[0] > 0 ? 'done' : ''}" data-en="${esc(w.en)}"><span class="pic">${w.pic}</span><b>${esc(w.en)}</b><small>${esc(w.ko)}</small></button>`; }).join('')}
@@ -415,10 +414,10 @@ routes.learn = (id, partValue='0') => {
   const words=t.words.slice(part*5,part*5+5),key=t.id+':'+part;
   const cp=state.me.checkpoints?.[key];let i=cp&&!cp.complete?Math.min(4,cp.index):0,flipped=false;const completionId=crypto.randomUUID();
   const draw=()=>{const w=words[i];
-    app.innerHTML=`${topbar('📖 다섯 단어 탐험 '+(part+1),'#/topic/'+t.id)}<div class="page center">
-      <p class="muted small">LEVEL ${stageById(t.stage).level} · ${t.name} · ${i+1} / ${words.length}</p>
+    app.innerHTML=`${topbar('📖 다섯 단어 학습 '+(part+1),'#/topic/'+t.id)}<div class="page center">
+      <p class="muted small">${stageById(t.stage).label} · ${t.name} · ${i+1} / ${words.length}</p>
       <div class="dots">${words.map((_,k)=>`<i class="${k===i?'on':k<i?'done':''}"></i>`).join('')}</div>
-      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="pic xl">${w.pic}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="pic">${w.pic}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span>`:''}</span></button>
+      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="pic xl">${w.pic}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="pic">${w.pic}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span><span class="ex second">${esc(w.ex2)}</span><span class="ex-ko">${esc(w.ex2Ko)}</span>`:''}</span></button>
       <div class="row-btns"><button class="btn" id="say">🔊 단어</button><button class="btn" id="slow">🐢 천천히</button><button class="btn" id="sent">💬 예문</button></div>
       <div class="row-btns"><button class="btn ghost" id="prev" ${i===0?'disabled':''}>◀ 이전</button><button class="btn primary" id="next">${i===words.length-1?'다 봤어요! ✅':'다음 ▶'}</button></div><p class="err" id="save-error" role="alert"></p><div id="vhelp"></div></div>`;
     speak(w.en);$('#card').onclick=()=>{flipped=!flipped;$('#card').classList.toggle('flipped',flipped);if(flipped)speak(w.ex);};
@@ -441,7 +440,7 @@ function finish({ title, emoji, lines = [], acorns = 0, stars = 0, back, again, 
     <h2>${title}</h2>
     ${stars ? `<div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>` : ''}
     ${lines.map((l) => `<p>${l}</p>`).join('')}
-    <p class="earn">🌰 도토리 +${acorns}</p>
+    <p class="earn">⭐ 포인트 +${acorns}</p>
     ${badge ? `<p class="new-badge">🏅 새 배지: ${badge}</p>` : ''}
     <div class="row-btns">
       ${again ? `<a class="btn" href="${again}">🔁 다시 하기</a>` : ''}
@@ -450,14 +449,14 @@ function finish({ title, emoji, lines = [], acorns = 0, stars = 0, back, again, 
   </div>`;
 }
 
-// ---- 마을 퀴즈 (듣고 고르기 + 보고 고르기) ----
+// ---- 단원 퀴즈 (듣고 고르기 + 보고 고르기) ----
 routes.quiz = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
   const qs = quizForTopic(t); const threshold=passingScore(qs.length);
   let i = 0; let score = 0; const log = [];
   const draw = () => {
     const q = qs[i];
-    app.innerHTML = `${topbar('🎯 마을 퀴즈', '#/topic/' + t.id)}
+    app.innerHTML = `${topbar('🎯 단원 퀴즈', '#/topic/' + t.id)}
     <div class="page center">
       <div class="qhead"><span>${i + 1} / ${qs.length}</span><span>✅ ${score}</span></div>
       <div class="progress"><i style="width:${(i / qs.length) * 100}%"></i></div>
@@ -540,7 +539,7 @@ routes.spell = (id) => {
     const letters = shuffle(w.en.split('').map((ch, k) => ({ ch, k })));
     app.innerHTML = `${topbar('🎈 스펠링 풍선', '#/topic/' + t.id)}
     <div class="page center">
-      <div class="qhead"><span>${i + 1} / ${words.length}</span><span>🌰 ${total}</span></div>
+      <div class="qhead"><span>${i + 1} / ${words.length}</span><span>⭐ ${total}</span></div>
       <div class="pic xl">${w.pic}</div>
       <p class="muted">${esc(w.ko)} <button class="mini" id="play">🔊</button></p>
       <div class="slots">${w.en.split('').map(() => '<span class="slot"></span>').join('')}</div>
@@ -581,7 +580,7 @@ routes.speak = (id) => {
     const w = words[i]; let tries = 0;let advanced=false;const speakingRoute=location.hash;
     app.innerHTML = `${topbar('🎤 말하기 도전', '#/topic/' + t.id)}
     <div class="page center">
-      <div class="qhead"><span>${i + 1} / ${words.length}</span><span>🌰 ${total}</span></div>
+      <div class="qhead"><span>${i + 1} / ${words.length}</span><span>⭐ ${total}</span></div>
       <div class="pic xl">${w.pic}</div>
       <b class="word">${esc(w.en)}</b><p class="muted">${esc(w.ko)}</p>
       <button class="btn" id="listen">🔊 먼저 들어 보기</button>
@@ -697,12 +696,12 @@ routes.scene = (id) => {
 // ---- 레벨별 문장 블록: 반복 단어도 블록별 식별자로 구분 ----
 routes.sentence = (id) => {
   const t=topicById(id);if(!t)return go('#/home');
-  const words=sample(t.words,t.stage==='sprout'?3:t.stage==='stem'?4:5);let i=0,score=0;const log=[];
+  const words=sample(t.words,t.stage==='prep'?3:5);let i=0,score=0;const log=[];
   const draw=()=>{const w=words[i],blocks=shuffle(w.ex.split(/\s+/).map((text,index)=>({text,index})));let selected=[],checked=false;
-    app.innerHTML=`${topbar(t.stage==='tree'?'🧱 문장 구조 탐험':'🧱 문장 블록 놀이','#/topic/'+id)}<div class="page center"><p class="qhead">${i+1} / ${words.length} · LEVEL ${stageById(t.stage).level}</p><p class="ask">${esc(w.exKo)}</p><p class="muted">블록을 순서대로 눌러 문장을 만들어요.</p><div class="sentence-answer" id="sentence-answer" aria-label="내가 만든 문장"></div><div class="sentence-pool" id="sentence-pool"></div><p id="sentence-feedback" role="status"></p><div class="row-btns"><button class="btn ghost" id="sentence-hint">🔊 문장 듣기</button><button class="btn primary" id="sentence-check">문장 확인</button></div></div>`;
+    app.innerHTML=`${topbar('🧱 문장 구조 학습','#/topic/'+id)}<div class="page center"><p class="qhead">${i+1} / ${words.length} · ${stageById(t.stage).label}</p><p class="ask">${esc(w.exKo)}</p><p class="muted">블록을 순서대로 눌러 문장을 만들어요.</p><div class="sentence-answer" id="sentence-answer" aria-label="내가 만든 문장"></div><div class="sentence-pool" id="sentence-pool"></div><p id="sentence-feedback" role="status"></p><div class="row-btns"><button class="btn ghost" id="sentence-hint">🔊 문장 듣기</button><button class="btn primary" id="sentence-check">문장 확인</button></div></div>`;
     const repaint=()=>{const tray=$('#sentence-answer'),pool=$('#sentence-pool');tray.innerHTML=selected.map(k=>`<button class="sentence-block chosen" data-k="${k}" ${checked?'disabled':''}>${esc(blocks.find(b=>b.index===k).text)}</button>`).join('')||'<span class="muted">여기에 문장이 만들어져요</span>';pool.innerHTML=blocks.map(b=>`<button class="sentence-block ${selected.includes(b.index)?'used':''}" data-k="${b.index}" ${checked||selected.includes(b.index)?'disabled':''}>${esc(b.text)}</button>`).join('');pool.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked||b.disabled)return;selected.push(Number(b.dataset.k));repaint();};tray.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked)return;selected=selected.filter(k=>k!==Number(b.dataset.k));repaint();};};
     $('#sentence-hint').onclick=()=>speak(w.ex,.7);
-    $('#sentence-check').onclick=async()=>{if(checked){i++;if(i<words.length)return draw();const good=score;try{await save({kind:'sentence',topic:id,score:good,total:words.length,acorns:good*2,words:log});finish({title:'문장 탐험 완료!',emoji:'🧱',lines:[`${words.length}개 중 ${good}개 문장을 첫 도전에 완성했어요.`],acorns:good*2,back:'#/topic/'+id,again:'#/sentence/'+id});}catch(err){i--;toast(err.message);}return;}
+    $('#sentence-check').onclick=async()=>{if(checked){i++;if(i<words.length)return draw();const good=score;try{await save({kind:'sentence',topic:id,score:good,total:words.length,acorns:good*2,words:log});finish({title:'문장 학습 완료!',emoji:'🧱',lines:[`${words.length}개 중 ${good}개 문장을 첫 도전에 완성했어요.`],acorns:good*2,back:'#/topic/'+id,again:'#/sentence/'+id});}catch(err){i--;toast(err.message);}return;}
       if(selected.length!==blocks.length){toast('모든 블록을 사용해 볼까요?');return;}
       const answer=selected.map(k=>blocks.find(b=>b.index===k).text).join(' '),ok=normalizeSentence(answer)===normalizeSentence(w.ex);log.push({id:w.id,ok});if(ok)score++;checked=true;
       $('#sentence-feedback').innerHTML=`<b class="${ok?'good':'muted'}">${ok?'🌟 멋지게 연결했어요!':'🌱 이 문장을 함께 읽어 봐요.'}</b><br>${esc(w.ex)}`;
@@ -735,7 +734,7 @@ routes.teacher = async () => {
   const pw = state.teacherPw;
   let data;
   try { data = await api.teacherOverview(pw); } catch (e) { state.teacherPw = null; toast(e.message); return render(); }
-  const tab = store.get('ojv_ttab', 'students'); let cls = store.get('ojv_tcls', 'all');
+  const tab = store.get('ovh_ttab', 'students'); let cls = store.get('ovh_tcls', 'all');
   const cname = (id) => (data.classes.find((c) => c.id === id) || {}).name || '-';
   const fmt = (d) => { const x = new Date(d); return `${x.getMonth() + 1}/${x.getDate()} ${String(x.getHours()).padStart(2, '0')}:${String(x.getMinutes()).padStart(2, '0')}`; };
   const studs = data.students.filter((s) => cls === 'all' || s.class_id === Number(cls));
@@ -765,10 +764,10 @@ routes.teacher = async () => {
       <div class="stat"><b>${studs.length ? Math.round(studs.reduce((t, s) => t + Number(s.learned), 0) / studs.length) : 0}</b><small>평균 익힌 단어</small></div>
     </div>
     <div class="table-wrap"><table class="tbl">
-      <thead><tr><th>반</th><th>이름</th><th>도토리</th><th>7일 도토리</th><th>7일 학습</th><th>익힌 단어</th><th>배지</th><th>말하기 동의</th><th>최근 접속</th><th></th></tr></thead>
+      <thead><tr><th>반</th><th>이름</th><th>포인트</th><th>7일 포인트</th><th>7일 학습</th><th>익힌 단어</th><th>배지</th><th>말하기 동의</th><th>최근 접속</th><th></th></tr></thead>
       <tbody>${studs.map((s) => `<tr>
         <td>${esc(cname(s.class_id))}</td><td><b>${esc(s.name)}</b></td><td>${s.acorns}</td><td>${s.week_acorns}</td><td>${s.week_sessions}회</td>
-        <td>${s.learned}/${ALL_WORDS.length}<br><small>${STAGES.map(stage=>`L${stage.level} ${s.learned_by_stage?.[stage.id]??0}/${stage.target}`).join(' · ')}</small></td><td>${(s.badges || []).length}</td><td><button class="mini" data-act="consent" data-id="${s.id}" data-value="${!s.voice_consent}">${s.voice_consent?'확인됨 ✓':'미확인'}</button></td><td>${fmt(s.last_active)}</td>
+        <td>${s.learned}/${ALL_WORDS.length}<br><small>${STAGES.map(stage=>`${stage.label} ${s.learned_by_stage?.[stage.id]??0}/${stage.target}`).join(' · ')}</small></td><td>${(s.badges || []).length}</td><td><button class="mini" data-act="consent" data-id="${s.id}" data-value="${!s.voice_consent}">${s.voice_consent?'확인됨 ✓':'미확인'}</button></td><td>${fmt(s.last_active)}</td>
         <td class="acts"><button class="mini" data-act="pin" data-id="${s.id}" title="비밀번호 재설정">🔑</button>
           <button class="mini" data-act="move" data-id="${s.id}" title="반 이동">↔️</button>
           <button class="mini" data-act="del" data-id="${s.id}" data-n="${esc(s.name)}" title="삭제">🗑️</button></td></tr>`).join('') || '<tr><td colspan="10" class="muted">아직 학생이 없어요. 학생이 첫 로그인하면 자동으로 등록돼요.</td></tr>'}</tbody>
@@ -805,7 +804,7 @@ routes.teacher = async () => {
   } else if (tab === 'assignments') {
     body.innerHTML = `<form class="card form" id="assignment-form"><b>반 과제 배정</b>
       <label>반</label><select id="as-class">${data.classes.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
-      <label>Unit</label><select id="as-unit">${TOPICS.map((t) => `<option value="${esc(t.id)}">LEVEL ${stageById(t.stage).level} · ${esc(t.name)} (${esc(t.en)})</option>`).join('')}</select>
+      <label>Unit</label><select id="as-unit">${TOPICS.map((t) => `<option value="${esc(t.id)}">${stageById(t.stage).label} · ${esc(t.name)} (${esc(t.en)})</option>`).join('')}</select>
       <label>마감일</label><input id="as-due" type="date"><button class="btn primary">과제 저장</button></form>`;
     $('#assignment-form').onsubmit = async (e) => { e.preventDefault(); const due=$('#as-due').value ? new Date($('#as-due').value+'T23:59:59+09:00').toISOString() : null; try { await api.teacherSetAssignment(pw,Number($('#as-class').value),$('#as-unit').value,due);toast('과제를 저장했어요'); } catch(ex){toast(ex.message);} };
   } else if (tab === 'content') {
@@ -838,15 +837,15 @@ routes.teacher = async () => {
       <input id="np" type="password" placeholder="새 비밀번호 (8자 이상)" required minlength="8" autocomplete="new-password">
       <input id="np2" type="password" placeholder="새 비밀번호 확인" required autocomplete="new-password">
       <button class="btn primary">변경</button></form>
-      <div class="card"><b>앱 정보</b><p class="muted small">단어 ${ALL_WORDS.length}개 · 주제 ${TOPICS.length}개 · 상황 ${SCENES.length}개<br>저장 방식: ${isOnline ? 'Supabase 온라인 저장' : '이 기기 저장(체험 모드)'}</p></div>`;
+      <div class="card"><b>앱 정보</b><p class="muted small">학습 항목 ${ALL_WORDS.length}개 · 단원 ${TOPICS.length}개<br>저장 방식: ${isOnline ? 'Supabase 온라인 저장' : '이 기기 저장(체험 모드)'}</p></div>`;
     $('#cpw').onsubmit = async (e) => {
       e.preventDefault(); const a = $('#np').value;
       if (a !== $('#np2').value) return toast('두 비밀번호가 달라요');
       try { await api.teacherSetPassword(pw, a); state.teacherPw = a; toast('비밀번호를 바꿨어요'); } catch (ex) { toast(ex.message); }
     };
   }
-  $$('.ttabs button').forEach((b) => b.onclick = () => { store.set('ojv_ttab', b.dataset.t); render(); });
-  $$('[data-c]').forEach((b) => b.onclick = () => { store.set('ojv_tcls', b.dataset.c); render(); });
+  $$('.ttabs button').forEach((b) => b.onclick = () => { store.set('ovh_ttab', b.dataset.t); render(); });
+  $$('[data-c]').forEach((b) => b.onclick = () => { store.set('ovh_tcls', b.dataset.c); render(); });
   $('#tout').onclick = $('#tback').onclick = async () => { await api.teacherLogout(); state.teacherPw=null; go('#/home'); };
 };
 
