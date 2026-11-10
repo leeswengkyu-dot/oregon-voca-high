@@ -16,11 +16,19 @@ test('four levels contain 200, 300, 300 and 300 learning entries', () => {
     for (const topic of topics) {
       assert.equal(topic.words.length, 20);
       for (const word of topic.words) {
-        for (const key of ['en', 'ko', 'pic', 'ex', 'exKo', 'ex2', 'ex2Ko']) assert.ok(word[key]?.trim(), `${word.id} ${key}`);
+        for (const key of ['en', 'ko', 'icon', 'ex', 'exKo', 'ex2', 'ex2Ko']) assert.ok(word[key]?.trim(), `${word.id} ${key}`);
+        assert.notEqual(word.icon, '🔤');
         assert.equal(WORD_BY_ID[word.id], word);
       }
     }
   }
+});
+
+test('semantic icons replace the repeated abc placeholder', () => {
+  const prep = TOPICS.find((topic) => topic.id === 'prep-01').words;
+  assert.deepEqual(prep.slice(0, 5).map((word) => word.icon), ['🚪', '💪', '🧽', '💭', '🎓']);
+  assert.equal(ALL_WORDS.some((word) => /abc|🔤/i.test(word.icon)), false);
+  assert.ok(new Set(ALL_WORDS.map((word) => word.icon)).size >= 20);
 });
 
 test('prep list preserves the approved image order and boundaries', () => {

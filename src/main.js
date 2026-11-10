@@ -27,7 +27,6 @@ const nextRank = (n) => RANKS.find((r) => r.min > n);
 // 기기마다 음성이 늦게 로드되거나(크롬), 첫 터치 전에는 소리를 막거나(아이폰·안드로이드),
 // 취소 직후 바로 말하면 소리가 사라지는(크롬) 문제가 있어 아래처럼 보완합니다.
 const hasTTS = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-let activeRecognizer=null,recognitionTimer=null;
 let enVoice = null; let voicesChecked = false; let ttsUnlocked = false; let speakTimer = null;
 let speechFallbackTimer = null; let speechSequence = 0; let activeSpeech = null;
 function pickVoice() {
@@ -171,7 +170,7 @@ const routes = {};
 function go(hash) { if (location.hash === hash) render(); else location.hash = hash; }
 window.addEventListener('hashchange', render);
 async function render() {
-  stopSpeak();clearTimeout(recognitionTimer);if(activeRecognizer){try{activeRecognizer.abort();}catch{}activeRecognizer=null;}
+  stopSpeak();
   if (api.needsPasswordSetup?.()) return routes.setPassword();
   const [path, ...args] = (location.hash.replace(/^#\/?/, '') || 'home').split('/');
   if (path === 'teacher') return routes.teacher();
@@ -382,7 +381,6 @@ function settingsSheet() {
 }
 
 // ================= 주제(마을) =================
-const hasSTT = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 routes.topic = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
   const badge = state.me.badges.includes('topic:' + t.id);
@@ -393,8 +391,7 @@ routes.topic = (id) => {
       <a class="mode m1" href="#/learn/${t.id}/0"><span>📖</span><b>단어 카드</b><small>5개씩, 가볍게 만나요</small></a>
       <a class="mode m2" href="#/match/${t.id}"><span>🃏</span><b>짝 맞추기</b><small>영단어와 뜻 연결하기</small></a>
       <a class="mode m3" href="#/spell/${t.id}"><span>⌨️</span><b>스펠링 연습</b><small>철자를 순서대로 완성하기</small></a>
-      ${hasSTT ? `<a class="mode m4" href="#/speak/${t.id}"><span>🎤</span><b>말하기 도전</b><small>소리 내어 읽어 봐요</small></a>` : ''}
-      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span>🧱</span><b>문장 구조 학습</b><small>문맥 속에서 단어가 쓰이는 방식을 익혀요</small></a>
+      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span>📝</span><b>문장·문맥 종합학습</b><small>번역·선택·빈칸·문장 배열을 골고루 연습해요</small></a>
       ${unitScene ? `<a class="mode m2 wide" href="#/scene/${unitScene.id}"><span>🎬</span><b>Unit 상황 미션</b><small>LEVEL ${unitScene.level} · ${esc(unitScene.name)}</small></a>` : ''}
       <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>단원 퀴즈</b><small>${badge ? '배지를 모았어요! 다시 도전할 수 있어요' : `${stageById(t.stage).quizSize}문제 중 ${passingScore(stageById(t.stage).quizSize)}개 이상 맞히면 배지!`}</small></a>
     </div>
@@ -402,7 +399,7 @@ routes.topic = (id) => {
     <h2 class="sec">이 단원 단어 (${learnedIn(t)}/${t.words.length} 학습)</h2>
     <div class="word-grid">
       ${t.words.map((w) => { const p = wordProgress(state.me.progress, w);
-        return `<button class="word-tile ${p[0] > 0 ? 'done' : ''}" data-en="${esc(w.en)}"><span class="pic">${w.pic}</span><b>${esc(w.en)}</b><small>${esc(w.ko)}</small></button>`; }).join('')}
+        return `<button class="word-tile ${p[0] > 0 ? 'done' : ''}" data-en="${esc(w.en)}"><span class="meaning-icon" aria-hidden="true">${w.icon}</span><b>${esc(w.en)}</b><small>${esc(w.ko)}</small></button>`; }).join('')}
     </div>
   </div>`;
   $$('.word-tile').forEach((b) => b.onclick = () => speak(b.dataset.en));
@@ -417,7 +414,7 @@ routes.learn = (id, partValue='0') => {
     app.innerHTML=`${topbar('📖 다섯 단어 학습 '+(part+1),'#/topic/'+t.id)}<div class="page center">
       <p class="muted small">${stageById(t.stage).label} · ${t.name} · ${i+1} / ${words.length}</p>
       <div class="dots">${words.map((_,k)=>`<i class="${k===i?'on':k<i?'done':''}"></i>`).join('')}</div>
-      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="pic xl">${w.pic}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="pic">${w.pic}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span><span class="ex second">${esc(w.ex2)}</span><span class="ex-ko">${esc(w.ex2Ko)}</span>`:''}</span></button>
+      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="meaning-icon xl" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="meaning-icon" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span><span class="ex second">${esc(w.ex2)}</span><span class="ex-ko">${esc(w.ex2Ko)}</span>`:''}</span></button>
       <div class="row-btns"><button class="btn" id="say">🔊 단어</button><button class="btn" id="slow">🐢 천천히</button><button class="btn" id="sent">💬 예문</button></div>
       <div class="row-btns"><button class="btn ghost" id="prev" ${i===0?'disabled':''}>◀ 이전</button><button class="btn primary" id="next">${i===words.length-1?'다 봤어요! ✅':'다음 ▶'}</button></div><p class="err" id="save-error" role="alert"></p><div id="vhelp"></div></div>`;
     speak(w.en);$('#card').onclick=()=>{flipped=!flipped;$('#card').classList.toggle('flipped',flipped);if(flipped)speak(w.ex);};
@@ -462,8 +459,8 @@ routes.quiz = (id) => {
       <div class="progress"><i style="width:${(i / qs.length) * 100}%"></i></div>
       ${q.type === 'listen'
         ? `<p class="ask">잘 듣고 알맞은 그림을 골라요</p><button class="speaker" id="play">🔊</button>
-           <div class="opts pics">${q.opts.map((o) => `<button class="opt" data-id="${o.id}"><span class="pic">${o.pic}</span><small>${esc(o.ko)}</small></button>`).join('')}</div>`
-        : q.type==='context' ? `<p class="ask">뜻과 문맥에 맞는 단어를 골라요</p><p class="context-ko">${esc(q.w.ko)}</p><p class="context-sentence">${esc(q.cloze)}</p>${state.subtitle?`<p class="muted">${esc(q.w.exKo)}</p>`:''}<div class="opts words">${q.opts.map(o=>`<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>` : `<p class="ask">그림과 뜻에 맞는 영어 단어를 골라요</p><div class="pic xl">${q.w.pic}</div>${state.subtitle ? `<p class="muted">${esc(q.w.ko)}</p>` : ''}
+           <div class="opts pics">${q.opts.map((o) => `<button class="opt" data-id="${o.id}"><span class="meaning-icon">${o.icon}</span><small>${esc(o.ko)}</small></button>`).join('')}</div>`
+        : q.type==='context' ? `<p class="ask">뜻과 문맥에 맞는 단어를 골라요</p><p class="context-ko">${esc(q.w.ko)}</p><p class="context-sentence">${esc(q.cloze)}</p>${state.subtitle?`<p class="muted">${esc(q.w.exKo)}</p>`:''}<div class="opts words">${q.opts.map(o=>`<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>` : `<p class="ask">아이콘과 뜻에 맞는 영어 단어를 골라요</p><div class="meaning-icon xl">${q.w.icon}</div>${state.subtitle ? `<p class="muted">${esc(q.w.ko)}</p>` : ''}
            <div class="opts words">${q.opts.map((o) => `<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>`}
     </div>`;
     if (q.type === 'listen') {
@@ -496,13 +493,13 @@ routes.quiz = (id) => {
 routes.match = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
   const words = sample(t.words, 6);
-  const cards = shuffle(words.flatMap((w) => [{ w, side: 'pic' }, { w, side: 'en' }]));
+  const cards = shuffle(words.flatMap((w) => [{ w, side: 'ko' }, { w, side: 'en' }]));
   let open = []; let found = 0; let tries = 0; let busy = false;
   app.innerHTML = `${topbar('🃏 짝 맞추기', '#/topic/' + t.id)}
   <div class="page center">
-    <p class="ask">그림 카드와 영어 단어 카드의 짝을 찾아요!</p>
+    <p class="ask">영어 단어와 한글 뜻의 짝을 찾아요!</p>
     <div class="qhead"><span>찾은 짝 <b id="found">0</b>/6</span><span>시도 <b id="tries">0</b></span></div>
-    <div class="memory">${cards.map((c, k) => `<button class="mcard" data-k="${k}"><span class="back">🌲</span><span class="front">${c.side === 'pic' ? `<span class="pic">${c.w.pic}</span><small>${esc(c.w.ko)}</small>` : `<b>${esc(c.w.en)}</b>`}</span></button>`).join('')}</div>
+    <div class="memory">${cards.map((c, k) => `<button class="mcard" data-k="${k}" aria-label="카드 뒤집기"><span class="back">🌲</span><span class="front ${c.side === 'ko' ? 'match-ko' : 'match-en'}">${c.side === 'ko' ? `<b>${esc(c.w.ko)}</b><small>한글 뜻</small>` : `<b>${esc(c.w.en)}</b><small>English</small>`}</span></button>`).join('')}</div>
   </div>`;
   $$('.mcard').forEach((b) => b.onclick = () => {
     const k = Number(b.dataset.k);
@@ -540,7 +537,7 @@ routes.spell = (id) => {
     app.innerHTML = `${topbar('🎈 스펠링 풍선', '#/topic/' + t.id)}
     <div class="page center">
       <div class="qhead"><span>${i + 1} / ${words.length}</span><span>⭐ ${total}</span></div>
-      <div class="pic xl">${w.pic}</div>
+      <div class="meaning-icon xl" aria-hidden="true">${w.icon}</div>
       <p class="muted">${esc(w.ko)} <button class="mini" id="play">🔊</button></p>
       <div class="slots">${w.en.split('').map(() => '<span class="slot"></span>').join('')}</div>
       <p class="ask">순서대로 풍선을 터뜨려 철자를 완성해요!</p>
@@ -565,55 +562,6 @@ routes.spell = (id) => {
         }
       } else { miss++; beep(false); b.classList.add('shake'); setTimeout(() => b.classList.remove('shake'), 400); }
     });
-  };
-  draw();
-};
-
-// ---- 말하기 도전 ----
-routes.speak = (id) => {
-  const t = topicById(id); if (!t) return go('#/home');
-  if (!state.me.voice_consent) { app.innerHTML=`${topbar('🎤 말하기 안내','#/topic/'+id)}<div class="page center"><h2>보호자 동의를 먼저 확인해 주세요.</h2><p>말하기는 브라우저 제공 음성 인식 서비스로 전달돼요. 학원에서 보호자의 동의를 확인하면 사용할 수 있어요.</p><p>말하기를 하지 않아도 다른 게임과 레벨 학습은 모두 가능해요.</p><a class="btn primary" href="#/topic/${id}">다른 게임 하러 가기</a></div>`;return;}
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return go('#/topic/' + id);
-  const words = sample(t.words, 5); let i = 0; let total = 0; const log = [];
-  const draw = () => {
-    const w = words[i]; let tries = 0;let advanced=false;const speakingRoute=location.hash;
-    app.innerHTML = `${topbar('🎤 말하기 도전', '#/topic/' + t.id)}
-    <div class="page center">
-      <div class="qhead"><span>${i + 1} / ${words.length}</span><span>⭐ ${total}</span></div>
-      <div class="pic xl">${w.pic}</div>
-      <b class="word">${esc(w.en)}</b><p class="muted">${esc(w.ko)}</p>
-      <button class="btn" id="listen">🔊 먼저 들어 보기</button>
-      <button class="mic" id="mic">🎤</button>
-      <p class="ask" id="msg">마이크를 누르고 단어를 말해 봐요! 음성 인식 결과를 비교하며 발음 점수는 매기지 않아요.</p>
-      <button class="btn ghost small" id="skip">건너뛰기 ▶</button>
-    </div>`;
-    speak(w.en);
-    const next = async (ok, ac) => {
-      if(advanced)return;advanced=true;clearTimeout(recognitionTimer);if(activeRecognizer){try{activeRecognizer.abort();}catch{}activeRecognizer=null;}
-      log.push({ id: w.id, ok }); total += ac; i++;
-      if (i < words.length) return setTimeout(draw, 900);
-      const good = log.filter((l) => l.ok).length;
-      await save({ kind: 'speak', topic: t.id, score: good, total: words.length, acorns: total, words: log.filter(x=>typeof x.ok==='boolean') });
-      finish({ title: '말하기 도전 끝!', emoji: '🎤', stars: good === 5 ? 3 : good >= 3 ? 2 : 1, lines: [`${words.length}개 중 ${good}개가 같은 표현으로 인식됐어요.`], acorns: total, back: '#/topic/' + t.id, again: '#/speak/' + t.id });
-    };
-    $('#listen').onclick = () => speak(w.en);
-    $('#skip').onclick = () => next(null, 0);
-    $('#mic').onclick = () => {
-      if(activeRecognizer)return;const rec = new SR();activeRecognizer=rec;rec.lang = 'en-US'; rec.maxAlternatives = 5; rec.interimResults = false;
-      const mic = $('#mic'); mic.classList.add('on'); $('#msg').textContent = '듣고 있어요… 🎧';
-      rec.onresult = (e) => {
-        if(advanced||location.hash!==speakingRoute)return;
-        const alts = [...e.results[0]].map((r) => r.transcript.toLowerCase());
-        const ok = alts.some((a) => normalizeSentence(a) === normalizeSentence(w.en));
-        tries++;
-        if (ok) { beep(true); $('#msg').innerHTML = `<b class="good">훌륭해요! 🎉</b> "${esc(alts[0])}"`; next(true, 2); }
-        else { beep(false); $('#msg').innerHTML = `"${esc(alts[0])}"(으)로 들렸어요. ${tries >= 2 ? '' : '다시 해 볼까요?'}`; if (tries >= 3) next(false, 1); }
-      };
-      rec.onerror = () => { if(advanced||location.hash!==speakingRoute||!$('#msg'))return;$('#msg').textContent = '소리를 못 들었어요. 다시 눌러 주세요.'; };
-      rec.onend = () => {clearTimeout(recognitionTimer);if(activeRecognizer===rec)activeRecognizer=null;mic.classList.remove('on');};
-      try { rec.start();recognitionTimer=setTimeout(()=>{try{rec.stop();}catch{}},10000); } catch {activeRecognizer=null;mic.classList.remove('on');}
-    };
   };
   draw();
 };
@@ -693,20 +641,31 @@ routes.scene = (id) => {
   $('#start').onclick = step;
 };
 
-// ---- 레벨별 문장 블록: 반복 단어도 블록별 식별자로 구분 ----
+// ---- 종합 문장 학습: 번역·문맥·빈칸·문장 배열 ----
 routes.sentence = (id) => {
   const t=topicById(id);if(!t)return go('#/home');
-  const words=sample(t.words,t.stage==='prep'?3:5);let i=0,score=0;const log=[];
-  const draw=()=>{const w=words[i],blocks=shuffle(w.ex.split(/\s+/).map((text,index)=>({text,index})));let selected=[],checked=false;
-    app.innerHTML=`${topbar('🧱 문장 구조 학습','#/topic/'+id)}<div class="page center"><p class="qhead">${i+1} / ${words.length} · ${stageById(t.stage).label}</p><p class="ask">${esc(w.exKo)}</p><p class="muted">블록을 순서대로 눌러 문장을 만들어요.</p><div class="sentence-answer" id="sentence-answer" aria-label="내가 만든 문장"></div><div class="sentence-pool" id="sentence-pool"></div><p id="sentence-feedback" role="status"></p><div class="row-btns"><button class="btn ghost" id="sentence-hint">🔊 문장 듣기</button><button class="btn primary" id="sentence-check">문장 확인</button></div></div>`;
-    const repaint=()=>{const tray=$('#sentence-answer'),pool=$('#sentence-pool');tray.innerHTML=selected.map(k=>`<button class="sentence-block chosen" data-k="${k}" ${checked?'disabled':''}>${esc(blocks.find(b=>b.index===k).text)}</button>`).join('')||'<span class="muted">여기에 문장이 만들어져요</span>';pool.innerHTML=blocks.map(b=>`<button class="sentence-block ${selected.includes(b.index)?'used':''}" data-k="${b.index}" ${checked||selected.includes(b.index)?'disabled':''}>${esc(b.text)}</button>`).join('');pool.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked||b.disabled)return;selected.push(Number(b.dataset.k));repaint();};tray.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked)return;selected=selected.filter(k=>k!==Number(b.dataset.k));repaint();};};
-    $('#sentence-hint').onclick=()=>speak(w.ex,.7);
-    $('#sentence-check').onclick=async()=>{if(checked){i++;if(i<words.length)return draw();const good=score;try{await save({kind:'sentence',topic:id,score:good,total:words.length,acorns:good*2,words:log});finish({title:'문장 학습 완료!',emoji:'🧱',lines:[`${words.length}개 중 ${good}개 문장을 첫 도전에 완성했어요.`],acorns:good*2,back:'#/topic/'+id,again:'#/sentence/'+id});}catch(err){i--;toast(err.message);}return;}
-      if(selected.length!==blocks.length){toast('모든 블록을 사용해 볼까요?');return;}
-      const answer=selected.map(k=>blocks.find(b=>b.index===k).text).join(' '),ok=normalizeSentence(answer)===normalizeSentence(w.ex);log.push({id:w.id,ok});if(ok)score++;checked=true;
-      $('#sentence-feedback').innerHTML=`<b class="${ok?'good':'muted'}">${ok?'🌟 멋지게 연결했어요!':'🌱 이 문장을 함께 읽어 봐요.'}</b><br>${esc(w.ex)}`;
-      $('#sentence-check').textContent=i===words.length-1?'모험 마치기':'다음 문장 →';repaint();beep(ok);speak(w.ex);
-    };repaint();
+  const words=sample(t.words,t.stage==='prep'?8:12);const modes=['meaning','word','context','order'];let i=0,score=0;const log=[];
+  const labels={meaning:'영어 → 우리말',word:'우리말 → 영어',context:'문맥 빈칸',order:'문장 배열'};
+  const finishAll=async()=>{try{await save({kind:'sentence',topic:id,score,total:words.length,acorns:score*2,words:log});finish({title:'문장·문맥 학습 완료!',emoji:'📝',lines:[`번역·선택·빈칸·배열 ${words.length}문제 중 <b>${score}문제</b>를 맞혔어요.`],acorns:score*2,back:'#/topic/'+id,again:'#/sentence/'+id});}catch(err){toast(err.message);}};
+  const next=()=>{i++;if(i<words.length)draw();else finishAll();};
+  const draw=()=>{
+    const w=words[i],mode=modes[i%modes.length],example=i%2?w.ex2:w.ex,exampleKo=i%2?w.ex2Ko:w.exKo;
+    const header=`${topbar('📝 문장·문맥 종합학습','#/topic/'+id)}<div class="page center"><div class="qhead"><span>${i+1} / ${words.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${(i/words.length)*100}%"></i></div><p class="sentence-kind">${labels[mode]}</p>`;
+    if(mode==='order'){
+      const blocks=shuffle(example.split(/\s+/).map((text,index)=>({text,index})));let selected=[],checked=false;
+      app.innerHTML=`${header}<p class="ask">${esc(exampleKo)}</p><p class="muted">단어 블록을 올바른 순서로 배열하세요.</p><div class="sentence-answer" id="sentence-answer" aria-label="내가 만든 문장"></div><div class="sentence-pool" id="sentence-pool"></div><p class="sentence-feedback" id="sentence-feedback" role="status"></p><div class="row-btns"><button class="btn ghost" id="sentence-hint">🔊 문장 듣기</button><button class="btn primary" id="sentence-check">문장 확인</button></div></div>`;
+      const repaint=()=>{const tray=$('#sentence-answer'),pool=$('#sentence-pool');tray.innerHTML=selected.map(k=>`<button class="sentence-block chosen" data-k="${k}" ${checked?'disabled':''}>${esc(blocks.find(b=>b.index===k).text)}</button>`).join('')||'<span class="muted">여기에 문장이 만들어져요</span>';pool.innerHTML=blocks.map(b=>`<button class="sentence-block ${selected.includes(b.index)?'used':''}" data-k="${b.index}" ${checked||selected.includes(b.index)?'disabled':''}>${esc(b.text)}</button>`).join('');pool.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked||b.disabled)return;selected.push(Number(b.dataset.k));repaint();};tray.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked)return;selected=selected.filter(k=>k!==Number(b.dataset.k));repaint();};};
+      $('#sentence-hint').onclick=()=>speak(example,.7);
+      $('#sentence-check').onclick=()=>{if(checked)return next();if(selected.length!==blocks.length){toast('모든 블록을 사용해 보세요.');return;}const answer=selected.map(k=>blocks.find(b=>b.index===k).text).join(' '),ok=normalizeSentence(answer)===normalizeSentence(example);log.push({id:w.id,ok});if(ok)score++;checked=true;$('#sentence-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정답이에요!':'다시 확인해 보세요.'}</b><span>${esc(example)}</span><small>${esc(exampleKo)}</small>`;$('#sentence-check').textContent=i===words.length-1?'학습 마치기':'다음 문제 →';repaint();beep(ok);speak(example);};repaint();return;
+    }
+    const options=shuffle([w,...sample(t.words.filter(o=>o.id!==w.id),3)]);
+    const escapedWord=w.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const cloze=example.replace(new RegExp(`\\b${escapedWord}\\b`,'i'),'_____');
+    const question=mode==='meaning'?`<b class="sentence-focus">${esc(w.en)}</b><p>알맞은 우리말 뜻을 고르세요.</p>`:mode==='word'?`<b class="sentence-focus">${esc(w.ko)}</b><p>알맞은 영어 단어를 고르세요.</p>`:`<p class="context-sentence">${esc(cloze)}</p><p class="muted">문맥에 알맞은 단어를 고르세요.</p>`;
+    app.innerHTML=`${header}<div class="sentence-question">${question}</div><div class="sentence-choices">${options.map(o=>`<button class="sentence-choice" data-id="${esc(o.id)}">${esc(mode==='meaning'?o.ko:o.en)}</button>`).join('')}</div><div class="sentence-feedback" id="sentence-feedback" role="status"></div><div class="row-btns"><button class="btn ghost" id="sentence-listen">🔊 단어 듣기</button><button class="btn primary" id="sentence-next" hidden>${i===words.length-1?'학습 마치기':'다음 문제 →'}</button></div></div>`;
+    $('#sentence-listen').onclick=()=>speak(w.en);
+    let checked=false;$$('.sentence-choice').forEach(b=>b.onclick=()=>{if(checked)return;checked=true;const ok=b.dataset.id===w.id;log.push({id:w.id,ok});if(ok)score++;$$('.sentence-choice').forEach(x=>{x.disabled=true;if(x.dataset.id===w.id)x.classList.add('right');});if(!ok)b.classList.add('wrong');$('#sentence-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정답이에요!':'정답을 확인해 보세요.'}</b><span>${esc(example)}</span><small>${esc(exampleKo)}</small>`;$('#sentence-next').hidden=false;beep(ok);speak(example);});
+    $('#sentence-next').onclick=next;
   };draw();
 };
 
@@ -764,10 +723,10 @@ routes.teacher = async () => {
       <div class="stat"><b>${studs.length ? Math.round(studs.reduce((t, s) => t + Number(s.learned), 0) / studs.length) : 0}</b><small>평균 익힌 단어</small></div>
     </div>
     <div class="table-wrap"><table class="tbl">
-      <thead><tr><th>반</th><th>이름</th><th>포인트</th><th>7일 포인트</th><th>7일 학습</th><th>익힌 단어</th><th>배지</th><th>말하기 동의</th><th>최근 접속</th><th></th></tr></thead>
+      <thead><tr><th>반</th><th>이름</th><th>포인트</th><th>7일 포인트</th><th>7일 학습</th><th>익힌 단어</th><th>배지</th><th>최근 접속</th><th></th></tr></thead>
       <tbody>${studs.map((s) => `<tr>
         <td>${esc(cname(s.class_id))}</td><td><b>${esc(s.name)}</b></td><td>${s.acorns}</td><td>${s.week_acorns}</td><td>${s.week_sessions}회</td>
-        <td>${s.learned}/${ALL_WORDS.length}<br><small>${STAGES.map(stage=>`${stage.label} ${s.learned_by_stage?.[stage.id]??0}/${stage.target}`).join(' · ')}</small></td><td>${(s.badges || []).length}</td><td><button class="mini" data-act="consent" data-id="${s.id}" data-value="${!s.voice_consent}">${s.voice_consent?'확인됨 ✓':'미확인'}</button></td><td>${fmt(s.last_active)}</td>
+        <td>${s.learned}/${ALL_WORDS.length}<br><small>${STAGES.map(stage=>`${stage.label} ${s.learned_by_stage?.[stage.id]??0}/${stage.target}`).join(' · ')}</small></td><td>${(s.badges || []).length}</td><td>${fmt(s.last_active)}</td>
         <td class="acts"><button class="mini" data-act="pin" data-id="${s.id}" title="비밀번호 재설정">🔑</button>
           <button class="mini" data-act="move" data-id="${s.id}" title="반 이동">↔️</button>
           <button class="mini" data-act="del" data-id="${s.id}" data-n="${esc(s.name)}" title="삭제">🗑️</button></td></tr>`).join('') || '<tr><td colspan="10" class="muted">아직 학생이 없어요. 학생이 첫 로그인하면 자동으로 등록돼요.</td></tr>'}</tbody>
@@ -781,7 +740,6 @@ routes.teacher = async () => {
     body.onclick = async (e) => {
       const b = e.target.closest('[data-act]'); if (!b) return;
       try {
-        if(b.dataset.act==='consent'){const allow=b.dataset.value==='true';if(allow&&!confirm('보호자에게 브라우저 음성 인식 서비스 전송, 인식 결과 비교 목적, 말하기 선택 활동을 안내하고 필요한 동의를 받았나요?'))return;await api.teacherVoiceConsent(pw,b.dataset.id,allow);toast('말하기 동의 확인 상태를 저장했어요');}
         if (b.dataset.act === 'pin') { const p = prompt('새 비밀번호(숫자 4자리)'); if (!p) return; await api.teacherResetPin(pw, b.dataset.id, p); toast('비밀번호를 바꿨어요'); }
         if (b.dataset.act === 'move') {
           const list = data.classes.map((c, k) => `${k + 1}. ${c.name}`).join('\n'); const n = Number(prompt('옮길 반 번호를 입력하세요\n' + list));
@@ -796,10 +754,10 @@ routes.teacher = async () => {
       try { await api.teacherAddStudent(pw, Number($('#sc').value), $('#sn').value, $('#sp').value); toast('학생을 추가했어요'); render(); } catch (ex) { toast(ex.message); }
     };
   } else if (tab === 'hard') {
-    body.innerHTML = `<p class="muted">퀴즈·스펠링·말하기에서 많이 틀린 단어예요. 수업 시간 복습에 활용하세요.</p>
+    body.innerHTML = `<p class="muted">퀴즈·스펠링·문장 학습에서 많이 틀린 단어예요. 수업 시간 복습에 활용하세요.</p>
     <div class="hard-list">${hardAgg.map((h) => { const w = WORD_BY_ID[h.word_id]; if (!w) return '';
       const rate = Math.round((h.wrong / (h.wrong + h.correct)) * 100);
-      return `<div class="hard"><span class="pic">${w.pic}</span><b>${esc(w.en)}</b><small>${esc(w.ko)} · ${topicById(w.topic).name}</small>
+      return `<div class="hard"><span class="meaning-icon">${w.icon}</span><b>${esc(w.en)}</b><small>${esc(w.ko)} · ${topicById(w.topic).name}</small>
         <span class="bar"><i style="width:${rate}%"></i></span><span class="num">오답 ${h.wrong}회 (${rate}%)</span></div>`; }).join('') || '<p class="muted">아직 기록이 없어요.</p>'}</div>`;
   } else if (tab === 'assignments') {
     body.innerHTML = `<form class="card form" id="assignment-form"><b>반 과제 배정</b>
