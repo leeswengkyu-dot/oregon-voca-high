@@ -2,7 +2,7 @@ import './style.css';
 import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.js';
 import { stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, passingScore, normalizeSentence } from './data/levels.js';
 import { SCENES, sceneById, sceneForUnit } from './data/scenes.js';
-import { LAB_INFO, WORD_FAMILIES, SYNTAX_ITEMS, LOGIC_ITEMS, CSAT_TYPE_INFO, CSAT_ITEMS, labItems, csatItems } from './data/csat-labs.js';
+import { LAB_INFO, WORD_FAMILIES, SYNTAX_ITEMS, LOGIC_ITEMS, CSAT_LEVELS, CSAT_TYPE_INFO, CSAT_ITEMS, labItems, csatItems } from './data/csat-labs.js';
 import { api, isOnline, store } from './db.js';
 import { parseContentWorkbook } from './excel.js';
 
@@ -338,7 +338,7 @@ routes.home = async () => {
     <a class="btn primary review-start ${reviewCount ? '' : 'disabled'}" href="${reviewCount ? `#/review/${stage.id}` : '#/home'}" ${reviewCount ? '' : 'aria-disabled="true"'}>집중 복습 시작 →</a>
   </section>
   <section class="academy-labs" aria-labelledby="academy-labs-title">
-    <div class="section-head"><div><span class="level-kicker">CSAT FOUNDATION</span><h2 class="sec" id="academy-labs-title">🏛️ 수능 기초 연구소</h2></div><a href="#/csat" class="mini-link">수능 미니훈련 →</a></div>
+    <div class="section-head"><div><span class="level-kicker">CSAT FOUNDATION</span><h2 class="sec" id="academy-labs-title">🏛️ 수능 기초 연구소</h2></div><a href="#/csat/${state.stage}" class="mini-link">학년별 수능훈련 →</a></div>
     <div class="lab-home-grid">
       ${Object.entries(LAB_INFO).map(([key,info])=>`<a class="lab-home-card ${key}" href="#/lab/${key}/core"><span>${info.icon}</span><div><b>${info.title}</b><small>${info.description}</small></div><i>기본 코스 →</i></a>`).join('')}
     </div>
@@ -390,11 +390,11 @@ routes.home = async () => {
   } catch { if(!$('#top5'))return;$('#top5').innerHTML = '<li class="muted">순위를 불러오지 못했어요</li>'; }
 };
 function badgeChip(b) {
-  const [kind, id] = b.split(':');
+  const [kind, ...parts] = b.split(':'); const id=parts.join(':');
   if (kind === 'topic') { const t = topicById(id); return t ? `<span class="badge">${t.icon} ${t.name}</span>` : ''; }
   if (kind === 'scene') { const s = sceneById(id); return s ? `<span class="badge">${s.icon} ${s.name}</span>` : ''; }
   if (kind === 'lab') { const [lab] = id.split('-'); const info=LAB_INFO[lab]; return info ? `<span class="badge">${info.icon} ${info.title} 통과</span>` : ''; }
-  if (kind === 'csat') { const info=CSAT_TYPE_INFO[id]; return info ? `<span class="badge">${info.icon} ${info.title} 완주</span>` : ''; }
+  if (kind === 'csat') { const [maybeLevel,maybeType]=parts;const level=CSAT_LEVELS[maybeLevel],type=level?maybeType:maybeLevel,info=CSAT_TYPE_INFO[type]; return info ? `<span class="badge">${info.icon} ${level?`${level.label} · `:''}${info.title} 통과</span>` : ''; }
   return '';
 }
 function settingsSheet() {
@@ -463,7 +463,7 @@ routes.review = (stageId) => {
       ? `<span class="review-word">${esc(word.en)}</span><p>알맞은 뜻을 고르세요.</p>`
       : mode === 1
         ? `<span class="review-meaning">${esc(word.ko)}</span><p>알맞은 영어 단어를 고르세요.</p>`
-        : `<p class="context-sentence">${esc(word.ex.replace(new RegExp(`\\b${word.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'), '_____'))}</p><p>문맥에 알맞은 단어를 고르세요.</p>`;
+        : `<p class="context-sentence">${esc(word.ex.replace(new RegExp(`\\b${word.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'), '_____'))}</p><p class="context-translation">${esc(word.exKo)}</p><p>해석과 앞뒤 문맥에 알맞은 단어를 고르세요.</p>`;
     app.innerHTML = `${topbar('🧠 오늘의 집중 복습', '#/home')}<div class="page center review-page">
       <div class="qhead"><span>${index + 1} / ${words.length}</span><span>✅ ${score}</span></div>
       <div class="progress"><i style="width:${index / words.length * 100}%"></i></div>
@@ -501,12 +501,12 @@ routes.learn = (id, partValue='0') => {
     app.innerHTML=`${topbar('📖 다섯 단어 학습 '+(part+1),'#/topic/'+t.id)}<div class="page center">
       <p class="muted small">${stageById(t.stage).label} · ${t.name} · ${i+1} / ${words.length}</p>
       <div class="dots">${words.map((_,k)=>`<i class="${k===i?'on':k<i?'done':''}"></i>`).join('')}</div>
-      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="meaning-icon xl" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="meaning-icon" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex" data-example="0">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span><span class="ex second" data-example="1">${esc(w.ex2)}</span><span class="ex-ko">${esc(w.ex2Ko)}</span>`:''}</span></button>
-      <div class="row-btns"><button class="btn" id="say">🔊 단어</button><button class="btn" id="slow">🐢 천천히</button><button class="btn" id="sent">💬 예문 2개 듣기</button></div>
+      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="meaning-icon xl" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 두 예문이 나와요</small></span><span class="face back"><span class="meaning-icon" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="example-set"><span class="example-no">예문 1</span><span class="ex" data-example="0">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span>`:''}</span><span class="example-set"><span class="example-no">예문 2</span><span class="ex second" data-example="1">${esc(w.ex2)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.ex2Ko)}</span>`:''}</span></span></button>
+      <div class="row-btns"><button class="btn" id="say">🔊 단어</button><button class="btn" id="slow">🐢 천천히</button><button class="btn" id="sent1">① 예문</button><button class="btn" id="sent2">② 예문</button><button class="btn" id="sent">💬 예문 2개 연속</button></div>
       <div class="row-btns"><button class="btn ghost" id="prev" ${i===0?'disabled':''}>◀ 이전</button><button class="btn primary" id="next">${i===words.length-1?'다 봤어요! ✅':'다음 ▶'}</button></div><p class="err" id="save-error" role="alert"></p><div id="vhelp"></div></div>`;
-    const markExample=(index)=>{$$('[data-example]').forEach((node)=>node.classList.toggle('speaking',Number(node.dataset.example)===index));$('#sent').textContent=index<0?'💬 예문 2개 듣기':`🔊 예문 ${index+1}/2 재생 중`;};
+    const markExample=(index)=>{$$('[data-example]').forEach((node)=>node.classList.toggle('speaking',Number(node.dataset.example)===index));$('#sent').textContent=index<0?'💬 예문 2개 연속':`🔊 예문 ${index+1}/2 재생 중`;};
     speak(w.en);$('#card').onclick=()=>{flipped=!flipped;$('#card').classList.toggle('flipped',flipped);if(flipped)speak(w.ex);};
-    $('#say').onclick=()=>speak(w.en);$('#slow').onclick=()=>speak(w.en,.5);$('#sent').onclick=()=>speakExamples(w.ex,w.ex2,markExample);
+    $('#say').onclick=()=>speak(w.en);$('#slow').onclick=()=>speak(w.en,.5);$('#sent1').onclick=()=>{markExample(0);speak(w.ex).finally(()=>markExample(-1));};$('#sent2').onclick=()=>{markExample(1);speak(w.ex2).finally(()=>markExample(-1));};$('#sent').onclick=()=>speakExamples(w.ex,w.ex2,markExample);
     const step=async(next,complete=false)=>{const b=$('#next');b.disabled=true;$('#prev').disabled=true;try{state.me=await api.checkpoint(state.me.id,state.me.token,t.id,part,next,complete);return true;}catch(err){$('#save-error').textContent='진도를 저장하지 못했어요: '+err.message;b.disabled=false;$('#prev').disabled=i===0;return false;}};
     $('#prev').onclick=async()=>{if(await step(i-1)){i--;flipped=false;draw();}};
     $('#next').onclick=async()=>{if(i<words.length-1){if(await step(i+1)){i++;flipped=false;draw();}return;}
@@ -548,7 +548,7 @@ routes.quiz = (id) => {
       ${q.type === 'listen'
         ? `<p class="ask">잘 듣고 알맞은 그림을 골라요</p><button class="speaker" id="play">🔊</button>
            <div class="opts pics">${q.opts.map((o) => `<button class="opt" data-id="${o.id}"><span class="meaning-icon">${o.icon}</span><small>${esc(o.ko)}</small></button>`).join('')}</div>`
-        : q.type==='context' ? `<p class="ask">뜻과 문맥에 맞는 단어를 골라요</p><p class="context-ko">${esc(q.w.ko)}</p><p class="context-sentence">${esc(q.cloze)}</p>${state.subtitle?`<p class="muted">${esc(q.w.exKo)}</p>`:''}<div class="opts words">${q.opts.map(o=>`<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>` : `<p class="ask">아이콘과 뜻에 맞는 영어 단어를 골라요</p><div class="meaning-icon xl">${q.w.icon}</div>${state.subtitle ? `<p class="muted">${esc(q.w.ko)}</p>` : ''}
+        : q.type==='context' ? `<p class="ask">해석과 문맥에 맞는 단어를 골라요</p><p class="context-ko">${esc(q.w.ko)}</p><p class="context-sentence">${esc(q.cloze)}</p><p class="context-translation">${esc(q.w.exKo)}</p><div class="opts words">${q.opts.map(o=>`<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>` : `<p class="ask">아이콘과 뜻에 맞는 영어 단어를 골라요</p><div class="meaning-icon xl">${q.w.icon}</div>${state.subtitle ? `<p class="muted">${esc(q.w.ko)}</p>` : ''}
            <div class="opts words">${q.opts.map((o) => `<button class="opt" data-id="${o.id}">${esc(o.en)}</button>`).join('')}</div>`}
     </div>`;
     if (q.type === 'listen') {
@@ -752,12 +752,16 @@ routes.sentence = (id) => {
     const cloze=example.replace(new RegExp(`\\b${escapedWord}\\b`,'i'),'_____');let options=[],correct='',question='';
     if(mode==='context'){
       options=shuffle([w,...sample(otherWords,3)]).map(o=>({id:o.id,text:o.en}));correct=w.id;
-      question=`<p class="context-sentence">${esc(cloze)}</p><p class="muted">앞뒤 의미에 알맞은 단어를 고르세요.</p>`;
+      question=`<p class="context-sentence">${esc(cloze)}</p><p class="context-translation">${esc(exampleKo)}</p><p class="muted">해석과 앞뒤 의미에 알맞은 단어를 고르세요.</p>`;
     }else if(mode==='translation'){
-      options=shuffle([{id:w.id,text:exampleKo},...sample(otherWords,3).map(o=>({id:o.id,text:i%2?o.ex2Ko:o.exKo}))]);correct=w.id;
+      const swaps=[['증가','감소'],['감소','증가'],['향상','약화'],['가능','불가능'],['항상','결코'],['많은','적은'],['더 ','덜 '],['이전','이후'],['원인','결과'],['같','다르']];
+      const partial=swaps.filter(([from])=>exampleKo.includes(from)).slice(0,3).map(([from,to],index)=>({id:`partial-${index}`,text:exampleKo.replace(from,to)}));
+      const fillers=sample(otherWords,3-partial.length).map((o,index)=>({id:`fallback-${index}`,text:i%2?o.ex2Ko:o.exKo}));
+      options=shuffle([{id:w.id,text:exampleKo},...partial,...fillers]);correct=w.id;
       question=`<p class="context-sentence">${esc(example)}</p><p class="muted">문장 전체의 의미를 가장 정확하게 옮긴 해석을 고르세요.</p>`;
     }else if(mode==='usage'){
-      const wrongs=sample(otherWords,3).map((o,index)=>({id:o.id,text:(index%2?o.ex2:o.ex).replace(new RegExp(`\\b${o.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\b`,'i'),w.en)}));
+      const sameRole=otherWords.filter(o=>o.partOfSpeech===w.partOfSpeech);const source=sameRole.length>=3?sameRole:otherWords;
+      const wrongs=sample(source,3).map((o,index)=>({id:o.id,text:(index%2?o.ex2:o.ex).replace(new RegExp(`\\b${o.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\b`,'i'),w.en)}));
       options=shuffle([{id:w.id,text:example},...wrongs]);correct=w.id;
       question=`<b class="sentence-focus">${esc(w.en)}</b><p>표제어가 문맥과 문법에 맞게 쓰인 문장을 고르세요.</p>`;
     }else{
@@ -791,25 +795,27 @@ routes.lab = (kind, course='core') => {
       prompt=`<p class="lab-sentence">${esc(item.sentence)}</p><small>${esc(item.ko)}</small><h2>${esc(item.prompt)}</h2>`;
     }else{
       answer=item.answer;choices=item.choices.slice();
-      prompt=`<p class="logic-pair"><span>${esc(item.before)}</span><b>_____</b><span>${esc(item.after)}</span></p><h2>두 문장의 <em>${esc(item.relation)}</em> 관계에 알맞은 연결어는?</h2>`;
+      prompt=`<p class="logic-pair"><span>${esc(item.before)}</span><b>_____</b><span>${esc(item.after)}</span></p>${item.ko?`<p class="lab-translation">${esc(item.ko)}</p>`:''}<h2>두 문장의 <em>${esc(item.relation)}</em> 관계에 알맞은 연결어는?</h2>`;
     }
     const coreOn=course==='core'?'on':'',challengeOn=course==='challenge'?'on':'';
-    app.innerHTML=`${topbar(`${info.icon} ${info.title}`,'#/home')}<div class="page center lab-page"><nav class="course-tabs"><a class="${coreOn}" href="#/lab/${kind}/core">기본 코스</a><a class="${challengeOn} ${challengeOpen?'':'locked'}" href="${challengeOpen?`#/lab/${kind}/challenge`:`#/lab/${kind}/core`}">${challengeOpen?'도전 코스':'🔒 도전 코스'}</a></nav><div class="qhead"><span>${index+1} / ${items.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${index/items.length*100}%"></i></div><section class="lab-prompt">${prompt}</section><div class="sentence-choices">${shuffle(choices).map(choice=>`<button class="sentence-choice" data-answer="${esc(choice)}">${esc(choice)}</button>`).join('')}</div><div class="sentence-feedback" id="lab-feedback" role="status"></div><button class="btn primary" id="lab-next" hidden>${index===items.length-1?'연구 마치기':'다음 문제 →'}</button></div>`;
+    app.innerHTML=`${topbar(`${info.icon} ${info.title}`,'#/home')}<div class="page center lab-page"><nav class="course-tabs"><a class="${coreOn}" href="#/lab/${kind}/core">기본 코스 · ${labItems(kind,'core').length}문항</a><a class="${challengeOn} ${challengeOpen?'':'locked'}" href="${challengeOpen?`#/lab/${kind}/challenge`:`#/lab/${kind}/core`}">${challengeOpen?`도전 코스 · ${labItems(kind,'challenge').length}문항`:'🔒 도전 코스'}</a></nav><div class="qhead"><span>${index+1} / ${items.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${index/items.length*100}%"></i></div><section class="lab-prompt">${prompt}</section><div class="sentence-choices">${shuffle(choices).map(choice=>`<button class="sentence-choice" data-answer="${esc(choice)}">${esc(choice)}</button>`).join('')}</div><div class="sentence-feedback" id="lab-feedback" role="status"></div><button class="btn primary" id="lab-next" hidden>${index===items.length-1?'연구 마치기':'다음 문제 →'}</button></div>`;
     $$('.sentence-choice').forEach(button=>button.onclick=()=>{if(checked)return;checked=true;const ok=button.dataset.answer===answer;if(ok)score++;$$('.sentence-choice').forEach(x=>{x.disabled=true;if(x.dataset.answer===answer)x.classList.add('right');});if(!ok)button.classList.add('wrong');$('#lab-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정확해요!':'정답을 확인해 보세요.'}</b><span>${esc(answer)}</span><small>${esc(explain)}</small>`;$('#lab-next').hidden=false;beep(ok);if(kind==='family')speak(`${item.base}, ${answer}`);else if(kind==='syntax')speak(item.sentence);});
     $('#lab-next').onclick=()=>{index++;if(index<items.length)draw();else finishLab();};
   };draw();
 };
 
 // ---- 수능 독해 사고 과정을 짧은 앱 전용 지문으로 훈련 ----
-routes.csat = () => {
-  app.innerHTML=`${topbar('🎓 수능 유형 미니훈련','#/home')}<div class="page"><section class="csat-intro"><span>45문항을 풀기 전에</span><h2>짧은 지문으로 사고 과정을 연습해요</h2><p>단순 정답 맞히기가 아니라 근거 문장을 확인하며 주제·빈칸·순서·어휘·요약 유형을 익힙니다.</p></section><div class="csat-type-grid">${Object.entries(CSAT_TYPE_INFO).map(([key,info])=>{const done=state.me.badges.includes(`csat:${key}`);return `<a class="csat-type-card" href="#/csatQuiz/${key}"><span>${info.icon}</span><div><b>${info.title}</b><small>${info.description}</small></div><i>${done?'🏅 완주':'시작 →'}</i></a>`;}).join('')}</div><p class="curriculum-note">모든 지문은 이 앱을 위해 새로 작성한 연습 콘텐츠입니다.</p></div>`;
+routes.csat = (level='prep') => {
+  if(!CSAT_LEVELS[level])level='prep';const levelInfo=CSAT_LEVELS[level];
+  app.innerHTML=`${topbar('🎓 수능 독해 연구소','#/home')}<div class="page"><section class="csat-intro"><span>LEVEL CURRICULUM · 128문항</span><h2>${levelInfo.icon} ${levelInfo.grade} ${levelInfo.label} 코스</h2><p>${levelInfo.description} 정답만 확인하지 않고 전체 해석·근거 문장·오답 이유까지 학습합니다.</p></section><nav class="csat-level-tabs" aria-label="수능 훈련 난이도">${Object.entries(CSAT_LEVELS).map(([key,item])=>`<a class="${key===level?'on':''}" href="#/csat/${key}"><span>${item.icon}</span><b>${item.label}</b><small>${item.grade}</small></a>`).join('')}</nav><div class="csat-type-grid">${Object.entries(CSAT_TYPE_INFO).map(([key,info])=>{const done=state.me.badges.includes(`csat:${level}:${key}`),count=csatItems(key,level).length;return `<a class="csat-type-card" href="#/csatQuiz/${level}/${key}"><span>${info.icon}</span><div><b>${info.title}</b><small>${info.description} · ${count}문항</small></div><i>${done?'🏅 통과':'시작 →'}</i></a>`;}).join('')}</div><p class="curriculum-note">모든 지문은 이 앱을 위해 새로 작성한 콘텐츠입니다. 고2·고3도 ‘해석 보기’를 눌러 언제든 전체 해석을 확인할 수 있습니다.</p></div>`;
 };
 
-routes.csatQuiz = (type) => {
-  const info=CSAT_TYPE_INFO[type],items=shuffle(csatItems(type));if(!info||!items.length)return go('#/csat');let index=0,score=0,checked=false;
-  const finishCsat=async()=>{const pass=score>=Math.ceil(items.length*.8),badge=pass?`csat:${type}`:null;await save({kind:`csat_${type}`,topic:'mini',score,total:items.length,acorns:score*3,words:[],badge});finish({title:`${info.title} 미니훈련 완료!`,emoji:info.icon,lines:[`${items.length}문제 중 <b>${score}문제</b>를 맞혔어요.`,`${pass?'근거를 정확히 찾았어요.':'해설을 읽고 같은 유형에 다시 도전해 보세요.'}`],acorns:score*3,back:'#/csat',again:`#/csatQuiz/${type}`,badge});};
-  const draw=()=>{const item=items[index];checked=false;app.innerHTML=`${topbar(`${info.icon} ${info.title}`,'#/csat')}<div class="page center csat-quiz"><div class="qhead"><span>${index+1} / ${items.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${index/items.length*100}%"></i></div><article class="passage-card"><p>${esc(item.passage)}</p></article><h2 class="csat-question">${esc(item.question)}</h2><div class="csat-choices">${item.choices.map((choice,i)=>`<button data-index="${i}"><b>${i+1}</b><span>${esc(choice)}</span></button>`).join('')}</div><div class="answer-rationale" id="csat-rationale" role="status"></div><button class="btn primary" id="csat-next" hidden>${index===items.length-1?'미니훈련 마치기':'다음 문제 →'}</button></div>`;
-    $$('.csat-choices button').forEach(button=>button.onclick=()=>{if(checked)return;checked=true;const selected=Number(button.dataset.index),ok=selected===item.answer;if(ok)score++;$$('.csat-choices button').forEach(x=>{x.disabled=true;if(Number(x.dataset.index)===item.answer)x.classList.add('right');});if(!ok)button.classList.add('wrong');$('#csat-rationale').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정답 근거를 찾았어요!':'정답의 근거를 확인하세요.'}</b><p>${esc(item.explain)}</p>`;$('#csat-next').hidden=false;beep(ok);});
+routes.csatQuiz = (level='prep',type='main') => {
+  const info=CSAT_TYPE_INFO[type],levelInfo=CSAT_LEVELS[level],items=shuffle(csatItems(type,level));if(!info||!levelInfo||!items.length)return go('#/csat/prep');let index=0,score=0,checked=false;
+  const finishCsat=async()=>{const pass=score>=Math.ceil(items.length*.75),badge=pass?`csat:${level}:${type}`:null;await save({kind:`csat_${level}_${type}`,topic:`${level}:${type}`,score,total:items.length,acorns:score*3,words:[],badge});finish({title:`${levelInfo.label} · ${info.title} 완료!`,emoji:info.icon,lines:[`${items.length}문제 중 <b>${score}문제</b>를 맞혔어요.`,`${pass?'정답 근거를 안정적으로 찾았어요.':'전체 해석과 근거를 읽고 같은 유형에 다시 도전해 보세요.'}`],acorns:score*3,back:`#/csat/${level}`,again:`#/csatQuiz/${level}/${type}`,badge});};
+  const draw=()=>{const item=items[index],showTranslation=levelInfo.translation==='always',choiceCount=['prep','grade1'].includes(level)?4:5,choicePool=[item.choices[item.answer],...item.choices.filter((_,i)=>i!==item.answer).slice(0,choiceCount-1)],choiceOptions=shuffle(choicePool.map(text=>({text,sourceIndex:item.choices.indexOf(text)})));checked=false;app.innerHTML=`${topbar(`${info.icon} ${levelInfo.label} · ${info.title}`,`#/csat/${level}`)}<div class="page center csat-quiz"><div class="qhead"><span>${index+1} / ${items.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${index/items.length*100}%"></i></div><p class="csat-guide">${esc(item.guide)}</p><article class="passage-card"><p>${esc(item.passage)}</p><p class="passage-translation ${showTranslation?'':'is-hidden'}" id="passage-translation">${esc(item.passageKo)}</p>${showTranslation?'':`<button class="translation-toggle" id="translation-toggle">🇰🇷 전체 해석 보기</button>`}${level==='prep'?`<p class="evidence-hint"><b>근거 힌트</b> ${esc(item.evidence)}</p>`:''}</article><h2 class="csat-question">${esc(item.question)}</h2><div class="csat-choices">${choiceOptions.map((choice,i)=>`<button data-source-index="${choice.sourceIndex}"><b>${i+1}</b><span>${esc(choice.text)}</span></button>`).join('')}</div><div class="answer-rationale" id="csat-rationale" role="status"></div><button class="btn primary" id="csat-next" hidden>${index===items.length-1?'코스 마치기':'다음 문제 →'}</button></div>`;
+    if($('#translation-toggle'))$('#translation-toggle').onclick=()=>{$('#passage-translation').classList.remove('is-hidden');$('#translation-toggle').remove();};
+    $$('.csat-choices button').forEach(button=>button.onclick=()=>{if(checked)return;checked=true;const selected=Number(button.dataset.sourceIndex),ok=selected===item.answer;if(ok)score++;$$('.csat-choices button').forEach(x=>{x.disabled=true;if(Number(x.dataset.sourceIndex)===item.answer)x.classList.add('right');});if(!ok)button.classList.add('wrong');$('#passage-translation').classList.remove('is-hidden');if($('#translation-toggle'))$('#translation-toggle').remove();const wrongNote=ok?'':`<p class="wrong-reason"><b>내 선택이 틀린 이유</b> ‘${esc(item.choices[selected])}’은(는) 글의 핵심 근거와 일치하지 않아요.</p>`;$('#csat-rationale').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정답 근거를 찾았어요!':'정답의 근거를 다시 연결해 보세요.'}</b><p><strong>근거 문장</strong> ${esc(item.evidence)}</p><p><strong>해설</strong> ${esc(item.explain)}</p>${wrongNote}`;$('#csat-next').hidden=false;beep(ok);});
     $('#csat-next').onclick=()=>{index++;if(index<items.length)draw();else finishCsat();};
   };draw();
 };
@@ -819,7 +825,8 @@ async function showTeacherStudentDetail(pw, student) {
   const weak=(detail.weak_words||[]).map(item=>({item,word:WORD_BY_ID[item.word_id]})).filter(x=>x.word);
   const recent=detail.recent_activity||[],skills=detail.skill_breakdown||[];const overlay=document.createElement('div');overlay.className='sheet-bg detail-bg';
   const skillNames={sentence_context:'문장·문맥',lab_family:'파생어',lab_syntax:'구문',lab_logic:'논리',csat_main:'주제·요지',csat_blank:'빈칸',csat_flow:'순서·삽입',csat_usage:'어휘·어법',csat_summary:'요약·함축'};
-  overlay.innerHTML=`<section class="sheet student-detail" role="dialog" aria-modal="true" aria-labelledby="student-detail-title"><div class="report-head"><div><span class="level-kicker">학생 상세 분석</span><h2 id="student-detail-title">${esc(student.name)}</h2></div><button class="icon-btn" id="detail-close" aria-label="닫기">✕</button></div><div class="stat-row"><div class="stat"><b>${detail.sessions_7d||0}</b><small>7일 학습</small></div><div class="stat"><b>${detail.sessions_30d||0}</b><small>30일 학습</small></div><div class="stat"><b>${mastery.solid||0}</b><small>안정적</small></div><div class="stat"><b>${mastery.mastered||0}</b><small>완전 암기</small></div></div><h3>유형별 학습 분석</h3><div class="skill-breakdown">${skills.length?skills.map(item=>{const pct=item.total?Math.round(item.score/item.total*100):0;return `<div><span><b>${esc(skillNames[item.kind]||item.kind)}</b><small>${item.sessions}회 · ${item.score}/${item.total}</small></span><div><i style="width:${pct}%"></i></div><strong>${pct}%</strong></div>`;}).join(''):'<p class="muted">새 유형 학습 기록이 아직 없어요.</p>'}</div><h3>취약 단어</h3><div class="hard-list compact">${weak.length?weak.map(({item,word})=>`<div class="hard"><span class="meaning-icon">${word.icon}</span><b>${esc(word.en)}</b><small>${esc(word.ko)}</small><span class="num">정답 ${item.correct} · 오답 ${item.wrong}</span></div>`).join(''):'<p class="muted">아직 취약 단어가 없어요.</p>'}</div><h3>최근 학습 활동</h3><div class="activity-list">${recent.length?recent.map(item=>`<div><b>${esc(skillNames[item.kind]||item.kind)}</b><span>${esc(item.topic||'전체 학습')}</span><span>${item.score}/${item.total}</span><small>${new Date(item.created_at||item.at).toLocaleString('ko-KR')}</small></div>`).join(''):'<p class="muted">최근 학습 기록이 없어요.</p>'}</div></section>`;
+  const skillName=(kind)=>{if(skillNames[kind])return skillNames[kind];if(kind.startsWith('csat_')){const parts=kind.slice(5).split('_'),hasLevel=Boolean(CSAT_LEVELS[parts[0]]),level=hasLevel?CSAT_LEVELS[parts.shift()]:null,type=CSAT_TYPE_INFO[parts.join('_')];if(type)return `${level?`${level.label} · `:''}${type.title}`;}return kind;};
+  overlay.innerHTML=`<section class="sheet student-detail" role="dialog" aria-modal="true" aria-labelledby="student-detail-title"><div class="report-head"><div><span class="level-kicker">학생 상세 분석</span><h2 id="student-detail-title">${esc(student.name)}</h2></div><button class="icon-btn" id="detail-close" aria-label="닫기">✕</button></div><div class="stat-row"><div class="stat"><b>${detail.sessions_7d||0}</b><small>7일 학습</small></div><div class="stat"><b>${detail.sessions_30d||0}</b><small>30일 학습</small></div><div class="stat"><b>${mastery.solid||0}</b><small>안정적</small></div><div class="stat"><b>${mastery.mastered||0}</b><small>완전 암기</small></div></div><h3>유형·난이도별 학습 분석</h3><div class="skill-breakdown">${skills.length?skills.map(item=>{const pct=item.total?Math.round(item.score/item.total*100):0;return `<div><span><b>${esc(skillName(item.kind))}</b><small>${item.sessions}회 · ${item.score}/${item.total}</small></span><div><i style="width:${pct}%"></i></div><strong>${pct}%</strong></div>`;}).join(''):'<p class="muted">새 유형 학습 기록이 아직 없어요.</p>'}</div><h3>취약 단어</h3><div class="hard-list compact">${weak.length?weak.map(({item,word})=>`<div class="hard"><span class="meaning-icon">${word.icon}</span><b>${esc(word.en)}</b><small>${esc(word.ko)}</small><span class="num">정답 ${item.correct} · 오답 ${item.wrong}</span></div>`).join(''):'<p class="muted">아직 취약 단어가 없어요.</p>'}</div><h3>최근 학습 활동</h3><div class="activity-list">${recent.length?recent.map(item=>`<div><b>${esc(skillName(item.kind))}</b><span>${esc(item.topic||'전체 학습')}</span><span>${item.score}/${item.total}</span><small>${new Date(item.created_at||item.at).toLocaleString('ko-KR')}</small></div>`).join(''):'<p class="muted">최근 학습 기록이 없어요.</p>'}</div></section>`;
   document.body.appendChild(overlay);const close=()=>overlay.remove();overlay.onclick=(event)=>{if(event.target===overlay)close();};overlay.querySelector('#detail-close').onclick=close;overlay.querySelector('#detail-close').focus();
 }
 
