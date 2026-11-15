@@ -3,6 +3,7 @@
 // 동일한 검수 예문을 사용해 품질이 다시 나빠지지 않게 합니다.
 export const CURATED_EXAMPLES = {
   abandon: ['The team decided to abandon the ineffective plan.', '팀은 효과가 없는 계획을 포기하기로 했다.', 'Good learners abandon study habits that do not help them.', '좋은 학습자는 도움이 되지 않는 공부 습관을 버린다.'],
+  affect: ['Regular sleep can affect a student’s concentration.', '규칙적인 수면은 학생의 집중력에 영향을 미칠 수 있다.', 'Weather conditions affect how quickly plants grow.', '날씨 조건은 식물이 자라는 속도에 영향을 미친다.'],
   absorb: ['Plants absorb water through their roots.', '식물은 뿌리를 통해 물을 흡수한다.', 'It takes time to absorb a large amount of new information.', '많은 새로운 정보를 흡수하는 데에는 시간이 걸린다.'],
   associate: ['Many people associate this song with their school days.', '많은 사람은 이 노래를 학창 시절과 연관 짓는다.', 'She discussed the project with a research associate.', '그녀는 연구 동료와 그 프로젝트를 논의했다.'],
   claim: ['The writer supports the main claim with clear evidence.', '글쓴이는 명확한 증거로 주요 주장을 뒷받침한다.', 'A strong claim should be supported by reliable evidence.', '설득력 있는 주장은 신뢰할 수 있는 증거로 뒷받침되어야 한다.'],

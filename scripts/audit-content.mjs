@@ -1,7 +1,7 @@
 import { ALL_WORDS, TOPICS } from '../src/data/words.js';
 
 const errors=[];const review=[];const seenExamples=new Map();
-const unsafeContext=/drowned in the deluge|nonbinary people|unarmed protesters|trying to get shot|promising to destroy your life|deadly skin cancers|colonial divide-and-conquer|political satire|culture war|violent argument/i;
+const unsafeContext=/drowned in the deluge|nonbinary people|unarmed protesters|trying to get shot|promising to destroy your life|deadly skin cancers|colonial divide-and-conquer|political satire|culture war|violent argument|affect a smile/i;
 const reviewTerms=/\b(death|dead|killed|killing|murder|war|violence|violent|politics|political|religion|religious|suicide|gun|bomb|disaster|cancer|pandemic|atrocity|atrocities)\b|사망|죽음|살해|전쟁|폭력|종교|자살|폭탄|재난|폐암|피부암|참사/i;
 
 for(const word of ALL_WORDS){
