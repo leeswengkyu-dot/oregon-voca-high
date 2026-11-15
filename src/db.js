@@ -93,6 +93,15 @@ const local = {
     return [{ acorns: d.students.filter((s) => s.class_id === me.class_id)
       .reduce((sum, s) => sum + d.activity.filter((a) => a.sid === s.id && a.at >= ws).reduce((t, a) => t + a.acorns, 0), 0) }];
   },
+  async studentInsights(sid, token) {
+    const d=ldb();const s=d.students.find((item)=>item.id===sid&&item.token===token);if(!s)throw new Error('다시 로그인해 주세요');
+    const activity=d.activity.filter((item)=>item.sid===sid);const now=Date.now();
+    const items=Object.entries(s.progress||{}).map(([word_id,[correct,wrong]])=>{const attempts=correct+wrong,rate=attempts?correct/attempts:0;const mastery_state=attempts>=8&&rate>=.9?'mastered':attempts>=5&&rate>=.75?'solid':attempts?'learning':'new';return{word_id,correct,wrong,mastery_state};});
+    const mastery={new:0,learning:0,solid:0,mastered:0};items.forEach((item)=>mastery[item.mastery_state]++);
+    return {sessions_7d:activity.filter((item)=>item.at>=now-7*864e5).length,sessions_30d:activity.filter((item)=>item.at>=now-30*864e5).length,mastery,
+      review_words:items.filter((item)=>item.wrong>0||item.mastery_state==='learning').sort((a,b)=>b.wrong*5-b.correct-(a.wrong*5-a.correct)).slice(0,30),
+      recent_activity:activity.slice().sort((a,b)=>b.at-a.at).slice(0,12).map((item)=>({...item,created_at:new Date(item.at).toISOString()}))};
+  },
   async teacherOverview(pw) {
     const d = ldb(); lteacher(d, pw);
     const wk = Date.now() - 7 * 864e5; const hard = {};
@@ -106,6 +115,7 @@ const local = {
     });
     return { classes: d.classes, students, hard_words: Object.values(hard).sort((a, b) => b.wrong - a.wrong).slice(0, 60) };
   },
+  async teacherStudentDetail(pw,sid){const d=ldb();lteacher(d,pw);const s=d.students.find((item)=>item.id===sid);if(!s)throw new Error('학생을 찾을 수 없어요');const detail=await local.studentInsights(sid,s.token);return{student_id:sid,...detail,weak_words:detail.review_words.filter((item)=>item.wrong>0).slice(0,20)};},
   async teacherAddClass(pw, name) {
     const d = ldb(); lteacher(d, pw); name = name.trim(); if (!name) throw new Error('반 이름을 입력해 주세요');
     if (d.classes.some((c) => c.name === name)) throw new Error('같은 이름의 반이 있어요');
@@ -163,7 +173,9 @@ const remote = {
     p_acorns: r.acorns, p_words: r.words || [], p_badge: r.badge || null,
   }),
   weeklyTop: (sid, token) => rpc('ovh_class_weekly_top', { p_sid: sid, p_token: token }),
+  studentInsights: (sid,token) => rpc('ovh_student_insights',{p_sid:sid,p_token:token}),
   teacherOverview: (pw) => rpc('ovh_teacher_overview', { p_pw: pw }),
+  teacherStudentDetail: (pw,sid) => rpc('ovh_teacher_student_detail',{p_pw:pw,p_sid:sid}),
   teacherAddClass: (pw, name) => rpc('ovh_teacher_add_class', { p_pw: pw, p_name: name }),
   teacherRenameClass: (pw, id, name) => rpc('ovh_teacher_rename_class', { p_pw: pw, p_class_id: id, p_name: name }),
   teacherDeleteClass: (pw, id) => rpc('ovh_teacher_delete_class', { p_pw: pw, p_class_id: id }),

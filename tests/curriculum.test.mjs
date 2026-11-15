@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { TOPICS, ALL_WORDS, WORD_BY_ID } from '../src/data/words.js';
-import { STAGES, stageById, wordProgress, levelProgress, quizForTopic, passingScore, normalizeSentence } from '../src/data/levels.js';
+import { STAGES, stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, passingScore, normalizeSentence } from '../src/data/levels.js';
 
 test('four levels contain 200, 300, 300 and 300 learning entries', () => {
   assert.equal(TOPICS.length, 55);
@@ -29,6 +29,20 @@ test('semantic icons replace the repeated abc placeholder', () => {
   assert.deepEqual(prep.slice(0, 5).map((word) => word.icon), ['🚪', '💪', '🧽', '💭', '🎓']);
   assert.equal(ALL_WORDS.some((word) => /abc|🔤/i.test(word.icon)), false);
   assert.ok(new Set(ALL_WORDS.map((word) => word.icon)).size >= 20);
+  assert.equal(ALL_WORDS.some((word) => word.icon === '🧩' && word.en !== 'integrate'), false);
+  assert.ok(Math.max(...Object.values(Object.groupBy(ALL_WORDS, (word) => word.icon)).map((items) => items.length)) < 300);
+  assert.ok(new Set(TOPICS.map((topic) => topic.icon)).size >= 50);
+  assert.ok(TOPICS.every((topic) => topic.theme?.length >= 4));
+});
+
+test('mastery and review helpers prioritize weak words without mixing stages', () => {
+  const words = TOPICS.find((topic) => topic.id === 'prep-01').words;
+  const progress = { [words[0].id]: [1, 3], [words[1].id]: [5, 0], [words[2].id]: [8, 0] };
+  assert.equal(masteryFor(progress, words[0]), 'learning');
+  assert.equal(masteryFor(progress, words[1]), 'solid');
+  assert.equal(masteryFor(progress, words[2]), 'mastered');
+  assert.deepEqual(masterySummary(progress, words), { new: 17, learning: 1, solid: 1, mastered: 1 });
+  assert.deepEqual(reviewCandidates(progress, words).map((word) => word.id), [words[0].id]);
 });
 
 test('every word has contextual examples, translations, and a part of speech', () => {

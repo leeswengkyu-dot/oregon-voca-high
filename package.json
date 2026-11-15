@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "prebuild": "node scripts/check-env.mjs",
     "seed:generate": "node scripts/seed-curriculum.mjs",
-    "test": "node tests/curriculum.test.mjs && node tests/database.test.mjs && node tests/ui.test.mjs && node tests/environment.test.mjs"
+    "audit:content": "node scripts/audit-content.mjs",
+    "test": "node scripts/audit-content.mjs && node tests/curriculum.test.mjs && node tests/database.test.mjs && node tests/ui.test.mjs && node tests/environment.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.119.0",

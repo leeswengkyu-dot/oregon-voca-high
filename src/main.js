@@ -1,6 +1,6 @@
 import './style.css';
 import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.js';
-import { stageById, wordProgress, levelProgress, quizForTopic, passingScore, normalizeSentence } from './data/levels.js';
+import { stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, passingScore, normalizeSentence } from './data/levels.js';
 import { SCENES, sceneById, sceneForUnit } from './data/scenes.js';
 import { api, isOnline, store } from './db.js';
 import { parseContentWorkbook } from './excel.js';
@@ -266,7 +266,7 @@ routes.parent = async () => {
   }
   try {
     const children=await api.parentOverview();
-    app.innerHTML=`<header class="topbar t"><a class="back" href="#/home">←</a><h1>👨‍👩‍👧 보호자 화면</h1><button class="btn ghost small" id="pout">나가기</button></header><div class="page wide"><p class="muted">개인정보는 별명·반과 학습 요약만 표시합니다.</p><div class="two">${children.map(c=>`<div class="card"><h2>${esc(c.name)}</h2><p>${esc(c.class_name)}</p><div class="stat-row"><div class="stat"><b>${c.week_sessions}</b><small>7일 학습</small></div><div class="stat"><b>${c.learned}</b><small>익힌 단어</small></div><div class="stat"><b>${c.weak_words}</b><small>취약단어</small></div></div><p>⭐ 포인트 ${c.acorns}개</p></div>`).join('')||'<div class="card"><p class="muted">연결된 학생이 없어요. 학원 관리자에게 보호자 연결을 요청해 주세요.</p></div>'}</div></div>`;
+    app.innerHTML=`<header class="topbar t"><a class="back" href="#/home" aria-label="학생 화면으로">←</a><h1>👨‍👩‍👧 보호자 학습 리포트</h1><button class="btn ghost small" id="pout">나가기</button></header><div class="page wide"><p class="muted">학습량과 복습이 필요한 단어만 표시하며, 다른 학생과 비교하지 않습니다.</p><div class="parent-grid">${children.map(c=>{const mastery=c.mastery||{};const weak=(c.weak_word_details||[]).map(item=>({item,word:WORD_BY_ID[item.word_id]})).filter(x=>x.word);return `<article class="card parent-report"><div class="report-head"><div><span class="level-kicker">${esc(c.class_name)}</span><h2>${esc(c.name)} 학생</h2></div><span class="report-points">⭐ ${c.acorns}</span></div><div class="stat-row"><div class="stat"><b>${c.week_sessions}</b><small>최근 7일</small></div><div class="stat"><b>${c.month_sessions??c.week_sessions}</b><small>최근 30일</small></div><div class="stat"><b>${c.learned}</b><small>익힌 단어</small></div><div class="stat"><b>${c.weak_words}</b><small>복습 필요</small></div></div><div class="mastery-mini"><span>학습 중 <b>${mastery.learning||0}</b></span><span>안정적 <b>${mastery.solid||0}</b></span><span>완전 암기 <b>${mastery.mastered||0}</b></span></div><h3>우선 복습 단어</h3><div class="weak-chips">${weak.length?weak.map(({item,word})=>`<span><b>${esc(word.en)}</b> ${esc(word.ko)} <small>오답 ${item.wrong}</small></span>`).join(''):'<span class="muted">현재 우선 복습 단어가 없어요.</span>'}</div><p class="muted small">최근 활동 ${c.last_active?new Date(c.last_active).toLocaleString('ko-KR'):'-'}</p></article>`;}).join('')||'<div class="card"><p class="muted">연결된 학생이 없어요. 학원 관리자에게 보호자 연결을 요청해 주세요.</p></div>'}</div></div>`;
     $('#pout').onclick=async()=>{await api.parentLogout();state.parentReady=false;go('#/home');};
   } catch(ex){state.parentReady=false;toast(ex.message);render();}
 };
@@ -278,6 +278,9 @@ routes.home = async () => {
   const topics = TOPICS.filter((t) => t.stage === state.stage);
   const stage = stageById(state.stage);
   const lp = levelProgress(me.progress, TOPICS, stage.id);
+  const stageWords = topics.flatMap((topic) => topic.words);
+  const mastery = masterySummary(me.progress, stageWords);
+  const reviewCount = reviewCandidates(me.progress, stageWords, stageWords.length).length;
   let assignments = [];
   try { assignments = await api.studentAssignments(me.id, me.token); } catch { /* 과제는 보조 정보 */ }
   app.innerHTML = `
@@ -304,6 +307,20 @@ routes.home = async () => {
     <div class="level-counter"><strong>${lp.learned}<small> / ${lp.total}</small></strong><span>학습한 단어 · ${stage.units}개 단원</span></div>
     <div class="level-track" role="progressbar" aria-label="레벨 진도" aria-valuenow="${lp.learned}" aria-valuemin="0" aria-valuemax="${lp.total}"><i style="width:${lp.learned/lp.total*100}%"></i></div>
   </section>
+  <section class="study-focus" aria-label="오늘의 학습 추천">
+    <div class="focus-copy">
+      <span class="focus-icon" aria-hidden="true">🧠</span>
+      <div><span class="level-kicker">TODAY'S REVIEW</span><h2>오늘의 집중 복습</h2>
+      <p>${reviewCount ? `틀렸거나 아직 익숙하지 않은 ${reviewCount}개 단어를 먼저 복습해 보세요.` : '현재 취약 단어가 없어요. 새 단원을 학습하면 맞춤 복습이 준비됩니다.'}</p></div>
+    </div>
+    <div class="mastery-strip" aria-label="단어 숙련도">
+      <span><i class="m-new"></i><b>${mastery.new}</b><small>처음 봄</small></span>
+      <span><i class="m-learning"></i><b>${mastery.learning}</b><small>학습 중</small></span>
+      <span><i class="m-solid"></i><b>${mastery.solid}</b><small>안정적</small></span>
+      <span><i class="m-mastered"></i><b>${mastery.mastered}</b><small>완전 암기</small></span>
+    </div>
+    <a class="btn primary review-start ${reviewCount ? '' : 'disabled'}" href="${reviewCount ? `#/review/${stage.id}` : '#/home'}" ${reviewCount ? '' : 'aria-disabled="true"'}>집중 복습 시작 →</a>
+  </section>
   <section>
     ${assignments.length ? `<div class="card assignment-card"><h2 class="sec">📌 선생님 과제</h2>${assignments.slice(0, 5).map((a) => `<a class="class-row" href="#/topic/${encodeURIComponent(a.unit_id)}"><b>${esc(a.title_ko || a.unit_id)}</b><span>${a.due_at ? new Date(a.due_at).toLocaleDateString('ko-KR') + '까지' : '기한 없음'} →</span></a>`).join('')}</div>` : ''}
     <h2 class="sec">${stage.icon} ${stage.name} 단원 목록</h2>
@@ -311,8 +328,8 @@ routes.home = async () => {
       ${topics.map((t, i) => {
         const n = learnedIn(t); const badge = me.badges.includes('topic:' + t.id);
         return `<a class="village ${i % 2 ? 'r' : 'l'}" href="#/topic/${t.id}">
-          <span class="v-icon">${t.icon}</span>
-          <span class="v-name">${t.name}<small>${t.en}</small></span>
+          <span class="v-icon" aria-hidden="true">${t.icon}</span>
+          <span class="v-name">${t.name}<small>${esc(t.theme)} · ${t.en}</small></span>
           <span class="v-prog"><i style="width:${Math.round(n / t.words.length * 100)}%"></i></span>
           <span class="v-count">${badge ? '🏅' : `${n}/${t.words.length}`}</span>
         </a>`;
@@ -387,11 +404,12 @@ routes.topic = (id) => {
   const unitScene = sceneForUnit(t.id);
   app.innerHTML = `${topbar(`${t.icon} ${t.name}`)}
   <div class="page">
+    <div class="unit-intro"><span class="unit-hero-icon" aria-hidden="true">${t.icon}</span><div><span>${stageById(t.stage).label} · ${esc(t.en)}</span><h2>${esc(t.theme)}</h2><p>20개 핵심 단어를 의미·철자·문맥으로 익혀요.</p></div></div>
     <div class="modes">
-      <a class="mode m1" href="#/learn/${t.id}/0"><span>📖</span><b>단어 카드</b><small>5개씩, 가볍게 만나요</small></a>
-      <a class="mode m2" href="#/match/${t.id}"><span>🃏</span><b>짝 맞추기</b><small>영단어와 뜻 연결하기</small></a>
-      <a class="mode m3" href="#/spell/${t.id}"><span>⌨️</span><b>스펠링 연습</b><small>철자를 순서대로 완성하기</small></a>
-      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span>📝</span><b>문장·문맥 종합학습</b><small>번역·선택·빈칸·문장 배열을 골고루 연습해요</small></a>
+      <a class="mode m1" href="#/learn/${t.id}/0"><span class="mode-icon">🗂️</span><b>의미 카드</b><small>그림·뜻·예문을 5개씩 확인</small></a>
+      <a class="mode m2" href="#/match/${t.id}"><span class="mode-icon">🔗</span><b>짝 맞추기</b><small>영단어와 뜻을 정확히 연결</small></a>
+      <a class="mode m3" href="#/spell/${t.id}"><span class="mode-icon">🔤</span><b>철자 조립</b><small>소리를 듣고 철자 완성</small></a>
+      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span class="mode-icon">🧠</span><b>문장·문맥 훈련</b><small>뜻 선택·빈칸·문장 배열 종합 연습</small></a>
       ${unitScene ? `<a class="mode m2 wide" href="#/scene/${unitScene.id}"><span>🎬</span><b>Unit 상황 미션</b><small>LEVEL ${unitScene.level} · ${esc(unitScene.name)}</small></a>` : ''}
       <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>단원 퀴즈</b><small>${badge ? '배지를 모았어요! 다시 도전할 수 있어요' : `${stageById(t.stage).quizSize}문제 중 ${passingScore(stageById(t.stage).quizSize)}개 이상 맞히면 배지!`}</small></a>
     </div>
@@ -403,6 +421,51 @@ routes.topic = (id) => {
     </div>
   </div>`;
   $$('.word-tile').forEach((b) => b.onclick = () => speak(b.dataset.en));
+};
+
+// ---- 초등 앱의 맞춤복습을 고등학생용 숙련도 훈련으로 적용 ----
+routes.review = (stageId) => {
+  const stage = stageById(stageId);
+  const stageWords = TOPICS.filter((topic) => topic.stage === stage.id).flatMap((topic) => topic.words);
+  const words = reviewCandidates(state.me.progress, stageWords, 12);
+  if (!words.length) return go('#/home');
+  let index = 0; let score = 0; const log = [];
+  const draw = () => {
+    const word = words[index];
+    const mode = index % 3;
+    const pool = stageWords.filter((other) => other.id !== word.id && other.ko !== word.ko);
+    const choices = shuffle([word, ...sample(pool, 3)]);
+    const prompt = mode === 0
+      ? `<span class="review-word">${esc(word.en)}</span><p>알맞은 뜻을 고르세요.</p>`
+      : mode === 1
+        ? `<span class="review-meaning">${esc(word.ko)}</span><p>알맞은 영어 단어를 고르세요.</p>`
+        : `<p class="context-sentence">${esc(word.ex.replace(new RegExp(`\\b${word.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'), '_____'))}</p><p>문맥에 알맞은 단어를 고르세요.</p>`;
+    app.innerHTML = `${topbar('🧠 오늘의 집중 복습', '#/home')}<div class="page center review-page">
+      <div class="qhead"><span>${index + 1} / ${words.length}</span><span>✅ ${score}</span></div>
+      <div class="progress"><i style="width:${index / words.length * 100}%"></i></div>
+      <div class="review-prompt"><span class="meaning-icon xl" aria-hidden="true">${word.icon}</span>${prompt}</div>
+      <div class="sentence-choices">${choices.map((choice) => `<button class="sentence-choice" data-id="${esc(choice.id)}">${esc(mode === 0 ? choice.ko : choice.en)}</button>`).join('')}</div>
+      <div class="sentence-feedback" id="review-feedback" role="status"></div>
+      <button class="btn primary" id="review-next" hidden>${index === words.length - 1 ? '복습 마치기' : '다음 문제 →'}</button>
+    </div>`;
+    let locked = false;
+    $$('.sentence-choice').forEach((button) => button.onclick = () => {
+      if (locked) return; locked = true;
+      const ok = button.dataset.id === word.id; log.push({ id: word.id, ok }); if (ok) score++;
+      $$('.sentence-choice').forEach((choice) => { choice.disabled = true; if (choice.dataset.id === word.id) choice.classList.add('right'); });
+      if (!ok) button.classList.add('wrong');
+      $('#review-feedback').innerHTML = `<b class="${ok ? 'good' : 'err'}">${ok ? '✅ 정확해요!' : '정답을 확인하고 예문으로 익혀 보세요.'}</b><span>${esc(word.ex)}</span><small>${esc(word.exKo)}</small>`;
+      $('#review-next').hidden = false; beep(ok); speak(word.ex);
+    });
+    $('#review-next').onclick = async () => {
+      index++;
+      if (index < words.length) return draw();
+      const acorns = score;
+      await save({ kind: 'review', topic: stage.id, score, total: words.length, acorns, words: log });
+      finish({ title: '오늘의 집중 복습 완료!', emoji: '🧠', lines: [`취약 단어 ${words.length}개 중 <b>${score}개</b>를 맞혔어요.`], acorns, back: '#/home', again: '#/review/' + stage.id });
+    };
+  };
+  draw();
 };
 
 // ---- 단어 카드 ----
@@ -669,6 +732,14 @@ routes.sentence = (id) => {
   };draw();
 };
 
+async function showTeacherStudentDetail(pw, student) {
+  const detail=await api.teacherStudentDetail(pw,student.id);const mastery=detail.mastery||{};
+  const weak=(detail.weak_words||[]).map(item=>({item,word:WORD_BY_ID[item.word_id]})).filter(x=>x.word);
+  const recent=detail.recent_activity||[];const overlay=document.createElement('div');overlay.className='sheet-bg detail-bg';
+  overlay.innerHTML=`<section class="sheet student-detail" role="dialog" aria-modal="true" aria-labelledby="student-detail-title"><div class="report-head"><div><span class="level-kicker">학생 상세 분석</span><h2 id="student-detail-title">${esc(student.name)}</h2></div><button class="icon-btn" id="detail-close" aria-label="닫기">✕</button></div><div class="stat-row"><div class="stat"><b>${detail.sessions_7d||0}</b><small>7일 학습</small></div><div class="stat"><b>${detail.sessions_30d||0}</b><small>30일 학습</small></div><div class="stat"><b>${mastery.solid||0}</b><small>안정적</small></div><div class="stat"><b>${mastery.mastered||0}</b><small>완전 암기</small></div></div><h3>취약 단어</h3><div class="hard-list compact">${weak.length?weak.map(({item,word})=>`<div class="hard"><span class="meaning-icon">${word.icon}</span><b>${esc(word.en)}</b><small>${esc(word.ko)}</small><span class="num">정답 ${item.correct} · 오답 ${item.wrong}</span></div>`).join(''):'<p class="muted">아직 취약 단어가 없어요.</p>'}</div><h3>최근 학습 활동</h3><div class="activity-list">${recent.length?recent.map(item=>`<div><b>${esc(item.kind)}</b><span>${esc(item.topic||'전체 학습')}</span><span>${item.score}/${item.total}</span><small>${new Date(item.created_at||item.at).toLocaleString('ko-KR')}</small></div>`).join(''):'<p class="muted">최근 학습 기록이 없어요.</p>'}</div></section>`;
+  document.body.appendChild(overlay);const close=()=>overlay.remove();overlay.onclick=(event)=>{if(event.target===overlay)close();};overlay.querySelector('#detail-close').onclick=close;overlay.querySelector('#detail-close').focus();
+}
+
 // ================= 선생님 화면 =================
 routes.teacher = async () => {
   if (!state.teacherPw) {
@@ -727,7 +798,7 @@ routes.teacher = async () => {
       <tbody>${studs.map((s) => `<tr>
         <td>${esc(cname(s.class_id))}</td><td><b>${esc(s.name)}</b></td><td>${s.acorns}</td><td>${s.week_acorns}</td><td>${s.week_sessions}회</td>
         <td>${s.learned}/${ALL_WORDS.length}<br><small>${STAGES.map(stage=>`${stage.label} ${s.learned_by_stage?.[stage.id]??0}/${stage.target}`).join(' · ')}</small></td><td>${(s.badges || []).length}</td><td>${fmt(s.last_active)}</td>
-        <td class="acts"><button class="mini" data-act="pin" data-id="${s.id}" title="비밀번호 재설정">🔑</button>
+        <td class="acts"><button class="mini" data-act="detail" data-id="${s.id}" title="학습 상세">📊 상세</button><button class="mini" data-act="pin" data-id="${s.id}" title="비밀번호 재설정">🔑</button>
           <button class="mini" data-act="move" data-id="${s.id}" title="반 이동">↔️</button>
           <button class="mini" data-act="del" data-id="${s.id}" data-n="${esc(s.name)}" title="삭제">🗑️</button></td></tr>`).join('') || '<tr><td colspan="10" class="muted">아직 학생이 없어요. 학생이 첫 로그인하면 자동으로 등록돼요.</td></tr>'}</tbody>
     </table></div>
@@ -740,6 +811,7 @@ routes.teacher = async () => {
     body.onclick = async (e) => {
       const b = e.target.closest('[data-act]'); if (!b) return;
       try {
+        if (b.dataset.act === 'detail') { const student=data.students.find(item=>item.id===b.dataset.id);if(student)await showTeacherStudentDetail(pw,student);return; }
         if (b.dataset.act === 'pin') { const p = prompt('새 비밀번호(숫자 4자리)'); if (!p) return; await api.teacherResetPin(pw, b.dataset.id, p); toast('비밀번호를 바꿨어요'); }
         if (b.dataset.act === 'move') {
           const list = data.classes.map((c, k) => `${k + 1}. ${c.name}`).join('\n'); const n = Number(prompt('옮길 반 번호를 입력하세요\n' + list));

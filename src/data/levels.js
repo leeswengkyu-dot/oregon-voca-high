@@ -21,6 +21,33 @@ export function levelProgress(progress, topics, stage) {
   return { learned: words.filter((word) => wordProgress(progress, word)[0] > 0).length, total: words.length };
 }
 
+export function masteryFor(progress, word) {
+  const [correct, wrong] = wordProgress(progress, word);
+  const attempts = correct + wrong;
+  const rate = attempts ? correct / attempts : 0;
+  if (attempts >= 8 && rate >= 0.9) return 'mastered';
+  if (attempts >= 5 && rate >= 0.75) return 'solid';
+  if (attempts > 0) return 'learning';
+  return 'new';
+}
+
+export function masterySummary(progress, words) {
+  return words.reduce((summary, word) => {
+    summary[masteryFor(progress, word)] += 1;
+    return summary;
+  }, { new: 0, learning: 0, solid: 0, mastered: 0 });
+}
+
+export function reviewCandidates(progress, words, limit = 12) {
+  return words.map((word) => {
+    const [correct, wrong] = wordProgress(progress, word);
+    const state = masteryFor(progress, word);
+    return { word, correct, wrong, state, priority: wrong * 5 + (state === 'learning' ? 3 : 0) - correct };
+  }).filter((item) => item.state === 'learning' || item.wrong > 0)
+    .sort((a, b) => b.priority - a.priority || a.correct - b.correct || a.word.order - b.word.order)
+    .slice(0, limit).map((item) => item.word);
+}
+
 const shuffleWith = (items, random) => {
   const result = [...items];
   for (let index = result.length - 1; index > 0; index--) {
