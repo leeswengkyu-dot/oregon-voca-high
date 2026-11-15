@@ -2,6 +2,7 @@ import './style.css';
 import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.js';
 import { stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, passingScore, normalizeSentence } from './data/levels.js';
 import { SCENES, sceneById, sceneForUnit } from './data/scenes.js';
+import { LAB_INFO, WORD_FAMILIES, SYNTAX_ITEMS, LOGIC_ITEMS, CSAT_TYPE_INFO, CSAT_ITEMS, labItems, csatItems } from './data/csat-labs.js';
 import { api, isOnline, store } from './db.js';
 import { parseContentWorkbook } from './excel.js';
 
@@ -67,9 +68,11 @@ function interruptSpeech() {
 }
 function speak(text, rate = 0.85) {
   interruptSpeech();
+  return speakPart(text, rate, speechSequence);
+}
+function speakPart(text, rate = 0.85, sequence = speechSequence) {
   if (!hasTTS || !text) return Promise.resolve();
   if (!enVoice) pickVoice();
-  const sequence = speechSequence;
   return new Promise((resolve) => {
     activeSpeech = { sequence, resolve };
     // 취소 직후 곧바로 말하면 크롬에서 소리가 사라지므로 잠깐 쉬고 말함
@@ -85,6 +88,19 @@ function speak(text, rate = 0.85) {
       speechSynthesis.speak(u);
     }, 80);
   });
+}
+async function speakExamples(first, second, onStep = () => {}) {
+  interruptSpeech();
+  const sequence = speechSequence;
+  const texts = [first, second].filter(Boolean);
+  for (let index = 0; index < texts.length; index++) {
+    if (sequence !== speechSequence) return;
+    onStep(index);
+    await speakPart(texts[index], .78, sequence);
+    if (sequence !== speechSequence) return;
+    if (index < texts.length - 1) await new Promise((resolve) => setTimeout(resolve, 320));
+  }
+  if (sequence === speechSequence) onStep(-1);
 }
 function stopSpeak() { interruptSpeech(); }
 function voiceHelp(always = false) {
@@ -321,6 +337,12 @@ routes.home = async () => {
     </div>
     <a class="btn primary review-start ${reviewCount ? '' : 'disabled'}" href="${reviewCount ? `#/review/${stage.id}` : '#/home'}" ${reviewCount ? '' : 'aria-disabled="true"'}>집중 복습 시작 →</a>
   </section>
+  <section class="academy-labs" aria-labelledby="academy-labs-title">
+    <div class="section-head"><div><span class="level-kicker">CSAT FOUNDATION</span><h2 class="sec" id="academy-labs-title">🏛️ 수능 기초 연구소</h2></div><a href="#/csat" class="mini-link">수능 미니훈련 →</a></div>
+    <div class="lab-home-grid">
+      ${Object.entries(LAB_INFO).map(([key,info])=>`<a class="lab-home-card ${key}" href="#/lab/${key}/core"><span>${info.icon}</span><div><b>${info.title}</b><small>${info.description}</small></div><i>기본 코스 →</i></a>`).join('')}
+    </div>
+  </section>
   <section>
     ${assignments.length ? `<div class="card assignment-card"><h2 class="sec">📌 선생님 과제</h2>${assignments.slice(0, 5).map((a) => `<a class="class-row" href="#/topic/${encodeURIComponent(a.unit_id)}"><b>${esc(a.title_ko || a.unit_id)}</b><span>${a.due_at ? new Date(a.due_at).toLocaleDateString('ko-KR') + '까지' : '기한 없음'} →</span></a>`).join('')}</div>` : ''}
     <h2 class="sec">${stage.icon} ${stage.name} 단원 목록</h2>
@@ -371,6 +393,8 @@ function badgeChip(b) {
   const [kind, id] = b.split(':');
   if (kind === 'topic') { const t = topicById(id); return t ? `<span class="badge">${t.icon} ${t.name}</span>` : ''; }
   if (kind === 'scene') { const s = sceneById(id); return s ? `<span class="badge">${s.icon} ${s.name}</span>` : ''; }
+  if (kind === 'lab') { const [lab] = id.split('-'); const info=LAB_INFO[lab]; return info ? `<span class="badge">${info.icon} ${info.title} 통과</span>` : ''; }
+  if (kind === 'csat') { const info=CSAT_TYPE_INFO[id]; return info ? `<span class="badge">${info.icon} ${info.title} 완주</span>` : ''; }
   return '';
 }
 function settingsSheet() {
@@ -409,7 +433,7 @@ routes.topic = (id) => {
       <a class="mode m1" href="#/learn/${t.id}/0"><span class="mode-icon">🗂️</span><b>의미 카드</b><small>그림·뜻·예문을 5개씩 확인</small></a>
       <a class="mode m2" href="#/match/${t.id}"><span class="mode-icon">🔗</span><b>짝 맞추기</b><small>영단어와 뜻을 정확히 연결</small></a>
       <a class="mode m3" href="#/spell/${t.id}"><span class="mode-icon">🔤</span><b>철자 조립</b><small>소리를 듣고 철자 완성</small></a>
-      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span class="mode-icon">🧠</span><b>문장·문맥 훈련</b><small>뜻 선택·빈칸·문장 배열 종합 연습</small></a>
+      <a class="mode sentence-mode" href="#/sentence/${t.id}"><span class="mode-icon">🧠</span><b>문장·문맥 훈련</b><small>빈칸·구조·해석·문장 배열 종합 연습</small></a>
       ${unitScene ? `<a class="mode m2 wide" href="#/scene/${unitScene.id}"><span>🎬</span><b>Unit 상황 미션</b><small>LEVEL ${unitScene.level} · ${esc(unitScene.name)}</small></a>` : ''}
       <a class="mode m5 wide" href="#/quiz/${t.id}"><span>${badge ? '🏅' : '🎯'}</span><b>단원 퀴즈</b><small>${badge ? '배지를 모았어요! 다시 도전할 수 있어요' : `${stageById(t.stage).quizSize}문제 중 ${passingScore(stageById(t.stage).quizSize)}개 이상 맞히면 배지!`}</small></a>
     </div>
@@ -477,11 +501,12 @@ routes.learn = (id, partValue='0') => {
     app.innerHTML=`${topbar('📖 다섯 단어 학습 '+(part+1),'#/topic/'+t.id)}<div class="page center">
       <p class="muted small">${stageById(t.stage).label} · ${t.name} · ${i+1} / ${words.length}</p>
       <div class="dots">${words.map((_,k)=>`<i class="${k===i?'on':k<i?'done':''}"></i>`).join('')}</div>
-      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="meaning-icon xl" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="meaning-icon" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span><span class="ex second">${esc(w.ex2)}</span><span class="ex-ko">${esc(w.ex2Ko)}</span>`:''}</span></button>
-      <div class="row-btns"><button class="btn" id="say">🔊 단어</button><button class="btn" id="slow">🐢 천천히</button><button class="btn" id="sent">💬 예문</button></div>
+      <button class="flash ${flipped?'flipped':''}" id="card" aria-label="${esc(w.en)} 카드 뒤집기"><span class="face front"><span class="meaning-icon xl" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><small>카드를 누르면 뜻과 예문이 나와요</small></span><span class="face back"><span class="meaning-icon" aria-hidden="true">${w.icon}</span><b class="word">${esc(w.en)}</b><span class="ko">${esc(w.ko)}</span><span class="ex" data-example="0">${esc(w.ex)}</span>${state.subtitle?`<span class="ex-ko">${esc(w.exKo)}</span><span class="ex second" data-example="1">${esc(w.ex2)}</span><span class="ex-ko">${esc(w.ex2Ko)}</span>`:''}</span></button>
+      <div class="row-btns"><button class="btn" id="say">🔊 단어</button><button class="btn" id="slow">🐢 천천히</button><button class="btn" id="sent">💬 예문 2개 듣기</button></div>
       <div class="row-btns"><button class="btn ghost" id="prev" ${i===0?'disabled':''}>◀ 이전</button><button class="btn primary" id="next">${i===words.length-1?'다 봤어요! ✅':'다음 ▶'}</button></div><p class="err" id="save-error" role="alert"></p><div id="vhelp"></div></div>`;
+    const markExample=(index)=>{$$('[data-example]').forEach((node)=>node.classList.toggle('speaking',Number(node.dataset.example)===index));$('#sent').textContent=index<0?'💬 예문 2개 듣기':`🔊 예문 ${index+1}/2 재생 중`;};
     speak(w.en);$('#card').onclick=()=>{flipped=!flipped;$('#card').classList.toggle('flipped',flipped);if(flipped)speak(w.ex);};
-    $('#say').onclick=()=>speak(w.en);$('#slow').onclick=()=>speak(w.en,.5);$('#sent').onclick=()=>speak(w.ex);
+    $('#say').onclick=()=>speak(w.en);$('#slow').onclick=()=>speak(w.en,.5);$('#sent').onclick=()=>speakExamples(w.ex,w.ex2,markExample);
     const step=async(next,complete=false)=>{const b=$('#next');b.disabled=true;$('#prev').disabled=true;try{state.me=await api.checkpoint(state.me.id,state.me.token,t.id,part,next,complete);return true;}catch(err){$('#save-error').textContent='진도를 저장하지 못했어요: '+err.message;b.disabled=false;$('#prev').disabled=i===0;return false;}};
     $('#prev').onclick=async()=>{if(await step(i-1)){i--;flipped=false;draw();}};
     $('#next').onclick=async()=>{if(i<words.length-1){if(await step(i+1)){i++;flipped=false;draw();}return;}
@@ -704,39 +729,97 @@ routes.scene = (id) => {
   $('#start').onclick = step;
 };
 
-// ---- 종합 문장 학습: 번역·문맥·빈칸·문장 배열 ----
+// ---- 종합 문장 학습: 단순 뜻 암기 대신 문맥·구조·해석·용법을 훈련 ----
 routes.sentence = (id) => {
   const t=topicById(id);if(!t)return go('#/home');
-  const words=sample(t.words,t.stage==='prep'?8:12);const modes=['meaning','word','context','order'];let i=0,score=0;const log=[];
-  const labels={meaning:'영어 → 우리말',word:'우리말 → 영어',context:'문맥 빈칸',order:'문장 배열'};
-  const finishAll=async()=>{try{await save({kind:'sentence',topic:id,score,total:words.length,acorns:score*2,words:log});finish({title:'문장·문맥 학습 완료!',emoji:'📝',lines:[`번역·선택·빈칸·배열 ${words.length}문제 중 <b>${score}문제</b>를 맞혔어요.`],acorns:score*2,back:'#/topic/'+id,again:'#/sentence/'+id});}catch(err){toast(err.message);}};
+  const words=sample(t.words,t.stage==='prep'?8:10);const modes=['context','order','translation','usage','structure'];let i=0,score=0;const log=[];
+  const labels={context:'문맥 빈칸',order:'문장 배열',translation:'정확한 해석',usage:'자연스러운 용법',structure:'문장 속 역할'};
+  const posRoles={noun:'명사 · 사람·사물·개념을 나타냄',verb:'동사 · 동작이나 상태를 나타냄',adjective:'형용사 · 명사의 성질을 설명함',adverb:'부사 · 동사·형용사·문장을 꾸밈',preposition:'전치사 · 명사 앞에서 관계를 나타냄',conjunction:'접속사 · 단어·절을 연결함',pronoun:'대명사 · 명사를 대신함'};
+  const posChoices=['명사 · 사람·사물·개념을 나타냄','동사 · 동작이나 상태를 나타냄','형용사 · 명사의 성질을 설명함','부사 · 동사·형용사·문장을 꾸밈','전치사 · 명사 앞에서 관계를 나타냄','접속사 · 단어·절을 연결함'];
+  const finishAll=async()=>{try{await save({kind:'sentence_context',topic:id,score,total:words.length,acorns:score*2,words:log});finish({title:'문장·문맥 학습 완료!',emoji:'📝',lines:[`문맥·구조·해석 ${words.length}문제 중 <b>${score}문제</b>를 맞혔어요.`],acorns:score*2,back:'#/topic/'+id,again:'#/sentence/'+id});}catch(err){toast(err.message);}};
   const next=()=>{i++;if(i<words.length)draw();else finishAll();};
   const draw=()=>{
     const w=words[i],mode=modes[i%modes.length],example=i%2?w.ex2:w.ex,exampleKo=i%2?w.ex2Ko:w.exKo;
     const header=`${topbar('📝 문장·문맥 종합학습','#/topic/'+id)}<div class="page center"><div class="qhead"><span>${i+1} / ${words.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${(i/words.length)*100}%"></i></div><p class="sentence-kind">${labels[mode]}</p>`;
     if(mode==='order'){
       const blocks=shuffle(example.split(/\s+/).map((text,index)=>({text,index})));let selected=[],checked=false;
-      app.innerHTML=`${header}<p class="ask">${esc(exampleKo)}</p><p class="muted">단어 블록을 올바른 순서로 배열하세요.</p><div class="sentence-answer" id="sentence-answer" aria-label="내가 만든 문장"></div><div class="sentence-pool" id="sentence-pool"></div><p class="sentence-feedback" id="sentence-feedback" role="status"></p><div class="row-btns"><button class="btn ghost" id="sentence-hint">🔊 문장 듣기</button><button class="btn primary" id="sentence-check">문장 확인</button></div></div>`;
+      app.innerHTML=`${header}<p class="ask">${esc(exampleKo)}</p><p class="muted">문장 구조를 생각하며 블록을 올바른 순서로 배열하세요.</p><div class="sentence-answer" id="sentence-answer" aria-label="내가 만든 문장"></div><div class="sentence-pool" id="sentence-pool"></div><p class="sentence-feedback" id="sentence-feedback" role="status"></p><div class="row-btns"><button class="btn ghost" id="sentence-hint">🔊 문장 듣기</button><button class="btn primary" id="sentence-check">문장 확인</button></div></div>`;
       const repaint=()=>{const tray=$('#sentence-answer'),pool=$('#sentence-pool');tray.innerHTML=selected.map(k=>`<button class="sentence-block chosen" data-k="${k}" ${checked?'disabled':''}>${esc(blocks.find(b=>b.index===k).text)}</button>`).join('')||'<span class="muted">여기에 문장이 만들어져요</span>';pool.innerHTML=blocks.map(b=>`<button class="sentence-block ${selected.includes(b.index)?'used':''}" data-k="${b.index}" ${checked||selected.includes(b.index)?'disabled':''}>${esc(b.text)}</button>`).join('');pool.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked||b.disabled)return;selected.push(Number(b.dataset.k));repaint();};tray.onclick=e=>{const b=e.target.closest('[data-k]');if(!b||checked)return;selected=selected.filter(k=>k!==Number(b.dataset.k));repaint();};};
       $('#sentence-hint').onclick=()=>speak(example,.7);
-      $('#sentence-check').onclick=()=>{if(checked)return next();if(selected.length!==blocks.length){toast('모든 블록을 사용해 보세요.');return;}const answer=selected.map(k=>blocks.find(b=>b.index===k).text).join(' '),ok=normalizeSentence(answer)===normalizeSentence(example);log.push({id:w.id,ok});if(ok)score++;checked=true;$('#sentence-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정답이에요!':'다시 확인해 보세요.'}</b><span>${esc(example)}</span><small>${esc(exampleKo)}</small>`;$('#sentence-check').textContent=i===words.length-1?'학습 마치기':'다음 문제 →';repaint();beep(ok);speak(example);};repaint();return;
+      $('#sentence-check').onclick=()=>{if(checked)return next();if(selected.length!==blocks.length){toast('모든 블록을 사용해 보세요.');return;}const answer=selected.map(k=>blocks.find(b=>b.index===k).text).join(' '),ok=normalizeSentence(answer)===normalizeSentence(example);log.push({id:w.id,ok});if(ok)score++;checked=true;$('#sentence-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 문장 구조가 정확해요!':'정답 문장의 어순을 확인해 보세요.'}</b><span>${esc(example)}</span><small>${esc(exampleKo)}</small>`;$('#sentence-check').textContent=i===words.length-1?'학습 마치기':'다음 문제 →';repaint();beep(ok);speak(example);};repaint();return;
     }
-    const options=shuffle([w,...sample(t.words.filter(o=>o.id!==w.id),3)]);
-    const escapedWord=w.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-    const cloze=example.replace(new RegExp(`\\b${escapedWord}\\b`,'i'),'_____');
-    const question=mode==='meaning'?`<b class="sentence-focus">${esc(w.en)}</b><p>알맞은 우리말 뜻을 고르세요.</p>`:mode==='word'?`<b class="sentence-focus">${esc(w.ko)}</b><p>알맞은 영어 단어를 고르세요.</p>`:`<p class="context-sentence">${esc(cloze)}</p><p class="muted">문맥에 알맞은 단어를 고르세요.</p>`;
-    app.innerHTML=`${header}<div class="sentence-question">${question}</div><div class="sentence-choices">${options.map(o=>`<button class="sentence-choice" data-id="${esc(o.id)}">${esc(mode==='meaning'?o.ko:o.en)}</button>`).join('')}</div><div class="sentence-feedback" id="sentence-feedback" role="status"></div><div class="row-btns"><button class="btn ghost" id="sentence-listen">🔊 단어 듣기</button><button class="btn primary" id="sentence-next" hidden>${i===words.length-1?'학습 마치기':'다음 문제 →'}</button></div></div>`;
-    $('#sentence-listen').onclick=()=>speak(w.en);
-    let checked=false;$$('.sentence-choice').forEach(b=>b.onclick=()=>{if(checked)return;checked=true;const ok=b.dataset.id===w.id;log.push({id:w.id,ok});if(ok)score++;$$('.sentence-choice').forEach(x=>{x.disabled=true;if(x.dataset.id===w.id)x.classList.add('right');});if(!ok)b.classList.add('wrong');$('#sentence-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정답이에요!':'정답을 확인해 보세요.'}</b><span>${esc(example)}</span><small>${esc(exampleKo)}</small>`;$('#sentence-next').hidden=false;beep(ok);speak(example);});
+    const otherWords=t.words.filter(o=>o.id!==w.id),escapedWord=w.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const cloze=example.replace(new RegExp(`\\b${escapedWord}\\b`,'i'),'_____');let options=[],correct='',question='';
+    if(mode==='context'){
+      options=shuffle([w,...sample(otherWords,3)]).map(o=>({id:o.id,text:o.en}));correct=w.id;
+      question=`<p class="context-sentence">${esc(cloze)}</p><p class="muted">앞뒤 의미에 알맞은 단어를 고르세요.</p>`;
+    }else if(mode==='translation'){
+      options=shuffle([{id:w.id,text:exampleKo},...sample(otherWords,3).map(o=>({id:o.id,text:i%2?o.ex2Ko:o.exKo}))]);correct=w.id;
+      question=`<p class="context-sentence">${esc(example)}</p><p class="muted">문장 전체의 의미를 가장 정확하게 옮긴 해석을 고르세요.</p>`;
+    }else if(mode==='usage'){
+      const wrongs=sample(otherWords,3).map((o,index)=>({id:o.id,text:(index%2?o.ex2:o.ex).replace(new RegExp(`\\b${o.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\b`,'i'),w.en)}));
+      options=shuffle([{id:w.id,text:example},...wrongs]);correct=w.id;
+      question=`<b class="sentence-focus">${esc(w.en)}</b><p>표제어가 문맥과 문법에 맞게 쓰인 문장을 고르세요.</p>`;
+    }else{
+      const role=posRoles[w.partOfSpeech]||`${w.partOfSpeech} · 문장에서의 역할`;
+      options=shuffle([...new Set([role,...sample(posChoices.filter(x=>x!==role),3)])]).map((text,index)=>({id:text===role?w.id:`role-${index}`,text}));correct=w.id;
+      question=`<p class="context-sentence">${esc(example)}</p><p class="muted"><b>${esc(w.en)}</b>이 이 문장에서 하는 문법적 역할을 고르세요.</p>`;
+    }
+    app.innerHTML=`${header}<div class="sentence-question">${question}</div><div class="sentence-choices">${options.map(o=>`<button class="sentence-choice" data-id="${esc(o.id)}">${esc(o.text)}</button>`).join('')}</div><div class="sentence-feedback" id="sentence-feedback" role="status"></div><div class="row-btns"><button class="btn ghost" id="sentence-listen">🔊 문장 듣기</button><button class="btn primary" id="sentence-next" hidden>${i===words.length-1?'학습 마치기':'다음 문제 →'}</button></div></div>`;
+    $('#sentence-listen').onclick=()=>speak(example);
+    let checked=false;$$('.sentence-choice').forEach(b=>b.onclick=()=>{if(checked)return;checked=true;const ok=b.dataset.id===correct;log.push({id:w.id,ok});if(ok)score++;$$('.sentence-choice').forEach(x=>{x.disabled=true;if(x.dataset.id===correct)x.classList.add('right');});if(!ok)b.classList.add('wrong');$('#sentence-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 문맥을 정확히 읽었어요!':'문장 전체의 관계를 다시 확인해 보세요.'}</b><span>${esc(example)}</span><small>${esc(exampleKo)}</small>`;$('#sentence-next').hidden=false;beep(ok);speak(example);});
     $('#sentence-next').onclick=next;
+  };draw();
+};
+
+// ---- 초등 앱의 단계형 연구소를 고등학생용 어휘·구문·논리 훈련으로 확장 ----
+routes.lab = (kind, course='core') => {
+  const info=LAB_INFO[kind];if(!info||!['core','challenge'].includes(course))return go('#/home');
+  const challengeOpen=state.me.badges.includes(`lab:${kind}-core`);
+  if(course==='challenge'&&!challengeOpen){toast('기본 코스를 먼저 통과해 주세요.');return go(`#/lab/${kind}/core`);}
+  const items=shuffle(labItems(kind,course));let index=0,score=0,checked=false;
+  const labels={noun:'명사',verb:'동사',adjective:'형용사',adverb:'부사'};
+  const finishLab=async()=>{const pass=score>=Math.ceil(items.length*.8),badge=pass?`lab:${kind}-${course}`:null;await save({kind:`lab_${kind}`,topic:course,score,total:items.length,acorns:score*2,words:[],badge});finish({title:`${info.title} ${pass?'통과!':'완주!'}`,emoji:info.icon,lines:[`${items.length}문제 중 <b>${score}문제</b>를 맞혔어요.`,...(pass&&course==='core'?['🔓 도전 코스가 열렸어요!']:[])],acorns:score*2,back:'#/home',again:`#/lab/${kind}/${course}`,badge});};
+  const draw=()=>{
+    const item=items[index];checked=false;let prompt='',choices=[],answer='',explain=item.explain||item.example;
+    if(kind==='family'){
+      const formKeys=['noun','verb','adjective','adverb'];const target=formKeys[index%formKeys.length];answer=item.forms[target];
+      choices=shuffle([answer,...sample(items.filter(x=>x!==item).map(x=>x.forms[target]).filter(Boolean),3)]);
+      prompt=`<p class="lab-eyebrow">기본형 ${esc(item.base)} · ${esc(item.ko)}</p><h2>${labels[target]} 형태를 고르세요.</h2><p class="lab-example">${esc(item.example)}</p>`;
+    }else if(kind==='syntax'){
+      answer=item.chunks[item.answer];choices=item.chunks.slice();
+      prompt=`<p class="lab-sentence">${esc(item.sentence)}</p><small>${esc(item.ko)}</small><h2>${esc(item.prompt)}</h2>`;
+    }else{
+      answer=item.answer;choices=item.choices.slice();
+      prompt=`<p class="logic-pair"><span>${esc(item.before)}</span><b>_____</b><span>${esc(item.after)}</span></p><h2>두 문장의 <em>${esc(item.relation)}</em> 관계에 알맞은 연결어는?</h2>`;
+    }
+    const coreOn=course==='core'?'on':'',challengeOn=course==='challenge'?'on':'';
+    app.innerHTML=`${topbar(`${info.icon} ${info.title}`,'#/home')}<div class="page center lab-page"><nav class="course-tabs"><a class="${coreOn}" href="#/lab/${kind}/core">기본 코스</a><a class="${challengeOn} ${challengeOpen?'':'locked'}" href="${challengeOpen?`#/lab/${kind}/challenge`:`#/lab/${kind}/core`}">${challengeOpen?'도전 코스':'🔒 도전 코스'}</a></nav><div class="qhead"><span>${index+1} / ${items.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${index/items.length*100}%"></i></div><section class="lab-prompt">${prompt}</section><div class="sentence-choices">${shuffle(choices).map(choice=>`<button class="sentence-choice" data-answer="${esc(choice)}">${esc(choice)}</button>`).join('')}</div><div class="sentence-feedback" id="lab-feedback" role="status"></div><button class="btn primary" id="lab-next" hidden>${index===items.length-1?'연구 마치기':'다음 문제 →'}</button></div>`;
+    $$('.sentence-choice').forEach(button=>button.onclick=()=>{if(checked)return;checked=true;const ok=button.dataset.answer===answer;if(ok)score++;$$('.sentence-choice').forEach(x=>{x.disabled=true;if(x.dataset.answer===answer)x.classList.add('right');});if(!ok)button.classList.add('wrong');$('#lab-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정확해요!':'정답을 확인해 보세요.'}</b><span>${esc(answer)}</span><small>${esc(explain)}</small>`;$('#lab-next').hidden=false;beep(ok);if(kind==='family')speak(`${item.base}, ${answer}`);else if(kind==='syntax')speak(item.sentence);});
+    $('#lab-next').onclick=()=>{index++;if(index<items.length)draw();else finishLab();};
+  };draw();
+};
+
+// ---- 수능 독해 사고 과정을 짧은 앱 전용 지문으로 훈련 ----
+routes.csat = () => {
+  app.innerHTML=`${topbar('🎓 수능 유형 미니훈련','#/home')}<div class="page"><section class="csat-intro"><span>45문항을 풀기 전에</span><h2>짧은 지문으로 사고 과정을 연습해요</h2><p>단순 정답 맞히기가 아니라 근거 문장을 확인하며 주제·빈칸·순서·어휘·요약 유형을 익힙니다.</p></section><div class="csat-type-grid">${Object.entries(CSAT_TYPE_INFO).map(([key,info])=>{const done=state.me.badges.includes(`csat:${key}`);return `<a class="csat-type-card" href="#/csatQuiz/${key}"><span>${info.icon}</span><div><b>${info.title}</b><small>${info.description}</small></div><i>${done?'🏅 완주':'시작 →'}</i></a>`;}).join('')}</div><p class="curriculum-note">모든 지문은 이 앱을 위해 새로 작성한 연습 콘텐츠입니다.</p></div>`;
+};
+
+routes.csatQuiz = (type) => {
+  const info=CSAT_TYPE_INFO[type],items=shuffle(csatItems(type));if(!info||!items.length)return go('#/csat');let index=0,score=0,checked=false;
+  const finishCsat=async()=>{const pass=score>=Math.ceil(items.length*.8),badge=pass?`csat:${type}`:null;await save({kind:`csat_${type}`,topic:'mini',score,total:items.length,acorns:score*3,words:[],badge});finish({title:`${info.title} 미니훈련 완료!`,emoji:info.icon,lines:[`${items.length}문제 중 <b>${score}문제</b>를 맞혔어요.`,`${pass?'근거를 정확히 찾았어요.':'해설을 읽고 같은 유형에 다시 도전해 보세요.'}`],acorns:score*3,back:'#/csat',again:`#/csatQuiz/${type}`,badge});};
+  const draw=()=>{const item=items[index];checked=false;app.innerHTML=`${topbar(`${info.icon} ${info.title}`,'#/csat')}<div class="page center csat-quiz"><div class="qhead"><span>${index+1} / ${items.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${index/items.length*100}%"></i></div><article class="passage-card"><p>${esc(item.passage)}</p></article><h2 class="csat-question">${esc(item.question)}</h2><div class="csat-choices">${item.choices.map((choice,i)=>`<button data-index="${i}"><b>${i+1}</b><span>${esc(choice)}</span></button>`).join('')}</div><div class="answer-rationale" id="csat-rationale" role="status"></div><button class="btn primary" id="csat-next" hidden>${index===items.length-1?'미니훈련 마치기':'다음 문제 →'}</button></div>`;
+    $$('.csat-choices button').forEach(button=>button.onclick=()=>{if(checked)return;checked=true;const selected=Number(button.dataset.index),ok=selected===item.answer;if(ok)score++;$$('.csat-choices button').forEach(x=>{x.disabled=true;if(Number(x.dataset.index)===item.answer)x.classList.add('right');});if(!ok)button.classList.add('wrong');$('#csat-rationale').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정답 근거를 찾았어요!':'정답의 근거를 확인하세요.'}</b><p>${esc(item.explain)}</p>`;$('#csat-next').hidden=false;beep(ok);});
+    $('#csat-next').onclick=()=>{index++;if(index<items.length)draw();else finishCsat();};
   };draw();
 };
 
 async function showTeacherStudentDetail(pw, student) {
   const detail=await api.teacherStudentDetail(pw,student.id);const mastery=detail.mastery||{};
   const weak=(detail.weak_words||[]).map(item=>({item,word:WORD_BY_ID[item.word_id]})).filter(x=>x.word);
-  const recent=detail.recent_activity||[];const overlay=document.createElement('div');overlay.className='sheet-bg detail-bg';
-  overlay.innerHTML=`<section class="sheet student-detail" role="dialog" aria-modal="true" aria-labelledby="student-detail-title"><div class="report-head"><div><span class="level-kicker">학생 상세 분석</span><h2 id="student-detail-title">${esc(student.name)}</h2></div><button class="icon-btn" id="detail-close" aria-label="닫기">✕</button></div><div class="stat-row"><div class="stat"><b>${detail.sessions_7d||0}</b><small>7일 학습</small></div><div class="stat"><b>${detail.sessions_30d||0}</b><small>30일 학습</small></div><div class="stat"><b>${mastery.solid||0}</b><small>안정적</small></div><div class="stat"><b>${mastery.mastered||0}</b><small>완전 암기</small></div></div><h3>취약 단어</h3><div class="hard-list compact">${weak.length?weak.map(({item,word})=>`<div class="hard"><span class="meaning-icon">${word.icon}</span><b>${esc(word.en)}</b><small>${esc(word.ko)}</small><span class="num">정답 ${item.correct} · 오답 ${item.wrong}</span></div>`).join(''):'<p class="muted">아직 취약 단어가 없어요.</p>'}</div><h3>최근 학습 활동</h3><div class="activity-list">${recent.length?recent.map(item=>`<div><b>${esc(item.kind)}</b><span>${esc(item.topic||'전체 학습')}</span><span>${item.score}/${item.total}</span><small>${new Date(item.created_at||item.at).toLocaleString('ko-KR')}</small></div>`).join(''):'<p class="muted">최근 학습 기록이 없어요.</p>'}</div></section>`;
+  const recent=detail.recent_activity||[],skills=detail.skill_breakdown||[];const overlay=document.createElement('div');overlay.className='sheet-bg detail-bg';
+  const skillNames={sentence_context:'문장·문맥',lab_family:'파생어',lab_syntax:'구문',lab_logic:'논리',csat_main:'주제·요지',csat_blank:'빈칸',csat_flow:'순서·삽입',csat_usage:'어휘·어법',csat_summary:'요약·함축'};
+  overlay.innerHTML=`<section class="sheet student-detail" role="dialog" aria-modal="true" aria-labelledby="student-detail-title"><div class="report-head"><div><span class="level-kicker">학생 상세 분석</span><h2 id="student-detail-title">${esc(student.name)}</h2></div><button class="icon-btn" id="detail-close" aria-label="닫기">✕</button></div><div class="stat-row"><div class="stat"><b>${detail.sessions_7d||0}</b><small>7일 학습</small></div><div class="stat"><b>${detail.sessions_30d||0}</b><small>30일 학습</small></div><div class="stat"><b>${mastery.solid||0}</b><small>안정적</small></div><div class="stat"><b>${mastery.mastered||0}</b><small>완전 암기</small></div></div><h3>유형별 학습 분석</h3><div class="skill-breakdown">${skills.length?skills.map(item=>{const pct=item.total?Math.round(item.score/item.total*100):0;return `<div><span><b>${esc(skillNames[item.kind]||item.kind)}</b><small>${item.sessions}회 · ${item.score}/${item.total}</small></span><div><i style="width:${pct}%"></i></div><strong>${pct}%</strong></div>`;}).join(''):'<p class="muted">새 유형 학습 기록이 아직 없어요.</p>'}</div><h3>취약 단어</h3><div class="hard-list compact">${weak.length?weak.map(({item,word})=>`<div class="hard"><span class="meaning-icon">${word.icon}</span><b>${esc(word.en)}</b><small>${esc(word.ko)}</small><span class="num">정답 ${item.correct} · 오답 ${item.wrong}</span></div>`).join(''):'<p class="muted">아직 취약 단어가 없어요.</p>'}</div><h3>최근 학습 활동</h3><div class="activity-list">${recent.length?recent.map(item=>`<div><b>${esc(skillNames[item.kind]||item.kind)}</b><span>${esc(item.topic||'전체 학습')}</span><span>${item.score}/${item.total}</span><small>${new Date(item.created_at||item.at).toLocaleString('ko-KR')}</small></div>`).join(''):'<p class="muted">최근 학습 기록이 없어요.</p>'}</div></section>`;
   document.body.appendChild(overlay);const close=()=>overlay.remove();overlay.onclick=(event)=>{if(event.target===overlay)close();};overlay.querySelector('#detail-close').onclick=close;overlay.querySelector('#detail-close').focus();
 }
 

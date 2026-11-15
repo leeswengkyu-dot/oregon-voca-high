@@ -98,7 +98,8 @@ const local = {
     const activity=d.activity.filter((item)=>item.sid===sid);const now=Date.now();
     const items=Object.entries(s.progress||{}).map(([word_id,[correct,wrong]])=>{const attempts=correct+wrong,rate=attempts?correct/attempts:0;const mastery_state=attempts>=8&&rate>=.9?'mastered':attempts>=5&&rate>=.75?'solid':attempts?'learning':'new';return{word_id,correct,wrong,mastery_state};});
     const mastery={new:0,learning:0,solid:0,mastered:0};items.forEach((item)=>mastery[item.mastery_state]++);
-    return {sessions_7d:activity.filter((item)=>item.at>=now-7*864e5).length,sessions_30d:activity.filter((item)=>item.at>=now-30*864e5).length,mastery,
+    const skill_breakdown=Object.values(activity.reduce((out,item)=>{const key=item.kind.startsWith('csat_')||item.kind.startsWith('lab_')||item.kind==='sentence_context'?item.kind:'other';if(key==='other')return out;const row=out[key]||={kind:key,score:0,total:0,sessions:0};row.score+=Number(item.score||0);row.total+=Number(item.total||0);row.sessions++;return out;},{}));
+    return {sessions_7d:activity.filter((item)=>item.at>=now-7*864e5).length,sessions_30d:activity.filter((item)=>item.at>=now-30*864e5).length,mastery,skill_breakdown,
       review_words:items.filter((item)=>item.wrong>0||item.mastery_state==='learning').sort((a,b)=>b.wrong*5-b.correct-(a.wrong*5-a.correct)).slice(0,30),
       recent_activity:activity.slice().sort((a,b)=>b.at-a.at).slice(0,12).map((item)=>({...item,created_at:new Date(item.at).toISOString()}))};
   },
