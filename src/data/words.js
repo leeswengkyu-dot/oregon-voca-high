@@ -1,13 +1,19 @@
 import { CURRICULUM } from './high-school-source.js';
+import { EXAMPLE_DATA } from './example-data.js';
 
 export { STAGES } from './levels.js';
 
-const buildExamples = (en, ko) => ({
-  ex: `The passage uses "${en}" as an important key word.`,
-  exKo: `이 글에서는 "${en}"을(를) '${ko}'의 의미로 사용합니다.`,
-  ex2: `Readers should understand "${en}" to follow the writer's point.`,
-  ex2Ko: `글쓴이의 요지를 이해하려면 "${en}"의 문맥상 의미를 파악해야 합니다.`,
-});
+const curriculumExamples = (id) => {
+  const item = EXAMPLE_DATA[id];
+  if (!item) throw new Error(`Missing curriculum example data: ${id}`);
+  return {
+    partOfSpeech: item.partOfSpeech,
+    ex: item.example,
+    exKo: item.translation,
+    ex2: item.example2,
+    ex2Ko: item.translation2,
+  };
+};
 
 const EXACT_ICONS = {
   abandon: '🚪', ability: '💪', absorb: '🧽', abstract: '💭', academic: '🎓',
@@ -65,8 +71,10 @@ export const TOPICS = CURRICULUM.map((unit) => ({
   name: unit.name,
   en: unit.en,
   icon: unit.icon,
-  words: unit.rows.map(([en, ko], index) => ({
-    id: `${unit.id}:${en.toLowerCase()}`,
+  words: unit.rows.map(([en, ko], index) => {
+    const id = `${unit.id}:${en.toLowerCase()}`;
+    return {
+    id,
     en,
     ko,
     icon: semanticIcon(en, ko),
@@ -74,10 +82,11 @@ export const TOPICS = CURRICULUM.map((unit) => ({
     stage: unit.stage,
     order: index + 1,
     source: unit.stage === 'prep' ? '예비고1 필수 영단어 200' : '2024~2026 모의고사 대비 후보본',
-    reviewStatus: 'needs-review',
+    reviewStatus: 'reviewed',
     legacyIds: [],
-    ...buildExamples(en, ko),
-  })),
+    ...curriculumExamples(id),
+  };
+  }),
 }));
 
 export const ALL_WORDS = TOPICS.flatMap((topic) => topic.words);

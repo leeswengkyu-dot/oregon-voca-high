@@ -339,7 +339,7 @@ routes.home = async () => {
       <div class="badges">${me.badges.length ? me.badges.map(badgeChip).join('') : '<span class="muted">레벨별 단원 퀴즈에서 80% 이상 맞히면 배지를 받아요!</span>'}</div>
     </div>
   </section>
-  <footer class="foot">뉴오리건영어학원 · New Oregon English Academy</footer>`;
+  <footer class="foot">뉴오리건영어학원 · New Oregon English Academy · <a href="/third-party-notices.txt" target="_blank" rel="noreferrer">콘텐츠 출처</a></footer>`;
 
   $$('.stage-tab').forEach((b) => b.onclick = () => { state.stage = b.dataset.s; store.set('ovh_stage', state.stage); render(); });
   $('#menu').onclick = settingsSheet;

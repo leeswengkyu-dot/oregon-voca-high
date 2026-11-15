@@ -31,6 +31,22 @@ test('semantic icons replace the repeated abc placeholder', () => {
   assert.ok(new Set(ALL_WORDS.map((word) => word.icon)).size >= 20);
 });
 
+test('every word has contextual examples, translations, and a part of speech', () => {
+  const allowedParts = new Set(['noun', 'verb', 'adjective', 'adverb', 'conjunction', 'preposition']);
+  const oldPlaceholder = /The passage uses|Readers should understand|이 글에서는|글쓴이의 요지/;
+  for (const word of ALL_WORDS) {
+    const escaped = word.en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const target = new RegExp(`(?<![a-z])${escaped}(?![a-z])`, 'i');
+    assert.ok(allowedParts.has(word.partOfSpeech), `${word.id} partOfSpeech`);
+    assert.ok(target.test(word.ex), `${word.id} ex target`);
+    assert.ok(target.test(word.ex2), `${word.id} ex2 target`);
+    assert.notEqual(word.ex, word.ex2, `${word.id} distinct examples`);
+    assert.equal(oldPlaceholder.test(`${word.ex} ${word.exKo} ${word.ex2} ${word.ex2Ko}`), false, word.id);
+    assert.match(word.exKo, /[가-힣]/, `${word.id} exKo`);
+    assert.match(word.ex2Ko, /[가-힣]/, `${word.id} ex2Ko`);
+  }
+});
+
 test('prep list preserves the approved image order and boundaries', () => {
   const prep = TOPICS.filter((topic) => topic.stage === 'prep').flatMap((topic) => topic.words);
   assert.equal(prep[0].en, 'abandon');
