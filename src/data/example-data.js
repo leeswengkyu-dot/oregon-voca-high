@@ -2,10 +2,10 @@
 export const EXAMPLE_DATA = {
   "prep-01:abandon": {
     "partOfSpeech": "verb",
-    "example": "Abandon your life to God.",
-    "translation": "당신의 삶을 하나님께 맡기십시오.",
-    "example2": "Some say hundreds of people drowned in the deluge because they would not abandon their pets.",
-    "translation2": "어떤 사람들은 애완동물을 버리지 않았기 때문에 수백 명이 홍수에 빠져 익사했다고 말합니다."
+    "example": "Some say hundreds of people drowned in the deluge because they would not abandon their pets.",
+    "translation": "어떤 사람들은 애완동물을 버리지 않았기 때문에 수백 명이 홍수에 빠져 익사했다고 말합니다.",
+    "example2": "The leader called on both sides to 'abandon old hatreds and meet their responsibility toward peace.'.",
+    "translation2": "지도자는 양측에 '오래된 증오를 버리고 평화를 향한 책임을 다하라'고 촉구했습니다."
   },
   "prep-01:ability": {
     "partOfSpeech": "noun",
@@ -79,10 +79,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-01:acquire": {
     "partOfSpeech": "verb",
-    "example": "The company also announced this year that it will acquire U.S. grocer Whole Foods, which could help expand Amazon's online food-shopping services.",
-    "translation": "또한 회사는 올해 미국의 식료품업체인 Whole Foods를 인수할 것이라고 발표했는데, 이는 Amazon의 온라인 식품 쇼핑 서비스를 확장하는 데 도움이 될 수 있습니다.",
-    "example2": "You can't acquire a language without consuming it.",
-    "translation2": "언어를 소비하지 않고는 습득할 수 없습니다."
+    "example": "You can't acquire a language without consuming it.",
+    "translation": "언어를 소비하지 않고는 습득할 수 없습니다.",
+    "example2": "The students were asked to acquire something important.",
+    "translation2": "학생들은 중요한 것을 얻으라는 요청을 받았습니다."
   },
   "prep-01:adapt": {
     "partOfSpeech": "verb",
@@ -102,8 +102,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "We must adjust to the bad economic situation.",
     "translation": "우리는 나쁜 경제 상황에 적응해야 합니다.",
-    "example2": "Most immigrants adjust quickly to a new community. She waited for her eyes to adjust to the darkness.",
-    "translation2": "대부분의 이민자들은 새로운 지역사회에 빠르게 적응합니다. 그녀는 눈이 어둠에 적응할 때까지 기다렸습니다."
+    "example2": "The team may adjust the proposal after careful review.",
+    "translation2": "팀은 신중한 검토 후 제안을 조정할 수 있습니다."
   },
   "prep-01:admit": {
     "partOfSpeech": "verb",
@@ -130,8 +130,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I like trees, but I do not advocate living in them.",
     "translation": "나는 나무를 좋아하지만 나무 속에서 사는 것을 옹호하지는 않습니다.",
-    "example2": "Stop playing devil's advocate, Tom.",
-    "translation2": "악마의 옹호자 역할을 그만 두세요, 톰."
+    "example2": "Torres promised to reactivate the economy, tackle the country's security situation, advocate for those at risk and run an efficient government.",
+    "translation2": "토레스는 경제를 재가동하고 국가의 안보 상황을 해결하며 위험에 처한 사람들을 옹호하고 효율적인 정부를 운영하겠다고 약속했습니다."
   },
   "prep-01:affect": {
     "partOfSpeech": "verb",
@@ -149,10 +149,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-02:alternative": {
     "partOfSpeech": "noun",
-    "example": "Tom is writing an alternative history where the Carthaginians won the Punic Wars.",
-    "translation": "톰은 카르타고인들이 포에니 전쟁에서 승리한 대체 역사를 쓰고 있습니다.",
-    "example2": "What will you do if you are not accepted to medical school this year? Have you an alternative career plan?",
-    "translation2": "올해 의과대학에 합격하지 못하면 어떻게 하시겠습니까? 대체 직업 계획이 있나요?"
+    "example": "If alternative medicine worked, it would just be called medicine.",
+    "translation": "대체의학이 효과가 있었다면 그냥 의학이라고 부를 수 있었을 겁니다.",
+    "example2": "It once seemed like there was no alternative to monarchy, that it was just the way things were.",
+    "translation2": "한때 군주제 외에는 대안이 없는 것처럼 보였고 상황이 그랬던 것 같습니다."
   },
   "prep-02:analyze": {
     "partOfSpeech": "verb",
@@ -165,8 +165,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Aid organizations anticipate continued flooding will displace about 200,000 people and affect the lives of 485,000 people.",
     "translation": "구호단체들은 지속적인 홍수로 인해 약 20만명의 이재민이 발생하고 485,000명의 삶에 영향을 미칠 것으로 예상하고 있습니다.",
-    "example2": "Some Central Asian residents remain skeptical of the project, while others anticipate it will be an economic boon for the region.",
-    "translation2": "일부 중앙아시아 주민들은 이 프로젝트에 여전히 회의적인 반면, 다른 주민들은 이 지역에 경제적 이익이 될 것으로 기대하고 있습니다."
+    "example2": "The team may anticipate the proposal after careful review.",
+    "translation2": "팀은 신중한 검토를 거쳐 제안을 예상할 수 있습니다."
   },
   "prep-02:apparent": {
     "partOfSpeech": "adjective",
@@ -221,15 +221,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I assume his train was late.",
     "translation": "나는 그의 기차가 늦었다고 생각한다.",
-    "example2": "When will the new President assume office?",
-    "translation2": "새 대통령은 언제 취임하나요?"
+    "example2": "The gods assume human or animal form in these fables.",
+    "translation2": "이 우화에서 신들은 인간이나 동물의 형태를 취합니다."
   },
   "prep-02:attempt": {
     "partOfSpeech": "verb",
     "example": "It is more time-efficient to do several tasks sequentially than attempt to do them simultaneously.",
     "translation": "여러 작업을 동시에 수행하는 것보다 순차적으로 수행하는 것이 시간 효율적입니다.",
-    "example2": "Christianity's main connection to Judaism throughout history has been its attempt to eradicate and supplant it.",
-    "translation2": "역사를 통틀어 기독교와 유대교의 주된 연관성은 유대교를 근절하고 대체하려는 시도였습니다."
+    "example2": "Tom's diatribe was an artless attempt at persuading the others.",
+    "translation2": "톰의 비난은 다른 사람들을 설득하려는 교묘한 시도였습니다."
   },
   "prep-02:attitude": {
     "partOfSpeech": "noun",
@@ -275,10 +275,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-02:bias": {
     "partOfSpeech": "noun",
-    "example": "Twitter's algorithm already had a right-wing bias before its acquisition by arch-reactionary Elon Musk.",
-    "translation": "트위터의 알고리즘은 대반동주의자인 Elon Musk가 인수하기 전에 이미 우익 성향을 갖고 있었습니다.",
-    "example2": "The country's Communications and Media Commission accused the network of bias and defamation, saying the report lacked professionalism, balance and reliable evidence.",
-    "translation2": "국가 통신 및 미디어 위원회는 보고서에 전문성, 균형, 신뢰할 수 있는 증거가 부족하다며 네트워크가 편견과 명예를 훼손했다고 비난했습니다."
+    "example": "Researchers must avoid bias when analyzing results.",
+    "translation": "연구자는 결과를 분석할 때 편견을 피해야 합니다.",
+    "example2": "The article showed a clear bias against the proposal.",
+    "translation2": "해당 기사에서는 해당 제안에 대한 분명한 편견이 드러났습니다."
   },
   "prep-03:capacity": {
     "partOfSpeech": "noun",
@@ -296,10 +296,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-03:challenge": {
     "partOfSpeech": "noun",
-    "example": "They reacted irrationally to the challenge of Russian power.",
-    "translation": "그들은 러시아 권력의 도전에 비합리적으로 반응했습니다.",
-    "example2": "His challenge of the assumption that Japan is still our enemy.",
-    "translation2": "일본이 여전히 우리의 적이라는 가정에 대한 그의 도전."
+    "example": "This is our biggest challenge.",
+    "translation": "이것은 우리에게 가장 큰 도전이다.",
+    "example2": "She decided to embark on a new challenge to further her career.",
+    "translation2": "그녀는 자신의 경력을 더욱 발전시키기 위해 새로운 도전을 시작하기로 결정했습니다."
   },
   "prep-03:circumstance": {
     "partOfSpeech": "noun",
@@ -331,10 +331,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-03:compete": {
     "partOfSpeech": "verb",
-    "example": "The Kabyle language can therefore compete with others, when it is necessary!",
-    "translation": "따라서 Kabyle 언어는 필요할 때 다른 언어와 경쟁할 수 있습니다!",
-    "example2": "Rabbits, another invasive species, also compete with the marsupials for food and shelter.",
-    "translation2": "또 다른 침입종인 토끼도 먹이와 은신처를 놓고 유대류와 경쟁합니다."
+    "example": "Rabbits, another invasive species, also compete with the marsupials for food and shelter.",
+    "translation": "또 다른 침입종인 토끼도 먹이와 은신처를 놓고 유대류와 경쟁합니다.",
+    "example2": "If it's unfair for trans women to compete in women's sports, how come trans women aren't dominating in any sport?",
+    "translation2": "트랜스 여성이 여성 스포츠에서 경쟁하는 것이 불공평하다면 왜 트랜스 여성이 어떤 스포츠에서도 지배하지 못하는 걸까요?"
   },
   "prep-03:complex": {
     "partOfSpeech": "adjective",
@@ -347,15 +347,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "When there are diametrically opposing views on a big issue that concerns millions of people, doing comprehensive research just makes sense.",
     "translation": "수백만 명의 사람들이 관심을 갖는 큰 문제에 대해 정반대의 견해가 있을 때 포괄적인 연구를 수행하는 것이 합리적입니다.",
-    "example2": "Dr. Otto says a comprehensive approach of combining abstinence and condoms is crucial to preventing infections.",
-    "translation2": "오토 박사는 금욕과 콘돔을 결합하는 포괄적인 접근 방식이 감염 예방에 중요하다고 말합니다."
+    "example2": "The reviewers considered the final result comprehensive.",
+    "translation2": "검토자들은 최종 결과가 포괄적이라고 생각했습니다."
   },
   "prep-03:comprise": {
     "partOfSpeech": "verb",
     "example": "These few men comprise his entire army.",
     "translation": "이 소수의 사람들이 그의 군대 전체를 구성합니다.",
-    "example2": "Entitled \"The Next Four Billion,\" the report finds that the world's poor people comprise a relatively untapped $5 trillion consumer market.",
-    "translation2": "\"다음 40억 달러(The Next 40억)\"라는 제목의 이 보고서는 세계의 가난한 사람들이 상대적으로 아직 개척되지 않은 5조 달러 규모의 소비자 시장을 구성하고 있는 것으로 나타났습니다."
+    "example2": "The new policy may comprise the final outcome.",
+    "translation2": "새로운 정책은 최종 결과를 구성할 수 있습니다."
   },
   "prep-03:concentrate": {
     "partOfSpeech": "verb",
@@ -366,10 +366,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-03:concept": {
     "partOfSpeech": "noun",
-    "example": "The concept of hypertext predates the World Wide Web.",
-    "translation": "하이퍼텍스트의 개념은 월드 와이드 웹(World Wide Web)보다 앞서 있습니다.",
-    "example2": "I made the concept of an NFT into an NFT.",
-    "translation2": "NFT의 개념을 NFT로 만들었습니다."
+    "example": "I made the concept of an NFT into an NFT.",
+    "translation": "NFT의 개념을 NFT로 만들었습니다.",
+    "example2": "I don't think she fully grasped the concept.",
+    "translation2": "나는 그녀가 개념을 완전히 이해했다고 생각하지 않습니다."
   },
   "prep-03:concern": {
     "partOfSpeech": "noun",
@@ -389,15 +389,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "You cannot conduct business like this.",
     "translation": "이런 식으로 사업을 할 수는 없습니다.",
-    "example2": "Conduct an orchestra; Barenboim conducted the Chicago symphony for years.",
-    "translation2": "오케스트라를 지휘하세요. 바렌보임은 수년간 시카고 심포니를 지휘했습니다."
+    "example2": "All gods are better than their conduct.",
+    "translation2": "모든 신은 그들의 행위보다 낫습니다."
   },
   "prep-03:confirm": {
     "partOfSpeech": "verb",
-    "example": "I can confirm some of the rumors about Tom.",
-    "translation": "Tom에 관한 소문 중 일부를 확인할 수 있습니다.",
-    "example2": "Tom can neither confirm nor deny any of the claims made about him.",
-    "translation2": "Tom은 자신에 대한 어떤 주장도 확인하거나 거부할 수 없습니다."
+    "example": "Tom can neither confirm nor deny any of the claims made about him.",
+    "translation": "Tom은 자신에 대한 어떤 주장도 확인하거나 거부할 수 없습니다.",
+    "example2": "I just need to ask you a few questions to confirm you're not a robot.",
+    "translation2": "당신이 로봇이 아닌지 확인하기 위해 몇 가지 질문만 하면 됩니다."
   },
   "prep-03:consequence": {
     "partOfSpeech": "noun",
@@ -417,15 +417,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Tom lives in constant fear of a cataclysm.",
     "translation": "톰은 대격변에 대한 끊임없는 두려움 속에 살고 있습니다.",
-    "example2": "I would miss food stalls, the lilt of the Thai language, the constant bombardment of cheesy advertisements.",
-    "translation2": "나는 음식 가판대, 태국어의 경쾌함, 끊임없는 치즈 광고의 폭격을 그리워할 것입니다."
+    "example2": "The worst kind of man is the kind who keeps his wife under constant surveillance while having affairs himself.",
+    "translation2": "가장 나쁜 남자는 자신은 불륜을 저지르면서도 아내를 끊임없이 감시하는 남자다."
   },
   "prep-04:consume": {
     "partOfSpeech": "verb",
     "example": "Baby birds consume their own weight in food each day.",
     "translation": "아기 새들은 매일 자신의 체중만큼 음식을 섭취합니다.",
-    "example2": "If you consume this product while in Japan, you may be subject to consumption tax.",
-    "translation2": "일본 국내에서 본 상품을 섭취하시면 소비세가 부과될 수 있습니다."
+    "example2": "Brains consume 25% of the body's energy.",
+    "translation2": "뇌는 신체 에너지 중 25%를 소비해."
   },
   "prep-04:contain": {
     "partOfSpeech": "verb",
@@ -443,10 +443,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-04:contrast": {
     "partOfSpeech": "verb",
-    "example": "Anna was astounded by the contrast between the Titus of Sunday and the Titus of Monday.",
-    "translation": "안나는 일요일의 디도서와 월요일의 디도서의 대조에 놀랐습니다.",
-    "example2": "In contrast with many of his contemporaries, he’s not brash and boastful.",
-    "translation2": "많은 동시대 사람들과 달리 그는 뻔뻔하거나 자랑하지 않습니다."
+    "example": "In contrast with many of his contemporaries, he’s not brash and boastful.",
+    "translation": "많은 동시대 사람들과 달리 그는 뻔뻔하거나 자랑하지 않습니다.",
+    "example2": "The students were asked to contrast something important.",
+    "translation2": "학생들은 중요한 것을 대조하도록 요청 받았습니다."
   },
   "prep-04:contribute": {
     "partOfSpeech": "verb",
@@ -471,10 +471,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-04:convince": {
     "partOfSpeech": "verb",
-    "example": "Don't waste your time trying to convince Tom.",
-    "translation": "톰을 설득하려고 시간을 낭비하지마.",
-    "example2": "I've been trying to convince Tom to learn French.",
-    "translation2": "나는 톰이 프랑스어를 배우도록 설득하던 중이었어."
+    "example": "Tom's arguments didn't convince us.",
+    "translation": "Tom의 주장은 우리를 설득하지 못했습니다.",
+    "example2": "I know what I saw and you can't convince me otherwise.",
+    "translation2": "나는 내가 본 것을 알고 있으며 다른 방법으로는 나를 설득할 수 없습니다."
   },
   "prep-04:correspond": {
     "partOfSpeech": "verb",
@@ -501,8 +501,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "That is crucial to revive not just the river, but also the banks or “ghats” in pilgrim towns where visitors throng.",
     "translation": "이는 강뿐만 아니라 방문객이 붐비는 순례자 마을의 제방이나 '가트'도 살리는 데 중요합니다.",
-    "example2": "Dr. Otto says a comprehensive approach of combining abstinence and condoms is crucial to preventing infections.",
-    "translation2": "오토 박사는 금욕과 콘돔을 결합하는 포괄적인 접근 방식이 감염 예방에 중요하다고 말합니다."
+    "example2": "Scientists have discovered that a protein that plays a crucial role in healing broken bones is not fully functional in diabetics.",
+    "translation2": "과학자들은 부러진 뼈를 치료하는 데 중요한 역할을 하는 단백질이 당뇨병 환자에게는 제대로 기능하지 않는다는 사실을 발견했습니다."
   },
   "prep-04:decline": {
     "partOfSpeech": "verb",
@@ -541,10 +541,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-04:derive": {
     "partOfSpeech": "verb",
-    "example": "Yet Evlin seems to derive wisdom from her personal experiences and the experiences of others around her.",
-    "translation": "그러나 Evlin은 자신의 개인적인 경험과 주변 사람들의 경험에서 지혜를 얻는 것 같습니다.",
-    "example2": "The report could derive that the estimate was wrong.",
-    "translation2": "보고서를 통해 추정치가 잘못되었음을 알 수 있었습니다."
+    "example": "Many English words derive from Latin roots.",
+    "translation": "많은 영어 단어는 라틴어 뿌리에서 파생됩니다.",
+    "example2": "Plants derive energy from sunlight through photosynthesis.",
+    "translation2": "식물은 광합성을 통해 햇빛으로부터 에너지를 얻습니다."
   },
   "prep-04:detect": {
     "partOfSpeech": "verb",
@@ -557,8 +557,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "They want to determine whether there were any unreported malfunctions and whether or not all test objectives were met.",
     "translation": "그들은 보고되지 않은 오작동이 있었는지, 그리고 모든 테스트 목표가 충족되었는지 여부를 확인하려고 합니다.",
-    "example2": "He says further studies are needed to determine to what extent these findings can be extrapolated to other areas in Africa.",
-    "translation2": "그는 이러한 발견이 아프리카의 다른 지역에 어느 정도까지 적용될 수 있는지를 결정하기 위해서는 추가 연구가 필요하다고 말했습니다."
+    "example2": "The students were asked to determine something important.",
+    "translation2": "학생들은 중요한 것을 결정하도록 요청 받았습니다."
   },
   "prep-05:deviate": {
     "partOfSpeech": "verb",
@@ -583,38 +583,38 @@ export const EXAMPLE_DATA = {
   },
   "prep-05:distribute": {
     "partOfSpeech": "verb",
-    "example": "The publisher wants to distribute the book in Asia.",
-    "translation": "출판사는 이 책을 아시아에 배포하고 싶어합니다.",
-    "example2": "The students were asked to distribute something important.",
-    "translation2": "학생들은 중요한 것을 배포하도록 요청 받았습니다."
+    "example": "Volunteers distribute meals to families every weekend.",
+    "translation": "자원봉사자들은 주말마다 가족들에게 식사를 나눠줍니다.",
+    "example2": "The teacher will distribute the worksheets before class.",
+    "translation2": "교사는 수업 전에 워크시트를 배포할 것입니다."
   },
   "prep-05:diverse": {
     "partOfSpeech": "adjective",
-    "example": "Idris Elba was a diverse hire for the franchise.",
-    "translation": "Idris Elba는 프랜차이즈의 다양한 고용인이었습니다.",
-    "example2": "Mr. Chirac said that by commemorating the abolition of slavery, France is also celebrating its diverse, yet united, ethnicities.",
-    "translation2": "시라크 씨는 프랑스가 노예제 폐지를 기념함으로써 다양하면서도 단결된 민족성을 기념하고 있다고 말했습니다."
+    "example": "All in all, the southeast sector offers a very diverse avifauna, and it should not be ignored by the visiting birder.",
+    "translation": "전체적으로 남동부 지역은 매우 다양한 조류상을 제공하므로 방문하는 조류 관찰자가 이를 무시해서는 안 됩니다.",
+    "example2": "Bangladesh is a diverse country with a rich culture and history.",
+    "translation2": "방글라데시는 풍부한 문화와 역사를 지닌 다양한 국가입니다."
   },
   "prep-05:dominate": {
     "partOfSpeech": "verb",
-    "example": "This reputation sparked the interest of Singaporean photographer Nicholas Leong after he watched Kenyans dominate the Singaporean marathon in 2006.",
-    "translation": "이러한 평판은 2006년 케냐인들이 싱가포르 마라톤을 지배하는 것을 지켜본 후 싱가포르 사진작가 Nicholas Leong의 관심을 촉발시켰습니다.",
-    "example2": "The situation may dominate without warning.",
-    "translation2": "상황은 예고 없이 지배적일 수 있습니다."
+    "example": "One large tree seemed to dominate the landscape.",
+    "translation": "커다란 나무 한 그루가 풍경을 지배하는 것 같았습니다.",
+    "example2": "A single topic should not dominate the entire discussion.",
+    "translation2": "하나의 주제가 전체 토론을 지배해서는 안 됩니다."
   },
   "prep-05:efficient": {
     "partOfSpeech": "adjective",
     "example": "The price of jet fuel is one reason aviation technology research is so often focused on making planes lighter and more efficient.",
     "translation": "제트 연료의 가격은 항공 기술 연구가 비행기를 더 가볍고 효율적으로 만드는 데 집중되는 이유 중 하나입니다.",
-    "example2": "The ultra-modern city state Singapore has become a model that other Asian nations aspire to — organized, immaculate and efficient.",
-    "translation2": "초현대적인 도시 국가 싱가포르는 다른 아시아 국가들이 열망하는 체계적이고 완벽하며 효율적인 모델이 되었습니다."
+    "example2": "Torres promised to reactivate the economy, tackle the country's security situation, advocate for those at risk and run an efficient government.",
+    "translation2": "토레스는 경제를 재가동하고 국가의 안보 상황을 해결하며 위험에 처한 사람들을 옹호하고 효율적인 정부를 운영하겠다고 약속했습니다."
   },
   "prep-05:eliminate": {
     "partOfSpeech": "verb",
-    "example": "Let's eliminate the course on Akkadian hieroglyphics.",
-    "translation": "Akkadian 상형 문자에 대한 과정을 제거합시다.",
-    "example2": "Attempting to eliminate gay and trans people is a fundamentally flawed goal, as we will keep being born no matter what.",
-    "translation2": "동성애자와 트랜스젠더를 제거하려는 시도는 근본적으로 결함이 있는 목표입니다. 우리는 무슨 일이 있어도 계속해서 태어날 것이기 때문입니다."
+    "example": "Attempting to eliminate gay and trans people is a fundamentally flawed goal, as we will keep being born no matter what.",
+    "translation": "동성애자와 트랜스젠더를 제거하려는 시도는 근본적으로 결함이 있는 목표입니다. 우리는 무슨 일이 있어도 계속해서 태어날 것이기 때문입니다.",
+    "example2": "The right is attempting to eliminate trans people, but this is impossible, because trans people will always continue to be born.",
+    "translation2": "우파는 트랜스젠더를 제거하려고 시도하지만 이는 불가능합니다. 트랜스젠더는 언제나 계속해서 탄생할 것이기 때문입니다."
   },
   "prep-05:emerge": {
     "partOfSpeech": "verb",
@@ -632,17 +632,17 @@ export const EXAMPLE_DATA = {
   },
   "prep-05:enable": {
     "partOfSpeech": "verb",
-    "example": "This skill will enable you to find a job on Wall Street.",
-    "translation": "이 기술을 사용하면 월스트리트에서 일자리를 찾을 수 있습니다.",
-    "example2": "The students were asked to enable something important.",
-    "translation2": "학생들은 중요한 것을 활성화하도록 요청 받았습니다."
+    "example": "The scholarship will enable her to continue studying.",
+    "translation": "장학금 덕분에 그녀는 계속 공부할 수 있게 되었습니다.",
+    "example2": "New tools enable students to analyze data quickly.",
+    "translation2": "새로운 도구를 사용하면 학생들이 데이터를 빠르게 분석할 수 있습니다."
   },
   "prep-05:encounter": {
     "partOfSpeech": "verb",
-    "example": "Yesterday Tom had a very unpleasant encounter with some rando on the street.",
-    "translation": "어제 톰은 길거리에서 어떤 란도와 매우 불쾌한 만남을 가졌습니다.",
-    "example2": "A fortuitous encounter with Tom Jackson laid the groundwork for my new hobby.",
-    "translation2": "톰 잭슨과의 우연한 만남은 나의 새로운 취미의 기초를 놓았습니다."
+    "example": "Tom recognized me from a single encounter at a party three years ago.",
+    "translation": "톰은 3년 전 파티에서 한 번 만났을 때 나를 알아보았습니다.",
+    "example2": "Anyone you encounter may be traumatized.",
+    "translation2": "만나는 사람마다 트라우마를 겪을 수 있습니다."
   },
   "prep-05:enhance": {
     "partOfSpeech": "verb",
@@ -655,22 +655,22 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "This nest egg will ensure a nice retirement for us.",
     "translation": "이 둥지 알은 우리에게 좋은 은퇴를 보장해 줄 것입니다.",
-    "example2": "Israel's future existence hinges on its ability to ensure freedom and safety for Palestinians.",
-    "translation2": "이스라엘의 미래 생존은 팔레스타인 사람들의 자유와 안전을 보장하는 능력에 달려 있습니다."
+    "example2": "Republicans have been implementing ways to ensure undemocratic minority rule, because their core demographic is shrinking.",
+    "translation2": "공화당은 핵심 인구가 줄어들고 있기 때문에 비민주적인 소수 지배를 보장하는 방법을 시행해 왔습니다."
   },
   "prep-05:equivalent": {
     "partOfSpeech": "adjective",
     "example": "A wish that was equivalent to a command.",
     "translation": "명령과도 같은 소원.",
-    "example2": "Kabyle red \"Aza\" is the equivalent of the red cross.",
-    "translation2": "Kabyle 빨간색 \"Aza\"는 적십자와 동일합니다."
+    "example2": "When a cat or dog licks you, it's their equivalent of petting you.",
+    "translation2": "고양이나 개가 당신을 핥는 것은 당신을 쓰다듬는 것과 같습니다."
   },
   "prep-05:establish": {
     "partOfSpeech": "verb",
     "example": "They have to establish communications first, get radio techs out there and get repeater sites set up.",
     "translation": "먼저 통신을 구축하고, 무선 기술자를 파견하고, 중계기 사이트를 설치해야 합니다.",
-    "example2": "In this case the master of Comparative Philology disregarded the phonetic laws which he had himself helped to establish.",
-    "translation2": "이 경우 비교 언어학의 대가는 자신이 확립하는 데 도움을 준 음성법칙을 무시했습니다."
+    "example2": "Will they establish new trade routes soon?",
+    "translation2": "곧 새로운 무역로를 개척하게 될까요?"
   },
   "prep-05:estimate": {
     "partOfSpeech": "verb",
@@ -746,8 +746,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "She made her wishes explicit.",
     "translation": "그녀는 자신의 소망을 분명히 밝혔습니다.",
-    "example2": "Many on the far right are very explicit about hating George Soros for being Jewish.",
-    "translation2": "극우파의 많은 사람들은 조지 소로스가 유대인이라는 이유로 싫어한다는 점을 매우 노골적으로 표현합니다."
+    "example2": "Most drag shows are not sexually explicit.",
+    "translation2": "대부분의 드래그 쇼는 성적으로 노골적이지 않습니다."
   },
   "prep-06:expose": {
     "partOfSpeech": "verb",
@@ -772,24 +772,24 @@ export const EXAMPLE_DATA = {
   },
   "prep-06:feature": {
     "partOfSpeech": "noun",
-    "example": "The feature tonight is `Casablanca'.",
-    "translation": "오늘 밤 특집은 '카사블랑카'입니다.",
-    "example2": "They ran a feature on retirement planning.",
-    "translation2": "그들은 은퇴 계획에 관한 기능을 실행했습니다."
+    "example": "They ran a feature on retirement planning.",
+    "translation": "그들은 은퇴 계획에 관한 기능을 실행했습니다.",
+    "example2": "The photo editor includes a feature which allows users to add a blur effect to images.",
+    "translation2": "사진 편집기에는 사용자가 이미지에 흐림 효과를 추가할 수 있는 기능이 포함되어 있습니다."
   },
   "prep-06:flexible": {
     "partOfSpeech": "adjective",
-    "example": "This was a principle more flexible to their purpose. -Rogers.",
-    "translation": "이는 그들의 목적에 더 유연한 원칙이었습니다. -로저스.",
-    "example2": "Flexible piping is very prominent at the rebuilt Higashinada sewage treatment plant on Kobe's waterfront.",
-    "translation2": "고베 해안가에 재건축된 히가시나다 하수 처리장에서는 유연한 배관이 매우 눈에 띕니다."
+    "example": "Is the future predetermined or flexible?",
+    "translation": "미래는 미리 결정된 것인가, 아니면 유연한 것인가?",
+    "example2": "The reviewers considered the final result flexible.",
+    "translation2": "검토자는 최종 결과가 유연하다고 생각했습니다."
   },
   "prep-06:fluctuate": {
     "partOfSpeech": "verb",
-    "example": "Deirdre Carney suspected she might have COVID-19 when her temperature began to fluctuate above the normal 37 degrees Celsius.",
-    "translation": "Deirdre Carney는 체온이 정상 섭씨 37도 이상으로 오르기 시작했을 때 자신이 코로나19에 감염되었을 가능성이 있다고 의심했습니다.",
-    "example2": "Variegated leaves fluctuate between green and white, or green and yellow, and display these colors in nearly all possible patterns.",
-    "translation2": "잡색의 잎은 녹색과 흰색, 녹색과 노란색 사이를 오가며 거의 모든 가능한 패턴으로 이러한 색상을 표시합니다."
+    "example": "Variegated leaves fluctuate between green and white, or green and yellow, and display these colors in nearly all possible patterns.",
+    "translation": "잡색의 잎은 녹색과 흰색, 녹색과 노란색 사이를 오가며 거의 모든 가능한 패턴으로 이러한 색상을 표시합니다.",
+    "example2": "A small change could fluctuate the entire process.",
+    "translation2": "작은 변화로 인해 전체 프로세스가 달라질 수 있습니다."
   },
   "prep-06:focus": {
     "partOfSpeech": "verb",
@@ -835,17 +835,17 @@ export const EXAMPLE_DATA = {
   },
   "prep-06:identify": {
     "partOfSpeech": "verb",
-    "example": "Nouns name. Pronouns identify without naming.",
-    "translation": "명사 이름. 대명사는 이름을 붙이지 않고도 식별됩니다.",
-    "example2": "Can you identify the man who did this to you?",
-    "translation2": "당신에게 이런 짓을 한 사람이 누구인지 알 수 있나요?"
+    "example": "Can you identify the man who did this to you?",
+    "translation": "당신에게 이런 짓을 한 사람이 누구인지 알 수 있나요?",
+    "example2": "Could you identify him in a lineup?",
+    "translation2": "라인업에서 그 사람을 알아볼 수 있나요?"
   },
   "prep-07:ignore": {
     "partOfSpeech": "verb",
-    "example": "Were we supposed to ignore Tom?",
-    "translation": "우리가 톰을 무시하기로 했었나?",
-    "example2": "People who ignore history tend to repeat it.",
-    "translation2": "역사를 무시하는 사람들은 역사를 되풀이하게 된다."
+    "example": "People who ignore history tend to repeat it.",
+    "translation": "역사를 무시하는 사람들은 역사를 되풀이하게 된다.",
+    "example2": "Calls for a peaceful solution often ignore the everyday violence that led to the conflict in question.",
+    "translation2": "평화로운 해결책을 요구하면 문제의 갈등을 초래한 일상적인 폭력을 무시하는 경우가 많습니다."
   },
   "prep-07:illustrate": {
     "partOfSpeech": "verb",
@@ -863,10 +863,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-07:implement": {
     "partOfSpeech": "verb",
-    "example": "Meanwhile, Malawi’s government says it plans to implement the visa-free waiver arrangement starting in January.",
-    "translation": "한편, 말라위 정부는 1월부터 비자 면제 제도를 시행할 계획이라고 밝혔습니다.",
-    "example2": "The idea is very interesting, but I'm worried about how we are going to implement it.",
-    "translation2": "아이디어는 매우 흥미롭지만, 이를 어떻게 구현해낼지 걱정이 됩니다."
+    "example": "The idea is very interesting, but I'm worried about how we are going to implement it.",
+    "translation": "아이디어는 매우 흥미롭지만, 이를 어떻게 구현해낼지 걱정이 됩니다.",
+    "example2": "He added that it behooves both the sub-regional group and its member states to implement the agreed measures to combat the famine.",
+    "translation2": "그는 기근 퇴치를 위해 합의된 조치를 이행하는 것이 소지역 그룹과 회원국 모두의 의무라고 덧붙였습니다."
   },
   "prep-07:imply": {
     "partOfSpeech": "verb",
@@ -919,10 +919,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-07:inhibit": {
     "partOfSpeech": "verb",
-    "example": "It’s believed purple nut sedge may have the ability to inhibit the growth of Streptococcus mutans.",
-    "translation": "보라색 너트 사초에는 연쇄상 구균 뮤탄스의 성장을 억제하는 능력이 있을 수 있다고 믿어집니다.",
-    "example2": "The team may inhibit the proposal after careful review.",
-    "translation2": "팀은 신중한 검토 후 제안을 금지할 수 있습니다."
+    "example": "Fear can inhibit creative thinking.",
+    "translation": "두려움은 창의적인 사고를 방해할 수 있습니다.",
+    "example2": "The medicine may inhibit the growth of bacteria.",
+    "translation2": "약은 박테리아의 성장을 억제할 수 있습니다."
   },
   "prep-07:initial": {
     "partOfSpeech": "adjective",
@@ -933,17 +933,17 @@ export const EXAMPLE_DATA = {
   },
   "prep-07:innovative": {
     "partOfSpeech": "adjective",
-    "example": "Is British industry innovative enough?",
-    "translation": "영국 산업은 충분히 혁신적인가?",
-    "example2": "These people are working on the goals in innovative ways.",
-    "translation2": "이 사람들은 혁신적인 방식으로 목표를 달성하기 위해 노력하고 있습니다."
+    "example": "These people are working on the goals in innovative ways.",
+    "translation": "이 사람들은 혁신적인 방식으로 목표를 달성하기 위해 노력하고 있습니다.",
+    "example2": "They collaborate to create innovative solutions.",
+    "translation2": "그들은 혁신적인 솔루션을 만들기 위해 협력합니다."
   },
   "prep-07:integrate": {
     "partOfSpeech": "verb",
     "example": "They were keen to integrate their new skills into the performance.",
     "translation": "그들은 자신들의 새로운 기술을 공연에 통합하고 싶어했습니다.",
-    "example2": "When the Algerian wants to build mosques all over the world, the Kabyle seeks to integrate.",
-    "translation2": "알제리인들이 전 세계에 모스크를 짓기를 원할 때, 카바일족은 통합을 추구합니다."
+    "example2": "Kabyle people integrate easily into other societies.",
+    "translation2": "Kabyle 사람들은 다른 사회에 쉽게 통합됩니다."
   },
   "prep-07:interact": {
     "partOfSpeech": "verb",
@@ -982,10 +982,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-08:maintain": {
     "partOfSpeech": "verb",
-    "example": "Algeria only supports lost causes and false causes just to maintain hatred with Morocco, Tunisia, Israel, Egypt, France and so on.",
-    "translation": "알제리는 단지 모로코, 튀니지, 이스라엘, 이집트, 프랑스 등에 대한 증오를 유지하기 위해 상실된 원인과 잘못된 원인만을 지지합니다.",
-    "example2": "Japan is Bangladesh's largest economic aid provider, and the two maintain a strategic and economic partnership.",
-    "translation2": "일본은 방글라데시의 최대 경제 원조 제공국이며, 두 나라는 전략적, 경제적 파트너십을 유지하고 있습니다."
+    "example": "The trick is to maintain plausible deniability.",
+    "translation": "비결은 그럴듯한 거부성을 유지하는 것입니다.",
+    "example2": "Amid speculation that the party is headed for a schism, participants at the meeting resolved to maintain the party's unity and integrity.",
+    "translation2": "당이 분열로 향하고 있다는 관측이 나오는 가운데, 회의 참석자들은 당의 단결과 청렴을 유지하기로 결의했다."
   },
   "prep-08:major": {
     "partOfSpeech": "adjective",
@@ -1005,22 +1005,22 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Please modify this letter to make it more polite.",
     "translation": "이 편지를 좀 더 정중하게 수정해 주세요.",
-    "example2": "The Long Now’s Revive and Restore project is exploring how to genetically modify the ferret’s DNA to resist plague.",
-    "translation2": "Long Now의 Revive and Restore 프로젝트는 전염병에 저항하기 위해 흰족제비의 DNA를 유전적으로 변형하는 방법을 탐구하고 있습니다."
+    "example2": "The pattern could modify over time.",
+    "translation2": "패턴은 시간이 지남에 따라 변경될 수 있습니다."
   },
   "prep-08:objective": {
     "partOfSpeech": "noun",
-    "example": "Tom believes the philosophy of Ayn Rand is truly objective.",
-    "translation": "Tom은 Ayn Rand의 철학이 진정으로 객관적이라고 믿습니다.",
-    "example2": "In English there are only three cases, nominative, genitive, and objective, or accusative case.",
-    "translation2": "영어에는 주격, 소유격, 목적격, 즉 대격의 세 가지 격만이 있습니다."
+    "example": "Is there an objective reality?",
+    "translation": "객관적인 현실이 있나요?",
+    "example2": "Is reality subjective or objective?",
+    "translation2": "현실은 주관적인가, 객관적인가?"
   },
   "prep-08:obtain": {
     "partOfSpeech": "verb",
     "example": "How did you obtain the visa?",
     "translation": "비자는 어떻게 취득하셨나요?",
-    "example2": "Dr. Mengele's so-called \"experiments\" did not obtain any useful medical data.",
-    "translation2": "Mengele 박사의 소위 \"실험\"은 유용한 의료 데이터를 얻지 못했습니다."
+    "example2": "The team may obtain the proposal after careful review.",
+    "translation2": "팀은 신중한 검토를 거쳐 제안서를 얻을 수 있습니다."
   },
   "prep-08:obvious": {
     "partOfSpeech": "adjective",
@@ -1031,10 +1031,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-08:occur": {
     "partOfSpeech": "verb",
-    "example": "Precious stones occur in a large area in Brazil.",
-    "translation": "브라질에서는 넓은 지역에서 보석이 산출됩니다.",
-    "example2": "The liftoff will occur in exactly twelve seconds.",
-    "translation2": "이륙은 정확히 12초 후에 발생합니다."
+    "example": "The liftoff will occur in exactly twelve seconds.",
+    "translation": "이륙은 정확히 12초 후에 발생합니다.",
+    "example2": "When did these delusions first occur?",
+    "translation2": "언제 망상증상이 처음으로 생겼어?"
   },
   "prep-08:participate": {
     "partOfSpeech": "verb",
@@ -1045,10 +1045,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-08:particular": {
     "partOfSpeech": "adjective",
-    "example": "Has a particular preference for Chinese art.",
-    "translation": "중국 예술을 특히 선호합니다.",
-    "example2": "A man who wishes to make a particular woman fall in love with him.",
-    "translation2": "특정 여자를 사랑하게 만들고 싶은 남자."
+    "example": "A man who wishes to make a particular woman fall in love with him.",
+    "translation": "특정 여자를 사랑하게 만들고 싶은 남자.",
+    "example2": "Very particular about how her food was prepared.",
+    "translation2": "그녀의 음식이 어떻게 준비되었는지 매우 특별합니다."
   },
   "prep-08:perceive": {
     "partOfSpeech": "verb",
@@ -1059,10 +1059,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-08:persist": {
     "partOfSpeech": "verb",
-    "example": "Aspiring converts to Judaism are traditionally rejected at first, only allowed to convert if they persist in wanting to do so.",
-    "translation": "유대교로의 개종을 꿈꾸는 사람들은 전통적으로 처음에는 거부당했으며, 그들이 계속해서 그렇게 하기를 원하는 경우에만 개종을 허용했습니다.",
-    "example2": "The situation may persist without warning.",
-    "translation2": "상황은 예고 없이 지속될 수 있습니다."
+    "example": "The symptoms may persist for several days.",
+    "translation": "증상은 며칠 동안 지속될 수 있습니다.",
+    "example2": "If problems persist, ask the teacher for help.",
+    "translation2": "문제가 지속되면 교사에게 도움을 요청하세요."
   },
   "prep-08:perspective": {
     "partOfSpeech": "noun",
@@ -1094,10 +1094,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-08:predict": {
     "partOfSpeech": "verb",
-    "example": "We can't predict how Tom will feel.",
-    "translation": "톰이 어떻게 느낄지 우린 예상할 수 없어.",
-    "example2": "Observers predict low turnout among a disaffected electorate squeezed by a deep economic crisis.",
-    "translation2": "관찰자들은 심각한 경제 위기로 인해 불만을 품은 유권자들의 낮은 투표율을 예측합니다."
+    "example": "Observers predict low turnout among a disaffected electorate squeezed by a deep economic crisis.",
+    "translation": "관찰자들은 심각한 경제 위기로 인해 불만을 품은 유권자들의 낮은 투표율을 예측합니다.",
+    "example2": "Most will laud the crackdown as steps toward transparency, fairness in business and better-run local partner companies, economists predict.",
+    "translation2": "경제학자들은 대부분의 사람들이 이번 단속을 사업의 투명성, 공정성, 더 나은 운영 현지 파트너 회사를 위한 조치로 칭찬할 것이라고 예측합니다."
   },
   "prep-08:preserve": {
     "partOfSpeech": "verb",
@@ -1117,8 +1117,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Tom used to be a primary school teacher.",
     "translation": "톰은 한때 초등학교 선생님이었었어.",
-    "example2": "When Tom went to primary school he was assigned a learning support assistant.",
-    "translation2": "Tom은 초등학교에 다닐 때 학습 지원 보조원으로 배정되었습니다."
+    "example2": "His mother is a nursery school teacher and his father is a primary school teacher.",
+    "translation2": "그의 어머니는 보육원 교사이고 그의 아버지는 초등학교 교사입니다."
   },
   "prep-09:principle": {
     "partOfSpeech": "noun",
@@ -1131,8 +1131,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "National independence takes priority over class struggle.",
     "translation": "계급투쟁보다 민족독립이 우선이다.",
-    "example2": "If we gave priority to the veal and take very little colostrum, it passes. The man forgets himself, alas!",
-    "translation2": "송아지 고기를 우선시하고 초유를 아주 적게 섭취하면 통과됩니다. 그 사람은 자신을 잊어버렸어요, 아아!"
+    "example2": "Has cybersecurity become a national priority?",
+    "translation2": "사이버 보안이 국가적 우선순위가 되었나요?"
   },
   "prep-09:process": {
     "partOfSpeech": "noun",
@@ -1150,10 +1150,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-09:promote": {
     "partOfSpeech": "verb",
-    "example": "At the end of Primary 6 students can promote directly to the secondary section of SIS.",
-    "translation": "초등 6학년이 끝나면 학생들은 SIS의 중등 섹션으로 직접 승격할 수 있습니다.",
-    "example2": "Researchers have developed a moisturizing lotion with the potential to treat deadly skin cancers, psoriasis and promote diabetic wound healing.",
-    "translation2": "연구자들은 치명적인 피부암, 건선을 치료하고 당뇨병성 상처 치유를 촉진할 수 있는 잠재력을 지닌 보습 로션을 개발했습니다."
+    "example": "Researchers have developed a moisturizing lotion with the potential to treat deadly skin cancers, psoriasis and promote diabetic wound healing.",
+    "translation": "연구자들은 치명적인 피부암, 건선을 치료하고 당뇨병성 상처 치유를 촉진할 수 있는 잠재력을 지닌 보습 로션을 개발했습니다.",
+    "example2": "Do you promote hygiene at work?",
+    "translation2": "직장에서 위생을 장려합니까?"
   },
   "prep-09:proportion": {
     "partOfSpeech": "noun",
@@ -1187,8 +1187,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "We do not recognize your gods.",
     "translation": "우리는 당신의 신을 인식하지 못합니다.",
-    "example2": "The US and a number of EU countries are expected to recognize Kosovo on Monday.",
-    "translation2": "미국과 다수의 EU 국가들은 월요일 코소보를 인정할 것으로 예상됩니다."
+    "example2": "I recognize that my behaviour has been unacceptable.",
+    "translation2": "나는 내 행동이 용납될 수 없다는 것을 알고 있습니다."
   },
   "prep-09:reduce": {
     "partOfSpeech": "verb",
@@ -1199,10 +1199,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-09:reflect": {
     "partOfSpeech": "verb",
-    "example": "Entries in English dictionaries aim to reflect common usage.",
-    "translation": "영어 사전의 항목은 일반적인 사용법을 반영하는 것을 목표로 합니다.",
-    "example2": "People do that sort of thing every day, without ever stopping to reflect on the consequences.",
-    "translation2": "사람들은 결과를 반성하기 위해 멈추지 않고 매일 그런 일을 합니다."
+    "example": "People do that sort of thing every day, without ever stopping to reflect on the consequences.",
+    "translation": "사람들은 결과를 반성하기 위해 멈추지 않고 매일 그런 일을 합니다.",
+    "example2": "Does your academic record reflect any major challenges? If so, what are they and why did they occur?",
+    "translation2": "귀하의 학업 기록에 주요 어려움이 반영되어 있습니까? 그렇다면, 그것들은 무엇이며 왜 발생했는가?"
   },
   "prep-09:regard": {
     "partOfSpeech": "verb",
@@ -1236,8 +1236,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I represent the silent majority.",
     "translation": "나는 침묵하는 다수를 대표합니다.",
-    "example2": "AIPAC is an unaccountable lobbying group with extreme opinions on Israel that do not represent those of American Jews.",
-    "translation2": "AIPAC는 미국 유대인의 의견을 대표하지 않는 이스라엘에 대한 극단적인 의견을 내세우는 무책임한 로비단체이다."
+    "example2": "Braille is a code that uses bumps and indentation on a surface to represent letters, which can be recognized by touch.",
+    "translation2": "점자는 문자를 표현하기 위해 표면의 돌기와 들여쓰기를 사용하여 터치로 인식할 수 있는 코드입니다."
   },
   "prep-09:require": {
     "partOfSpeech": "verb",
@@ -1278,15 +1278,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I cannot retain so much information.",
     "translation": "나는 그렇게 많은 정보를 담을 수 없다.",
-    "example2": "In Yiddish, unlike German, subordinate clauses retain the verb-second word order.",
-    "translation2": "이디시어에서는 독일어와 달리 종속절이 동사-두 번째 어순을 유지합니다."
+    "example2": "The students were asked to retain something important.",
+    "translation2": "학생들은 중요한 것을 간직하도록 요청받았습니다."
   },
   "prep-10:reveal": {
     "partOfSpeech": "verb",
     "example": "The actress won't reveal how old she is.",
     "translation": "여배우는 자신의 나이를 밝히지 않을 것입니다.",
-    "example2": "God rarely reveal his plans for Mankind.",
-    "translation2": "하나님은 인류를 위한 자신의 계획을 거의 드러내지 않으십니다."
+    "example2": "He didn't reveal his secret.",
+    "translation2": "그는 자신의 비밀을 밝히지 않았다."
   },
   "prep-10:shift": {
     "partOfSpeech": "verb",
@@ -1304,10 +1304,10 @@ export const EXAMPLE_DATA = {
   },
   "prep-10:similar": {
     "partOfSpeech": "adjective",
-    "example": "Hungarian and Turkish are very similar in terms of grammar.",
-    "translation": "헝가리어와 터키어는 문법적으로 매우 유사합니다.",
-    "example2": "Phoenician is very similar to Hebrew.",
-    "translation2": "페니키아어는 히브리어와 매우 유사합니다."
+    "example": "Similar things happened in other countries.",
+    "translation": "다른 나라에서도 비슷한 일이 일어났습니다.",
+    "example2": "I was having similar feelings.",
+    "translation2": "저도 비슷한 감정을 갖고 있었어요."
   },
   "prep-10:specific": {
     "partOfSpeech": "adjective",
@@ -1320,8 +1320,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "It is a colonial divide-and-conquer strategy to pit religious people against one another.",
     "translation": "종교인들을 서로 대립시키려는 식민지 분할정복 전략이다.",
-    "example2": "Dog-whistle politics were employed extensively by Richard Nixon as part of what became known as the Southern Strategy.",
-    "translation2": "개 휘파람 정치는 남부 전략으로 알려진 것의 일부로 Richard Nixon에 의해 광범위하게 사용되었습니다."
+    "example2": "When I have a panic attack, my best strategy for coping with it is to accept whatever I'm afraid of.",
+    "translation2": "공황 발작이 일어났을 때 대처하기 위한 최선의 전략은 내가 두려워하는 모든 것을 받아들이는 것입니다."
   },
   "prep-10:substitute": {
     "partOfSpeech": "verb",
@@ -1472,17 +1472,17 @@ export const EXAMPLE_DATA = {
   },
   "grade1-01:address": {
     "partOfSpeech": "noun",
-    "example": "He listened to an address on minor Roman poets.",
-    "translation": "그는 로마의 소수 시인들의 연설을 들었습니다.",
-    "example2": "He failed in his manner of address to the captain.",
-    "translation2": "그는 선장에게 말하는 방식이 실패했습니다."
+    "example": "He failed in his manner of address to the captain.",
+    "translation": "그는 선장에게 말하는 방식이 실패했습니다.",
+    "example2": "I forgot my email address.",
+    "translation2": "내 이메일 주소를 잊어버렸다."
   },
   "grade1-01:admire": {
     "partOfSpeech": "verb",
-    "example": "I really admire Tom's ability to answer questions.",
-    "translation": "나는 Tom의 질문에 대답하는 능력을 정말 존경합니다.",
-    "example2": "Our kings admire their subjects.",
-    "translation2": "우리 왕들은 그들의 신민을 존경합니다."
+    "example": "Our kings admire their subjects.",
+    "translation": "우리 왕들은 그들의 신민을 존경합니다.",
+    "example2": "The team may admire the proposal after careful review.",
+    "translation2": "팀은 신중하게 검토한 후 제안에 감탄할 수 있습니다."
   },
   "grade1-01:admit": {
     "partOfSpeech": "verb",
@@ -1493,10 +1493,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-01:advance": {
     "partOfSpeech": "noun",
-    "example": "An alien messenger gave Noah advance notice of the imminent destruction of his planet.",
-    "translation": "외계인 메신저가 노아에게 그의 행성이 곧 멸망될 것임을 미리 알렸습니다.",
-    "example2": "Tom didn't expect Mary to rebuff his advance.",
-    "translation2": "Tom은 Mary가 자신의 접근을 거부할 것이라고 기대하지 않았습니다."
+    "example": "You have to book in advance.",
+    "translation": "미리 예약하셔야 합니다.",
+    "example2": "You need to register for the event in advance.",
+    "translation2": "행사에 사전 등록을 하셔야 합니다."
   },
   "grade1-01:advantage": {
     "partOfSpeech": "noun",
@@ -1586,8 +1586,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "She does an amazing amount of work.",
     "translation": "그녀는 놀라운 일을 하고 있습니다.",
-    "example2": "New York is an amazing city.",
-    "translation2": "뉴욕은 놀라운 도시입니다."
+    "example2": "Tom is an amazing actor.",
+    "translation2": "톰은 놀라운 배우다."
   },
   "grade1-02:amount": {
     "partOfSpeech": "noun",
@@ -1600,8 +1600,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "I like learning ancient languages.",
     "translation": "난 고대 언어를 배우는 걸 좋아해.",
-    "example2": "Tom dressed as an ancient Egyptian priestess.",
-    "translation2": "고대 이집트 여사제 복장을 한 톰."
+    "example2": "He's a member of the ancient priestly caste.",
+    "translation2": "그는 고대 성직자 계급의 일원입니다."
   },
   "grade1-02:announce": {
     "partOfSpeech": "verb",
@@ -1614,8 +1614,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Under U.S. law, all top government officials are required to file annual financial disclosure documents with the agency.",
     "translation": "미국 법률에 따르면 모든 최고 정부 공무원은 해당 기관에 연간 재무 공개 문서를 제출해야 합니다.",
-    "example2": "The tree arrived by jingle bell-adorned horse and carriage, continuing an annual White House tradition to highlight the holiday spirit.",
-    "translation2": "나무는 징글 벨로 장식된 말과 마차에 의해 도착했으며, 이는 명절 정신을 강조하기 위해 백악관의 연례 전통을 이어가고 있습니다."
+    "example2": "One of the cozy traditions associated with college life is receiving and then pouring over your copy of the annual yearbook.",
+    "translation2": "대학 생활과 관련된 아늑한 전통 중 하나는 연간 앨범을 받아 그 위에 쏟아 붓는 것입니다."
   },
   "grade1-02:anxiety": {
     "partOfSpeech": "noun",
@@ -1626,10 +1626,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-02:apologize": {
     "partOfSpeech": "verb",
-    "example": "I tried to apologize to Tom.",
-    "translation": "톰에게 사과하려고 했어.",
-    "example2": "Mary is too stubborn to apologize.",
-    "translation2": "메리는 고집불통이라, 사과할 줄을 모른다."
+    "example": "Mary is too stubborn to apologize.",
+    "translation": "메리는 고집불통이라, 사과할 줄을 모른다.",
+    "example2": "You should apologize to her for being so distant.",
+    "translation2": "당신은 그 여자에게 거리를 두고 지낸 것에 대해 사과해야 한다."
   },
   "grade1-02:apply": {
     "partOfSpeech": "verb",
@@ -1642,8 +1642,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Do you appreciate the full meaning of this letter?",
     "translation": "이 편지의 전체 의미를 이해하십니까?",
-    "example2": "The Germans want to appreciate the Deutsche Mark.",
-    "translation2": "독일인들은 독일 마르크를 감상하고 싶어합니다."
+    "example2": "You must learn to appreciate time.",
+    "translation2": "시간을 감사하는 법을 배워야합니다."
   },
   "grade1-02:approach": {
     "partOfSpeech": "verb",
@@ -1661,10 +1661,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-02:arrange": {
     "partOfSpeech": "verb",
-    "example": "Can you arrange a meeting with the President?",
-    "translation": "대통령과의 만남을 주선해 주실 수 있나요?",
-    "example2": "Once two people involved in a dispute have explained themselves, they arrange a compromise.",
-    "translation2": "분쟁에 연루된 두 사람이 자신의 입장을 설명하면 타협을 주선합니다."
+    "example": "Once two people involved in a dispute have explained themselves, they arrange a compromise.",
+    "translation": "분쟁에 연루된 두 사람이 자신의 입장을 설명하면 타협을 주선합니다.",
+    "example2": "They arrange the desks for better flow.",
+    "translation2": "그들은 더 나은 흐름을 위해 책상을 배열합니다."
   },
   "grade1-02:arrive": {
     "partOfSpeech": "verb",
@@ -1677,8 +1677,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "It's a good article, but it could use some copyediting.",
     "translation": "좋은 글이지만 약간의 편집이 필요할 수 있습니다.",
-    "example2": "I'm not sure if you're interested, but I translated your article into French.",
-    "translation2": "관심이 있으실지 모르겠지만 귀하의 기사를 프랑스어로 번역했습니다."
+    "example2": "The indefinite article is used before countable nouns.",
+    "translation2": "부정관사는 셀 수 있는 명사 앞에 사용됩니다."
   },
   "grade1-03:aspect": {
     "partOfSpeech": "noun",
@@ -1698,8 +1698,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I assume his train was late.",
     "translation": "나는 그의 기차가 늦었다고 생각한다.",
-    "example2": "When will the new President assume office?",
-    "translation2": "새 대통령은 언제 취임하나요?"
+    "example2": "The gods assume human or animal form in these fables.",
+    "translation2": "이 우화에서 신들은 인간이나 동물의 형태를 취합니다."
   },
   "grade1-03:attack": {
     "partOfSpeech": "verb",
@@ -1733,8 +1733,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Her good looks attract the stares of many men.",
     "translation": "그녀의 잘생긴 외모는 많은 남자들의 시선을 사로잡는다.",
-    "example2": "For many hours people staged a sit-in at the airport, the second since Friday, to attract international attention to their cause.",
-    "translation2": "여러 시간 동안 사람들은 자신들의 주장에 대한 국제적 관심을 끌기 위해 금요일 이후 두 번째로 공항에서 농성을 벌였습니다."
+    "example2": "This orchid mimics the shape and colors of a pansy flower to attract pollinators that normally go to a pansy.",
+    "translation2": "이 난초는 팬지 꽃의 모양과 색상을 모방하여 일반적으로 팬지에게 이동하는 수분매개자를 유인합니다."
   },
   "grade1-03:average": {
     "partOfSpeech": "noun",
@@ -1766,17 +1766,17 @@ export const EXAMPLE_DATA = {
   },
   "grade1-03:battle": {
     "partOfSpeech": "noun",
-    "example": "Grant won a decisive victory in the battle of Chickamauga.",
-    "translation": "그랜트는 치카마우가 전투에서 결정적인 승리를 거두었습니다.",
-    "example2": "He fought a battle for recognition.",
-    "translation2": "그는 인정받기 위해 싸웠다."
+    "example": "He fought a battle for recognition.",
+    "translation": "그는 인정받기 위해 싸웠다.",
+    "example2": "Police tried to control the battle between the pro- and anti-abortion mobs.",
+    "translation2": "경찰은 낙태를 찬성하는 폭도와 반대 폭도 사이의 싸움을 통제하려고 노력했습니다."
   },
   "grade1-03:beauty": {
     "partOfSpeech": "noun",
-    "example": "Brigitte Bardot was a renowned beauty.",
-    "translation": "브리짓 바르도는 유명한 미인이었습니다.",
-    "example2": "What a goal! That was a real beauty!",
-    "translation2": "정말 멋진 목표입니다! 정말 아름다움이었습니다!"
+    "example": "The beauty of the deal is it costs nothing!",
+    "translation": "거래의 장점은 비용이 전혀 들지 않는다는 것입니다!",
+    "example2": "She is a real beauty.",
+    "translation2": "그녀는 정말이지 아름답다."
   },
   "grade1-03:behavior": {
     "partOfSpeech": "noun",
@@ -1810,8 +1810,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Somebody has to take the blame.",
     "translation": "누군가는 책임을 져야 한다.",
-    "example2": "It was Tom's idea, not mine. Don't blame me.",
-    "translation2": "그건 내 생각이 아니라 톰의 생각이었어. 내 탓 하지 마."
+    "example2": "Blame is like the wind; if we see it, we feel it.",
+    "translation2": "비난은 바람과 같다. 우리가 그것을 보면 느낀다."
   },
   "grade1-03:blank": {
     "partOfSpeech": "adjective",
@@ -1852,22 +1852,22 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Gave us a broad hint that it was time to leave.",
     "translation": "이제 떠날 시간이라는 폭넓은 힌트를 우리에게 주었습니다.",
-    "example2": "A woman was raped in broad daylight. Algerians are reproaching her for not wearing a veil.",
-    "translation2": "한 여성이 대낮에 성폭행을 당했습니다. 알제리인들은 그녀가 베일을 쓰지 않는다고 비난하고 있다."
+    "example2": "His square jaw, broad shoulders and resonant voice served him well in big-budget historical movies in the 1950s and 1960s.",
+    "translation2": "그의 각진 턱, 넓은 어깨, 울려퍼지는 목소리는 1950년대와 1960년대의 대규모 예산 역사 영화에서 그에게 큰 도움이 되었습니다."
   },
   "grade1-04:budget": {
     "partOfSpeech": "noun",
     "example": "The laboratory runs on a budget of a million a year.",
     "translation": "연구실은 연간 백만 달러의 예산으로 운영됩니다.",
-    "example2": "The president submitted the annual budget to Congress.",
-    "translation2": "대통령은 연간 예산을 의회에 제출했다."
+    "example2": "In all, the auditor general said his office uncovered $170 million in funds misused from the national budget.",
+    "translation2": "감사원장은 자신의 사무실에서 국가 예산에서 1억 7천만 달러의 자금이 남용된 사실을 적발했다고 말했습니다."
   },
   "grade1-04:build": {
     "partOfSpeech": "verb",
-    "example": "Algerians are so lazy that they brought back Chinese people to build everything.",
-    "translation": "알제리인들은 너무 게으른 나머지 중국인들을 데려와서 모든 것을 만들었습니다.",
-    "example2": "Algerian leaders build only mosques, but when they are sick they go abroad.",
-    "translation2": "알제리 지도자들은 모스크만 짓고 몸이 아프면 해외로 떠난다."
+    "example": "Algerian leaders build only mosques, but when they are sick they go abroad.",
+    "translation": "알제리 지도자들은 모스크만 짓고 몸이 아프면 해외로 떠난다.",
+    "example2": "Voice recognition technologies bring a human dimension to our devices, but developers need an enormous amount of voice data to build them.",
+    "translation2": "음성 인식 기술은 우리 장치에 인간적인 차원을 더해 주지만 개발자는 이를 구축하기 위해 엄청난 양의 음성 데이터가 필요합니다."
   },
   "grade1-04:calm": {
     "partOfSpeech": "adjective",
@@ -1901,8 +1901,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I don't want to celebrate my birthday.",
     "translation": "난 내 생일을 축하하고 싶지 않다.",
-    "example2": "Our family doesn't celebrate Christmas.",
-    "translation2": "우리 가족은 크리스마스를 축하하지 않아."
+    "example2": "Tom passed his exams, so his dad popped out the champers to celebrate.",
+    "translation2": "톰이 시험에 합격하자 그의 아버지는 축하하기 위해 챔피언들을 데리고 나왔습니다."
   },
   "grade1-04:certain": {
     "partOfSpeech": "adjective",
@@ -1913,10 +1913,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-04:challenge": {
     "partOfSpeech": "noun",
-    "example": "They reacted irrationally to the challenge of Russian power.",
-    "translation": "그들은 러시아 권력의 도전에 비합리적으로 반응했습니다.",
-    "example2": "His challenge of the assumption that Japan is still our enemy.",
-    "translation2": "일본이 여전히 우리의 적이라는 가정에 대한 그의 도전."
+    "example": "This is our biggest challenge.",
+    "translation": "이것은 우리에게 가장 큰 도전이다.",
+    "example2": "She decided to embark on a new challenge to further her career.",
+    "translation2": "그녀는 자신의 경력을 더욱 발전시키기 위해 새로운 도전을 시작하기로 결정했습니다."
   },
   "grade1-04:chance": {
     "partOfSpeech": "noun",
@@ -1943,8 +1943,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Diogenes reckoned himself a citizen of the world.",
     "translation": "디오게네스는 자신을 세계의 시민으로 여겼습니다.",
-    "example2": "Anne Frank wasn't a citizen.",
-    "translation2": "안네 프랑크는 시민이 아니었습니다."
+    "example2": "People used to call me lazy, but now all of a sudden I'm a responsible citizen.",
+    "translation2": "사람들은 저를 게으른 사람이라고 불렀습니다. 그런데 이제는 갑자기 책임감 있는 시민이 되었습니다."
   },
   "grade1-04:claim": {
     "partOfSpeech": "verb",
@@ -1955,10 +1955,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-04:collect": {
     "partOfSpeech": "verb",
-    "example": "They collect our garbage every Monday.",
-    "translation": "매주 월요일에 쓰레기 수거가 있습니다.",
-    "example2": "How should I collect and store a poo, I mean stool, sample?",
-    "translation2": "똥, 즉 대변, 샘플을 어떻게 수집하고 보관해야 합니까?"
+    "example": "How should I collect and store a poo, I mean stool, sample?",
+    "translation": "똥, 즉 대변, 샘플을 어떻게 수집하고 보관해야 합니까?",
+    "example2": "How should I collect and store a pee, I mean urine, sample?",
+    "translation2": "소변, 즉 소변, 샘플을 어떻게 수집하고 보관해야 합니까?"
   },
   "grade1-05:comfortable": {
     "partOfSpeech": "adjective",
@@ -1999,8 +1999,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "My aunt couldn't walk up the stairs in her condition.",
     "translation": "이모는 그 상태로 계단을 올라갈 수 없었습니다.",
-    "example2": "National reports on the condition of public education are dismal. The condition of man can be classified as civilized or uncivilized.",
-    "translation2": "공교육 상태에 관한 전국 보고서는 암울합니다. 인간의 상태는 문명화된 것과 문명화되지 않은 것으로 분류될 수 있다."
+    "example2": "A man of his condition has no place to make request.",
+    "translation2": "이런 상태의 사람은 요청할 곳이 없습니다."
   },
   "grade1-05:confident": {
     "partOfSpeech": "adjective",
@@ -2060,10 +2060,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-05:courage": {
     "partOfSpeech": "noun",
-    "example": "Tom finally mustered up the courage to ask Mary to go out with him.",
-    "translation": "톰은 마침내 용기를 내어 메리에게 데이트 신청을 했다.",
-    "example2": "Ilhan Omar is one of the few politicians with courage in the United States.",
-    "translation2": "일한 오마르(Ilhan Omar)는 미국에서 용기를 지닌 몇 안 되는 정치인 중 한 명입니다."
+    "example": "Tom is full of courage.",
+    "translation": "톰은 용기가 넘쳤어요.",
+    "example2": "Tom isn't lacking in courage.",
+    "translation2": "톰은 용기가 부족하지 않습니다."
   },
   "grade1-05:create": {
     "partOfSpeech": "verb",
@@ -2074,17 +2074,17 @@ export const EXAMPLE_DATA = {
   },
   "grade1-05:creative": {
     "partOfSpeech": "adjective",
-    "example": "This content is available under a Creative Commons license.",
-    "translation": "이 콘텐츠는 Creative Commons 라이선스에 따라 사용할 수 있습니다.",
-    "example2": "Novices often have more luck finding something arcane than seasoned researchers because of the power of creative thinking and serendipity.",
-    "translation2": "창의적 사고와 우연의 힘 때문에 초보자는 노련한 연구자보다 신비한 것을 찾는 행운을 더 많이 누리는 경우가 많습니다."
+    "example": "Novices often have more luck finding something arcane than seasoned researchers because of the power of creative thinking and serendipity.",
+    "translation": "창의적 사고와 우연의 힘 때문에 초보자는 노련한 연구자보다 신비한 것을 찾는 행운을 더 많이 누리는 경우가 많습니다.",
+    "example2": "The documentary examines the creative and commercial value of this practice, called musical sampling.",
+    "translation2": "다큐멘터리는 음악 샘플링이라고 불리는 이러한 관행의 창의적이고 상업적인 가치를 조사합니다."
   },
   "grade1-05:culture": {
     "partOfSpeech": "noun",
     "example": "I'm headed to the lab to make sure my cell culture hasn't died.",
     "translation": "배양된 세포가 죽지 않았는지 확인하기 위해 연구실로 향하고 있습니다.",
-    "example2": "In popular culture the phrase “Allahu akbar” has become almost synonymous with terrorism.",
-    "translation2": "대중문화에서 “알라후 아크바르”라는 문구는 테러리즘과 거의 동의어가 되었습니다."
+    "example2": "They've lost the ability to think of anything outside of their all-consuming culture war.",
+    "translation2": "그들은 모든 것을 소비하는 문화 전쟁 외에는 아무것도 생각할 수 있는 능력을 상실했습니다."
   },
   "grade1-05:customer": {
     "partOfSpeech": "noun",
@@ -2097,8 +2097,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "How much is the damage?",
     "translation": "피해액은 얼마나 되나요?",
-    "example2": "\"Collateral damage\" is a euphemism for killing innocent people to protect capital.",
-    "translation2": "'부수적 피해'는 자본을 지키기 위해 무고한 사람을 죽인다는 완곡한 표현이다."
+    "example2": "Tom got out of his car to assess the damage.",
+    "translation2": "Tom은 피해를 평가하기 위해 차에서 나왔습니다."
   },
   "grade1-06:danger": {
     "partOfSpeech": "noun",
@@ -2139,8 +2139,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "It is all a matter of degree.",
     "translation": "그것은 모두 정도의 문제입니다.",
-    "example2": "He earned his degree at Princeton summa cum laude.",
-    "translation2": "그는 프린스턴에서 우등으로 학위를 받았습니다."
+    "example2": "She has two bachelor's degrees and is studying towards a master's degree.",
+    "translation2": "그녀는 두 개의 학사 학위를 가지고 있으며 석사 학위를 위해 공부하고 있습니다."
   },
   "grade1-06:demand": {
     "partOfSpeech": "verb",
@@ -2165,10 +2165,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-06:design": {
     "partOfSpeech": "verb",
-    "example": "He's studying French and web design.",
-    "translation": "그는 프랑스어와 웹디자인을 공부하고 있다.",
-    "example2": "From the very beginning of the United States, a large number of people were disenfranchised by design, and this remains true today.",
-    "translation2": "미국 건국 초기부터 많은 사람들이 의도적으로 선거권을 박탈당했으며 이는 오늘날에도 여전히 사실입니다."
+    "example": "I do graphic design for some T-shirt sites.",
+    "translation": "저는 일부 티셔츠 사이트에서 그래픽 디자인을 하고 있습니다.",
+    "example2": "His team is working to increase the aircraft’s efficiency through its aerodynamic and structural design and reduce its operating costs.",
+    "translation2": "그의 팀은 공기 역학적 및 구조적 설계를 통해 항공기의 효율성을 높이고 운영 비용을 줄이기 위해 노력하고 있습니다."
   },
   "grade1-06:detail": {
     "partOfSpeech": "noun",
@@ -2207,10 +2207,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-06:discuss": {
     "partOfSpeech": "verb",
-    "example": "Discuss your decision to pursue medicine. When did you decide to become an MD, and why?",
-    "translation": "의학을 공부하기로 한 결정에 대해 토론하십시오. MD가 되기로 결심한 것은 언제이며, 그 이유는 무엇입니까?",
-    "example2": "The topic is really interesting, but it's hard to discuss.",
-    "translation2": "주제는 정말 흥미롭지만 논의하기는 어렵습니다."
+    "example": "The topic is really interesting, but it's hard to discuss.",
+    "translation": "주제는 정말 흥미롭지만 논의하기는 어렵습니다.",
+    "example2": "It's a difficult topic to discuss.",
+    "translation2": "논의하기 어려운 주제입니다."
   },
   "grade1-06:disease": {
     "partOfSpeech": "noun",
@@ -2230,15 +2230,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Everything sounded very peaceful and domestic.",
     "translation": "모든 것이 매우 평화롭고 가정적인 것처럼 들렸습니다.",
-    "example2": "The Great Dane is a breed of domestic dog known for its giant size.",
-    "translation2": "그레이트 데인(Great Dane)은 거대한 크기로 유명한 개 품종입니다."
+    "example2": "In many languages, domestic cats are named after the \"meow\" sound they make.",
+    "translation2": "많은 언어에서 집고양이의 이름은 그들이 내는 \"야옹\" 소리를 따서 명명되었습니다."
   },
   "grade1-06:doubt": {
     "partOfSpeech": "noun",
-    "example": "I doubt Tom can do that without some help.",
-    "translation": "톰이 도움 없이 그걸 잘 해낼 수 있을지 모르겠다.",
-    "example2": "I doubt that branch can support your weight.",
-    "translation2": "그 가지가 당신의 체중을 지탱할 수 있을지 의심스럽습니다."
+    "example": "I doubt that branch can support your weight.",
+    "translation": "그 가지가 당신의 체중을 지탱할 수 있을지 의심스럽습니다.",
+    "example2": "Like anyone who knows anything, I'm full of doubt.",
+    "translation2": "무엇이든 아는 사람처럼 나도 의심이 가득합니다."
   },
   "grade1-07:dream": {
     "partOfSpeech": "noun",
@@ -2300,8 +2300,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "We encourage the use of bicycles in the town centre.",
     "translation": "시내 중심가에서는 자전거 이용을 권장합니다.",
-    "example2": "E-Prime aims to encourage more careful speech by eliminating the verb \"to be.\".",
-    "translation2": "E-Prime은 \"to be\"라는 동사를 제거하여 보다 신중한 발언을 장려하는 것을 목표로 합니다."
+    "example2": "That will encourage radish leaf growth instead of root development.",
+    "translation2": "그러면 뿌리 발달 대신 무잎 성장이 촉진됩니다."
   },
   "grade1-07:enjoy": {
     "partOfSpeech": "verb",
@@ -2342,8 +2342,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Cats understandably don't like to be in situations they can't escape from.",
     "translation": "고양이는 당연히 피할 수 없는 상황에 있는 것을 좋아하지 않습니다.",
-    "example2": "I did not escape any calamity. Mash potatoes!",
-    "translation2": "나는 어떤 재난도 피하지 못했습니다. 감자를 으깨세요!"
+    "example2": "She could not escape with her reputation intact.",
+    "translation2": "그녀는 명성을 그대로 유지한 채 탈출할 수 없었다."
   },
   "grade1-07:especially": {
     "partOfSpeech": "adverb",
@@ -2354,10 +2354,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-07:essential": {
     "partOfSpeech": "adjective",
-    "example": "Coronavirus has demonstrated that the most essential jobs are the ones that are paid the least.",
-    "translation": "코로나바이러스는 가장 필수적인 직업은 가장 적은 급여를 받는 직업이라는 것을 보여주었습니다.",
-    "example2": "The parasympathetic nerves of a developing salivary gland innervate the salivary gland epithelium which is essential for organogenesis.",
-    "translation2": "발달 중인 타액선의 부교감 신경은 기관 형성에 필수적인 타액선 상피를 자극합니다."
+    "example": "The parasympathetic nerves of a developing salivary gland innervate the salivary gland epithelium which is essential for organogenesis.",
+    "translation": "발달 중인 타액선의 부교감 신경은 기관 형성에 필수적인 타액선 상피를 자극합니다.",
+    "example2": "Thanks to the pandemic, we now know that \"unskilled\" workers are essential.",
+    "translation2": "팬데믹 덕분에 이제 우리는 \"미숙련\" 근로자가 필수적이라는 것을 알고 있습니다."
   },
   "grade1-07:evidence": {
     "partOfSpeech": "noun",
@@ -2370,22 +2370,22 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Hit the exact center of the target.",
     "translation": "표적의 정확한 중앙을 명중시키십시오.",
-    "example2": "Last week, after spending $59 million, French authorities opened an exact replica, called Pont d'Arc Cavern.",
-    "translation2": "지난 주, 프랑스 당국은 5,900만 달러를 지출한 후 퐁다르크 동굴(Pont d'Arc Cavern)이라는 정확한 복제품을 열었습니다."
+    "example2": "It turns out that everyone’s hair is different and that there’s no exact temperature where hair straightening becomes hair damage.",
+    "translation2": "모든 사람의 머리카락이 다르며, 머리카락을 펴는 것이 머리카락 손상으로 이어지는 정확한 온도가 없다는 것이 밝혀졌습니다."
   },
   "grade1-07:examine": {
     "partOfSpeech": "verb",
     "example": "If we don't thoroughly examine the cause of bullying, bullying will probably never go away.",
     "translation": "우리가 따돌림의 원인을 철저히 조사하지 않는다면, 따돌림은 결코 사라지지 않을 것이다.",
-    "example2": "Workers examine new machinery in use at the pioneering mega-farm at Boukanga Lonzo park in Democratic Republic of Congo, Aug 8, 2015.",
-    "translation2": "2015년 8월 8일 콩고민주공화국 Boukanga Lonzo 공원의 선구적인 대규모 농장에서 작업자들이 사용 중인 새로운 기계를 검사하고 있습니다."
+    "example2": "The students were asked to examine something important.",
+    "translation2": "학생들은 중요한 것을 조사해 보라고 요청 받았습니다."
   },
   "grade1-08:excellent": {
     "partOfSpeech": "adjective",
     "example": "The school has excellent teachers.",
     "translation": "학교에는 훌륭한 선생님이 계십니다.",
-    "example2": "Bill and Ted had an excellent adventure last week in preparation of their history exam.",
-    "translation2": "Bill과 Ted는 지난 주 역사 시험을 준비하면서 멋진 모험을 했습니다."
+    "example2": "She had an excellent wife.",
+    "translation2": "그녀에게는 훌륭한 아내가 있었습니다."
   },
   "grade1-08:except": {
     "partOfSpeech": "preposition",
@@ -2412,8 +2412,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "He could barely exist on such a low wage.",
     "translation": "그는 그렇게 낮은 임금으로는 거의 생존할 수 없었습니다.",
-    "example2": "If God did not exist, it would be necessary to invent him.",
-    "translation2": "만약 신이 존재하지 않았다면, 만들어 낼 필요가 있겠지."
+    "example2": "Science fiction has undoubtedly been the inspiration for many of the technologies that exist today.",
+    "translation2": "공상 과학은 의심의 여지 없이 오늘날 존재하는 많은 기술에 영감을 주었어."
   },
   "grade1-08:expect": {
     "partOfSpeech": "verb",
@@ -2473,10 +2473,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-08:feature": {
     "partOfSpeech": "noun",
-    "example": "The feature tonight is `Casablanca'.",
-    "translation": "오늘 밤 특집은 '카사블랑카'입니다.",
-    "example2": "They ran a feature on retirement planning.",
-    "translation2": "그들은 은퇴 계획에 관한 기능을 실행했습니다."
+    "example": "They ran a feature on retirement planning.",
+    "translation": "그들은 은퇴 계획에 관한 기능을 실행했습니다.",
+    "example2": "The photo editor includes a feature which allows users to add a blur effect to images.",
+    "translation2": "사진 편집기에는 사용자가 이미지에 흐림 효과를 추가할 수 있는 기능이 포함되어 있습니다."
   },
   "grade1-08:feeling": {
     "partOfSpeech": "noun",
@@ -2517,15 +2517,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "The requirement was only formal and often ignored.",
     "translation": "요구 사항은 형식적일 뿐이며 종종 무시되었습니다.",
-    "example2": "The paper was written in formal English.",
-    "translation2": "이 논문은 공식적인 영어로 작성되었습니다."
+    "example2": "I'd like to make a formal complaint.",
+    "translation2": "정식으로 항의하고 싶습니다."
   },
   "grade1-09:frequent": {
     "partOfSpeech": "adjective",
-    "example": "Tom Jackson makes frequent use of hyperbole in his writing.",
-    "translation": "톰 잭슨은 자신의 글에서 과장법을 자주 사용합니다.",
-    "example2": "A downside to frequent flyer miles is that using them is complicated.",
-    "translation2": "상용 고객 마일리지의 단점은 사용이 복잡하다는 것입니다."
+    "example": "A downside to frequent flyer miles is that using them is complicated.",
+    "translation": "상용 고객 마일리지의 단점은 사용이 복잡하다는 것입니다.",
+    "example2": "The final decision seemed frequent to everyone involved.",
+    "translation2": "최종 결정은 관련된 모든 사람에게 자주 발생하는 것처럼 보였습니다."
   },
   "grade1-09:friendship": {
     "partOfSpeech": "noun",
@@ -2545,8 +2545,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Bearing a general resemblance to the original.",
     "translation": "원본과 전반적으로 유사합니다.",
-    "example2": "The real president of the Algerians is General Gaïd Salah.",
-    "translation2": "알제리의 실제 대통령은 가이드 살라 장군이다."
+    "example2": "What excites you about medicine in general?",
+    "translation2": "일반적으로 의학에서 당신을 흥분시키는 것은 무엇입니까?"
   },
   "grade1-09:generation": {
     "partOfSpeech": "noun",
@@ -2557,10 +2557,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-09:generous": {
     "partOfSpeech": "adjective",
-    "example": "I know Tom is a very generous man.",
-    "translation": "나는 톰이 매우 관대한 사람이라는 것을 안다.",
-    "example2": "I know that Tom is a very generous man.",
-    "translation2": "나는 톰이 매우 관대한 사람이라는 것을 안다."
+    "example": "Would he be so generous to those in need if he hadn't experienced the devastating effects of poverty firsthand as a child?",
+    "translation": "어렸을 때 빈곤의 파괴적인 영향을 직접 경험하지 않았다면 그가 도움이 필요한 사람들에게 그토록 관대했을까요?",
+    "example2": "Tom can be overbearing, but he's a generous man.",
+    "translation2": "톰은 위압적일 수 있지만 관대한 사람입니다."
   },
   "grade1-09:global": {
     "partOfSpeech": "adjective",
@@ -2601,8 +2601,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Tom is relatively fit and healthy.",
     "translation": "톰이 상대적으로 가장 알맞고 건강하다.",
-    "example2": "I'm glad that Tom is healthy again.",
-    "translation2": "톰이 다시 건강해져서 다행이야."
+    "example2": "I owe it to my parents that I'm so healthy.",
+    "translation2": "내가 이렇게 건강한 것은 우리 부모님 덕이다."
   },
   "grade1-09:history": {
     "partOfSpeech": "noun",
@@ -2648,10 +2648,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-09:identify": {
     "partOfSpeech": "verb",
-    "example": "Nouns name. Pronouns identify without naming.",
-    "translation": "명사 이름. 대명사는 이름을 붙이지 않고도 식별됩니다.",
-    "example2": "Can you identify the man who did this to you?",
-    "translation2": "당신에게 이런 짓을 한 사람이 누구인지 알 수 있나요?"
+    "example": "Can you identify the man who did this to you?",
+    "translation": "당신에게 이런 짓을 한 사람이 누구인지 알 수 있나요?",
+    "example2": "Could you identify him in a lineup?",
+    "translation2": "라인업에서 그 사람을 알아볼 수 있나요?"
   },
   "grade1-09:imagine": {
     "partOfSpeech": "verb",
@@ -2662,10 +2662,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-10:immediate": {
     "partOfSpeech": "adjective",
-    "example": "The Republican response to COVID-19 is like their response to climate change, but the results are more immediate.",
-    "translation": "코로나19에 대한 공화당의 대응은 기후 변화에 대한 대응과 비슷하지만 결과는 더 즉각적입니다.",
-    "example2": "Tom needs immediate medical attention.",
-    "translation2": "톰은 즉각적인 치료가 필요합니다."
+    "example": "Tom needs immediate medical attention.",
+    "translation": "톰은 즉각적인 치료가 필요합니다.",
+    "example2": "Using tiny electro-cardiogram systems, the scientists showed that being carried about led to an immediate slowing of the infant's heart rate.",
+    "translation2": "과학자들은 작은 심전도 시스템을 사용하여 아기를 안고 있으면 아기의 심장 박동이 즉각적으로 느려진다는 사실을 보여주었습니다."
   },
   "grade1-10:impact": {
     "partOfSpeech": "noun",
@@ -2690,17 +2690,17 @@ export const EXAMPLE_DATA = {
   },
   "grade1-10:increase": {
     "partOfSpeech": "verb",
-    "example": "The dramatic rise in antisemitism this year has caused the number of Jews making aliyah to increase by 31%.",
-    "translation": "올해 반유대주의가 극적으로 증가하면서 알리야를 하는 유대인의 수가 31% 증가했습니다.",
-    "example2": "Exposure to these chemicals can increase your risk of developing cancer.",
-    "translation2": "이러한 화학 물질에 노출되면 암 발병 위험이 높아질 수 있습니다."
+    "example": "Exposure to these chemicals can increase your risk of developing cancer.",
+    "translation": "이러한 화학 물질에 노출되면 암 발병 위험이 높아질 수 있습니다.",
+    "example2": "Repaying debt leaves less money available for investment in new factories or infrastructure that could increase productivity and create jobs.",
+    "translation2": "부채를 상환하면 생산성을 높이고 일자리를 창출할 수 있는 새로운 공장이나 인프라에 투자할 수 있는 자금이 줄어듭니다."
   },
   "grade1-10:independent": {
     "partOfSpeech": "adjective",
     "example": "I've always been an independent person.",
     "translation": "난 전부터 항상 독립적인 사람이야.",
-    "example2": "Ukraine became independent again when the Soviet Union dissolved in 1991.",
-    "translation2": "우크라이나는 1991년 소련이 해체되면서 다시 독립했다."
+    "example2": "Kabylia will soon be an independent country.",
+    "translation2": "Kabylia는 곧 독립 국가가 될 것입니다."
   },
   "grade1-10:individual": {
     "partOfSpeech": "noun",
@@ -2734,8 +2734,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "How can video games inspire us to make better applications for e-learning?",
     "translation": "비디오 게임은 우리가 e-러닝을 위한 더 나은 애플리케이션을 만들도록 어떻게 영감을 줄 수 있습니까?",
-    "example2": "Angola's most famous operatic tenor hopes to inspire more Africans to take up the classical music form.",
-    "translation2": "앙골라의 가장 유명한 오페라 테너는 더 많은 아프리카인들이 클래식 음악 형식을 취하도록 영감을 주기를 희망합니다."
+    "example2": "Work should inspire creativity and innovation.",
+    "translation2": "일은 창의성과 혁신을 불러일으켜야 합니다."
   },
   "grade1-10:instead": {
     "partOfSpeech": "adverb",
@@ -2769,15 +2769,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I knew I had to invent an excuse, and quickly.",
     "translation": "나는 변명을 빨리 만들어야 한다는 것을 알았습니다.",
-    "example2": "If God did not exist, it would be necessary to invent him.",
-    "translation2": "만약 신이 존재하지 않았다면, 만들어 낼 필요가 있겠지."
+    "example2": "Hitler didn't invent the yellow star.",
+    "translation2": "히틀러는 노란별을 발명한 것이 아니다."
   },
   "grade1-10:invite": {
     "partOfSpeech": "verb",
-    "example": "Can I invite you for dinner on Sunday night?",
-    "translation": "일요일 밤에 저녁 식사에 초대해도 될까요?",
-    "example2": "Would you like to invite a friend?",
-    "translation2": "친구를 초대해줄래?"
+    "example": "Would you like to invite a friend?",
+    "translation": "친구를 초대해줄래?",
+    "example2": "Please invite me the next time you have a party.",
+    "translation2": "다음에 파티를 여시면 저를 초대해 주세요."
   },
   "grade1-10:involve": {
     "partOfSpeech": "verb",
@@ -2802,10 +2802,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-11:knowledge": {
     "partOfSpeech": "noun",
-    "example": "His knowledge of Iceland was limited to what he'd seen on the Travel Channel.",
-    "translation": "아이슬란드에 대한 그의 지식은 여행 채널에서 본 것에만 국한되어 있었습니다.",
-    "example2": "Knowledge consists in recognizing the difference between good and bad decisions.",
-    "translation2": "지식은 좋은 결정과 나쁜 결정의 차이를 인식하는 것으로 구성됩니다."
+    "example": "Knowledge consists in recognizing the difference between good and bad decisions.",
+    "translation": "지식은 좋은 결정과 나쁜 결정의 차이를 인식하는 것으로 구성됩니다.",
+    "example2": "A secretary should have a good knowledge of shorthand.",
+    "translation2": "비서는 속기에 대한 좋은 지식을 가지고 있어야 합니다."
   },
   "grade1-11:language": {
     "partOfSpeech": "noun",
@@ -2816,17 +2816,17 @@ export const EXAMPLE_DATA = {
   },
   "grade1-11:learn": {
     "partOfSpeech": "verb",
-    "example": "Give him a clip round the ear. That'll learn him!",
-    "translation": "그에게 귀에 클립을 줘. 그러면 그 사람을 배울 수 있을 거예요!",
-    "example2": "I want to learn guitar.",
-    "translation2": "기타 치는 법을 배우고 싶어."
+    "example": "I want to learn guitar.",
+    "translation": "기타 치는 법을 배우고 싶어.",
+    "example2": "I want to learn to drive.",
+    "translation2": "운전하는 법을 배우고 싶어."
   },
   "grade1-11:legal": {
     "partOfSpeech": "adjective",
-    "example": "Is it legal to hunt kangaroos in Austria?",
-    "translation": "오스트리아에서는 캥거루를 사냥하는 것이 합법적인가요?",
-    "example2": "Is it legal to recreationally hunt kangaroos in Austria?",
-    "translation2": "오스트리아에서는 취미로 캥거루를 사냥하는 것이 합법적인가요?"
+    "example": "You're over the legal limit.",
+    "translation": "법적 한도를 초과했습니다.",
+    "example2": "You're under the legal limit.",
+    "translation2": "귀하는 법적 제한을 받고 있습니다."
   },
   "grade1-11:limit": {
     "partOfSpeech": "noun",
@@ -2851,10 +2851,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-11:manage": {
     "partOfSpeech": "verb",
-    "example": "Donald Trump couldn't even manage to make money off of a casino.",
-    "translation": "도널드 트럼프는 카지노에서 돈도 벌지 못했습니다.",
-    "example2": "In French, I manage to fend myself; in Kabyle, on the other hand, the road will be longer.",
-    "translation2": "프랑스어로 나는 내 자신을 방어할 수 있었습니다. 반면 Kabyle에서는 도로가 더 길어질 것입니다."
+    "example": "How did the true fighters manage to allow themselves to be skinned by hyenas in 62'?",
+    "translation": "진정한 전사들은 어떻게 62분에 하이에나에게 피부가 벗겨질 수 있었나요?",
+    "example2": "How did I manage to trick some people into liking me?",
+    "translation2": "나는 어떻게 몇몇 사람들을 속여 나를 좋아하게 만들었는가?"
   },
   "grade1-11:manner": {
     "partOfSpeech": "noun",
@@ -2886,9 +2886,9 @@ export const EXAMPLE_DATA = {
   },
   "grade1-11:mention": {
     "partOfSpeech": "verb",
-    "example": "Since you mention it, I really would like to see the ruins of Persepolis.",
-    "translation": "말씀하셨으니 페르세폴리스 유적지도 꼭 보고 싶네요.",
-    "example2": "Did I mention I'm crazy?",
+    "example": "Did I mention I'm crazy?",
+    "translation": "제가 미쳤다고 말했나요?",
+    "example2": "Did I mention that I'm crazy?",
     "translation2": "제가 미쳤다고 말했나요?"
   },
   "grade1-11:modern": {
@@ -2909,8 +2909,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "It's the natural thing to happen.",
     "translation": "일어나는 것은 자연스러운 일입니다.",
-    "example2": "The Koran does not permit Mohammedans to drink. Their natural instincts do not permit them to be moral.",
-    "translation2": "코란은 이슬람교인들이 술을 마시는 것을 허용하지 않습니다. 그들의 타고난 본능은 그들이 도덕적인 것을 허용하지 않습니다."
+    "example2": "A semiprime is a natural number that is the product of two prime numbers.",
+    "translation2": "준소수는 두 소수의 곱으로 이루어진 자연수이다."
   },
   "grade1-11:necessary": {
     "partOfSpeech": "adjective",
@@ -2921,10 +2921,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-11:notice": {
     "partOfSpeech": "verb",
-    "example": "Tom didn't notice what Mary was doing.",
-    "translation": "톰은 메리가 무엇을 하는지 알아채지 못했다.",
-    "example2": "An alien messenger gave Noah advance notice of the imminent destruction of his planet.",
-    "translation2": "외계인 메신저가 노아에게 그의 행성이 곧 멸망될 것임을 미리 알렸습니다."
+    "example": "Try to notice something new every time.",
+    "translation": "매번 새로운 것을 알아차리도록 노력하세요.",
+    "example2": "If you get sidetracked, bring yourself back as soon as you notice it.",
+    "translation2": "길을 잃으면 눈치채자마자 다시 돌아오세요."
   },
   "grade1-11:object": {
     "partOfSpeech": "noun",
@@ -2944,15 +2944,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "How did you obtain the visa?",
     "translation": "비자는 어떻게 취득하셨나요?",
-    "example2": "Dr. Mengele's so-called \"experiments\" did not obtain any useful medical data.",
-    "translation2": "Mengele 박사의 소위 \"실험\"은 유용한 의료 데이터를 얻지 못했습니다."
+    "example2": "The students were asked to obtain something important.",
+    "translation2": "학생들은 중요한 것을 얻으라는 요청을 받았습니다."
   },
   "grade1-12:offer": {
     "partOfSpeech": "verb",
-    "example": "Does Algeria offer descendants of Algerian Jews the right to return?",
-    "translation": "알제리는 알제리 유대인의 후손에게 귀국할 권리를 제공합니까?",
-    "example2": "What can you offer us that someone else can not?",
-    "translation2": "다른 사람이 할 수 없는 것을 당신은 우리에게 제공할 수 있습니까?"
+    "example": "What can you offer us that someone else can not?",
+    "translation": "다른 사람이 할 수 없는 것을 당신은 우리에게 제공할 수 있습니까?",
+    "example2": "Tom patiently listened to the door-to-door salesman's entire spiel before politely declining his offer and wishing him a good day.",
+    "translation2": "Tom은 그의 제안을 정중하게 거절하고 그에게 좋은 하루를 기원하기 전에 방문 판매원의 모든 말을 참을성 있게 들었습니다."
   },
   "grade1-12:opinion": {
     "partOfSpeech": "noun",
@@ -2963,10 +2963,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-12:opportunity": {
     "partOfSpeech": "noun",
-    "example": "The holiday gave us the opportunity to visit Washington.",
-    "translation": "이번 휴가는 우리에게 워싱턴을 방문할 기회를 주었습니다.",
-    "example2": "Having a holiday is a great opportunity to relax.",
-    "translation2": "휴가를 갖는 것은 휴식을 취할 수 있는 좋은 기회입니다."
+    "example": "Having a holiday is a great opportunity to relax.",
+    "translation": "휴가를 갖는 것은 휴식을 취할 수 있는 좋은 기회입니다.",
+    "example2": "If I get an opportunity, I will always come to the aid of somebody who needs it.",
+    "translation2": "기회가 된다면 항상 도움이 필요한 누군가에게 도움을 주러 가겠습니다."
   },
   "grade1-12:ordinary": {
     "partOfSpeech": "adjective",
@@ -2991,10 +2991,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-12:particular": {
     "partOfSpeech": "adjective",
-    "example": "Has a particular preference for Chinese art.",
-    "translation": "중국 예술을 특히 선호합니다.",
-    "example2": "A man who wishes to make a particular woman fall in love with him.",
-    "translation2": "특정 여자를 사랑하게 만들고 싶은 남자."
+    "example": "A man who wishes to make a particular woman fall in love with him.",
+    "translation": "특정 여자를 사랑하게 만들고 싶은 남자.",
+    "example2": "Very particular about how her food was prepared.",
+    "translation2": "그녀의 음식이 어떻게 준비되었는지 매우 특별합니다."
   },
   "grade1-12:patient": {
     "partOfSpeech": "adjective",
@@ -3019,10 +3019,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-12:physical": {
     "partOfSpeech": "adjective",
-    "example": "This was part of a centuries-long program of cultural genocide that culminated in the physical genocide of the Holocaust.",
-    "translation": "이는 홀로코스트라는 물리적 대량 학살로 정점을 이룬 수백 년에 걸친 문화 대량 학살 프로그램의 일부였습니다.",
-    "example2": "I can't enjoy reading without the tactile sensation of a physical book.",
-    "translation2": "나는 실제 책이 주는 촉감 없이는 독서를 즐길 수 없다."
+    "example": "I can't enjoy reading without the tactile sensation of a physical book.",
+    "translation": "나는 실제 책이 주는 촉감 없이는 독서를 즐길 수 없다.",
+    "example2": "Bitcoin is fiat by definition, since it cannot be exchanged for a fixed amount of any physical resource.",
+    "translation2": "비트코인은 정의상 법정화폐입니다. 왜냐하면 고정된 양의 물리적 자원과 교환될 수 없기 때문입니다."
   },
   "grade1-12:popular": {
     "partOfSpeech": "adjective",
@@ -3047,10 +3047,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-12:predict": {
     "partOfSpeech": "verb",
-    "example": "We can't predict how Tom will feel.",
-    "translation": "톰이 어떻게 느낄지 우린 예상할 수 없어.",
-    "example2": "Observers predict low turnout among a disaffected electorate squeezed by a deep economic crisis.",
-    "translation2": "관찰자들은 심각한 경제 위기로 인해 불만을 품은 유권자들의 낮은 투표율을 예측합니다."
+    "example": "Observers predict low turnout among a disaffected electorate squeezed by a deep economic crisis.",
+    "translation": "관찰자들은 심각한 경제 위기로 인해 불만을 품은 유권자들의 낮은 투표율을 예측합니다.",
+    "example2": "Most will laud the crackdown as steps toward transparency, fairness in business and better-run local partner companies, economists predict.",
+    "translation2": "경제학자들은 대부분의 사람들이 이번 단속을 사업의 투명성, 공정성, 더 나은 운영 현지 파트너 회사를 위한 조치로 칭찬할 것이라고 예측합니다."
   },
   "grade1-12:prefer": {
     "partOfSpeech": "verb",
@@ -3070,15 +3070,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Tom used to be a primary school teacher.",
     "translation": "톰은 한때 초등학교 선생님이었었어.",
-    "example2": "When Tom went to primary school he was assigned a learning support assistant.",
-    "translation2": "Tom은 초등학교에 다닐 때 학습 지원 보조원으로 배정되었습니다."
+    "example2": "His mother is a nursery school teacher and his father is a primary school teacher.",
+    "translation2": "그의 어머니는 보육원 교사이고 그의 아버지는 초등학교 교사입니다."
   },
   "grade1-12:private": {
     "partOfSpeech": "adjective",
-    "example": "The former President is now a private citizen.",
-    "translation": "전직 대통령은 이제 민간인이 됐다.",
-    "example2": "Public figures struggle to maintain a private life.",
-    "translation2": "공인은 사생활을 유지하기 위해 고군분투합니다."
+    "example": "Public figures struggle to maintain a private life.",
+    "translation": "공인은 사생활을 유지하기 위해 고군분투합니다.",
+    "example2": "Each room has a private bath.",
+    "translation2": "각 객실에는 전용 욕실이 있습니다."
   },
   "grade1-13:process": {
     "partOfSpeech": "noun",
@@ -3098,8 +3098,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "You have to wear a helmet to protect your head.",
     "translation": "머리 보호를 위해서 헬멧을 써야 한다.",
-    "example2": "\"Collateral damage\" is a euphemism for killing innocent people to protect capital.",
-    "translation2": "'부수적 피해'는 자본을 지키기 위해 무고한 사람을 죽인다는 완곡한 표현이다."
+    "example2": "Cats protect me from the shadow people.",
+    "translation2": "고양이는 그림자 사람들로부터 나를 보호합니다."
   },
   "grade1-13:provide": {
     "partOfSpeech": "verb",
@@ -3119,8 +3119,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Does she realize how important this decision is?",
     "translation": "그녀는 이 결정이 얼마나 중요한지 깨닫고 있나요?",
-    "example2": "It is enough to read the curriculum of President Natanyahu to realize his genius and his humanism.",
-    "translation2": "그의 천재성과 휴머니즘을 깨닫기 위해서는 나탄야후 대통령의 커리큘럼을 읽어보는 것만으로도 충분하다."
+    "example2": "I didn't realize you had more comments to make.",
+    "translation2": "나는 당신이 더 많은 의견을 제시해야 한다는 것을 몰랐습니다."
   },
   "grade1-13:reason": {
     "partOfSpeech": "noun",
@@ -3138,10 +3138,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-13:recommend": {
     "partOfSpeech": "verb",
-    "example": "I recommend that you learn French.",
-    "translation": "프랑스어를 배우는 걸 추천해.",
-    "example2": "The instructions recommend that you only use distilled water in this iron.",
-    "translation2": "지침에서는 이 다리미에 증류수만 사용할 것을 권장합니다."
+    "example": "The instructions recommend that you only use distilled water in this iron.",
+    "translation": "지침에서는 이 다리미에 증류수만 사용할 것을 권장합니다.",
+    "example2": "Since the stakes are high, I'd like to recommend a belt-and-suspenders approach.",
+    "translation2": "위험이 높기 때문에 벨트와 멜빵 접근 방식을 권장하고 싶습니다."
   },
   "grade1-13:reduce": {
     "partOfSpeech": "verb",
@@ -3173,17 +3173,17 @@ export const EXAMPLE_DATA = {
   },
   "grade1-13:repair": {
     "partOfSpeech": "verb",
-    "example": "One can never fully repair the suffering and losses of the Jews in the Third Reich.",
-    "translation": "제3제국에서 유대인들이 겪은 고통과 손실은 결코 완전히 회복될 수 없습니다.",
-    "example2": "Treat your trip as a remote backcountry trip: there is limited water infrastructure, variable weather, and no repair services or materials.",
-    "translation2": "여행을 외딴 오지 여행으로 생각하십시오. 물 인프라가 제한되어 있고 날씨가 다양하며 수리 서비스나 자재가 없습니다."
+    "example": "Treat your trip as a remote backcountry trip: there is limited water infrastructure, variable weather, and no repair services or materials.",
+    "translation": "여행을 외딴 오지 여행으로 생각하십시오. 물 인프라가 제한되어 있고 날씨가 다양하며 수리 서비스나 자재가 없습니다.",
+    "example2": "Surgeons are using this technique to remove diseased gall bladders and spleens, to perform hysterectomies and to repair hernias and colons.",
+    "translation2": "외과의사는 이 기술을 사용하여 병든 담낭과 비장을 제거하고, 자궁적출술을 시행하고, 탈장과 결장을 치료합니다."
   },
   "grade1-13:repeat": {
     "partOfSpeech": "verb",
-    "example": "Add 100, left 50. Repeat, over.",
-    "translation": "100을 더하면 50이 남습니다. 반복하세요.",
-    "example2": "Could you please repeat that?",
-    "translation2": "다시 한번 말씀해 주시겠어요?"
+    "example": "Could you please repeat that?",
+    "translation": "다시 한번 말씀해 주시겠어요?",
+    "example2": "How many times do I need to repeat it?",
+    "translation2": "몇 번을 반복해야 해?"
   },
   "grade1-13:replace": {
     "partOfSpeech": "verb",
@@ -3243,24 +3243,24 @@ export const EXAMPLE_DATA = {
   },
   "grade1-14:satisfy": {
     "partOfSpeech": "verb",
-    "example": "Nettle proliferates, it abounds in our country. The nettle soup is good. I am just eating it. Very little will satisfy you.",
-    "translation": "쐐기풀은 우리나라에 널리 퍼져 있습니다. 쐐기풀 수프가 좋습니다. 그냥 먹고 있어요. 당신을 만족시키는 것은 거의 없습니다.",
-    "example2": "While sowing, the peasants said: “O earth, may you satisfy the plow and the sack of seed.\".",
-    "translation2": "씨를 뿌리는 동안 농부들은 이렇게 말했습니다. “오 땅이여, 쟁기와 씨앗 부대를 만족시켜 주소서.”"
+    "example": "While sowing, the peasants said: “O earth, may you satisfy the plow and the sack of seed.\".",
+    "translation": "씨를 뿌리는 동안 농부들은 이렇게 말했습니다. “오 땅이여, 쟁기와 씨앗 부대를 만족시켜 주소서.”",
+    "example2": "They don't satisfy me at all.",
+    "translation2": "그들은 나를 전혀 만족시키지 못합니다."
   },
   "grade1-14:save": {
     "partOfSpeech": "verb",
-    "example": "I tried to save Tom.",
-    "translation": "나는 톰을 구하려고 노력했어.",
-    "example2": "Don't try to talk. Save your energy.",
-    "translation2": "말하려 하지마. 차라리 에너지를 아껴."
+    "example": "Can you save one of those donuts for me?",
+    "translation": "저 도넛들 중 하나는 남겨줄 수 있어?",
+    "example2": "We used the computer in order to save time.",
+    "translation2": "우린 시간을 아끼기 위해서 컴퓨터를 썼어."
   },
   "grade1-14:science": {
     "partOfSpeech": "noun",
-    "example": "Of course in my opinion Social Studies is more of a science than an art.",
-    "translation": "물론 제 생각에는 사회학은 예술이라기보다 과학에 가깝습니다.",
-    "example2": "My favorite subjects at school are science, mathematics, and history.",
-    "translation2": "제가 학교에서 가장 좋아하는 과목은 과학, 수학, 역사입니다."
+    "example": "My favorite subjects at school are science, mathematics, and history.",
+    "translation": "제가 학교에서 가장 좋아하는 과목은 과학, 수학, 역사입니다.",
+    "example2": "She has to study science.",
+    "translation2": "그 사람은 과학을 공부해야 해."
   },
   "grade1-14:select": {
     "partOfSpeech": "verb",
@@ -3285,10 +3285,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-14:similar": {
     "partOfSpeech": "adjective",
-    "example": "Hungarian and Turkish are very similar in terms of grammar.",
-    "translation": "헝가리어와 터키어는 문법적으로 매우 유사합니다.",
-    "example2": "Phoenician is very similar to Hebrew.",
-    "translation2": "페니키아어는 히브리어와 매우 유사합니다."
+    "example": "Similar things happened in other countries.",
+    "translation": "다른 나라에서도 비슷한 일이 일어났습니다.",
+    "example2": "I was having similar feelings.",
+    "translation2": "저도 비슷한 감정을 갖고 있었어요."
   },
   "grade1-14:simple": {
     "partOfSpeech": "adjective",
@@ -3320,10 +3320,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-14:source": {
     "partOfSpeech": "noun",
-    "example": "Pittsburgh is the source of the Ohio River.",
-    "translation": "피츠버그는 오하이오 강의 발원지입니다.",
-    "example2": "Linux is open source software.",
-    "translation2": "리눅스는 오픈 소스 소프트웨어야."
+    "example": "Linux is open source software.",
+    "translation": "리눅스는 오픈 소스 소프트웨어야.",
+    "example2": "All of my software is open source.",
+    "translation2": "내 소프트웨어들은 전부 오픈 소스야."
   },
   "grade1-14:specific": {
     "partOfSpeech": "adjective",
@@ -3364,15 +3364,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Let's call heads a success and tails a failure.",
     "translation": "앞면이 성공이고 뒷면이 실패라고 가정해 보겠습니다.",
-    "example2": "The election was a remarkable success for the Whigs.",
-    "translation2": "이번 선거는 휘그당의 놀라운 성공이었습니다."
+    "example2": "His success in the marathon was unexpected.",
+    "translation2": "마라톤에서의 그의 성공은 예상치 못한 일이었습니다."
   },
   "grade1-15:suggest": {
     "partOfSpeech": "verb",
-    "example": "Can't you suggest something else, Tom?",
-    "translation": "다른 것을 제안할 수는 없니, 톰?",
-    "example2": "Our best pictures of the human mind suggest that we don't plop our mental activities into single, ordered boxes.",
-    "translation2": "인간의 마음에 대한 가장 좋은 그림은 우리의 정신적 활동을 하나의 질서 있는 상자에 넣지 않는다는 것을 암시합니다."
+    "example": "Our best pictures of the human mind suggest that we don't plop our mental activities into single, ordered boxes.",
+    "translation": "인간의 마음에 대한 가장 좋은 그림은 우리의 정신적 활동을 하나의 질서 있는 상자에 넣지 않는다는 것을 암시합니다.",
+    "example2": "The dagger-like fangs of the extinct saber toothed cat suggest that it was an ambush hunter.",
+    "translation2": "멸종된 검치호의 단검 같은 송곳니는 그것이 매복 사냥꾼이었음을 암시합니다."
   },
   "grade1-15:support": {
     "partOfSpeech": "verb",
@@ -3397,10 +3397,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-15:technology": {
     "partOfSpeech": "noun",
-    "example": "Since the war, Japan has advanced greatly in science and technology.",
-    "translation": "전쟁 이래로 일본은 과학과 기술에서 큰 진보를 이루었어.",
-    "example2": "We believe that large, publicly available voice datasets will foster innovation and healthy commercial competition in machine-learning based speech technology.",
-    "translation2": "우리는 공개적으로 사용 가능한 대규모 음성 데이터 세트가 기계 학습 기반 음성 기술의 혁신과 건전한 상업적 경쟁을 촉진할 것이라고 믿습니다."
+    "example": "We believe that large, publicly available voice datasets will foster innovation and healthy commercial competition in machine-learning based speech technology.",
+    "translation": "우리는 공개적으로 사용 가능한 대규모 음성 데이터 세트가 기계 학습 기반 음성 기술의 혁신과 건전한 상업적 경쟁을 촉진할 것이라고 믿습니다.",
+    "example2": "Technology has not, as predicted, made it easier for leftists.",
+    "translation2": "기술은 예상한 대로 좌파의 삶을 더 쉽게 만들지 못했습니다."
   },
   "grade1-15:temporary": {
     "partOfSpeech": "adjective",
@@ -3411,10 +3411,10 @@ export const EXAMPLE_DATA = {
   },
   "grade1-15:tradition": {
     "partOfSpeech": "noun",
-    "example": "In the 21st century virtually every American considers themselves a dissident, even those who defend tradition and powerful institutions.",
-    "translation": "21세기에는 사실상 모든 미국인이 자신을 반체제 인사로 여깁니다. 심지어 전통과 강력한 제도를 옹호하는 사람들도 마찬가지입니다.",
-    "example2": "According to Jewish tradition, the first fratricide was also the first homicide.",
-    "translation2": "유대 전통에 따르면 최초의 형제 살해는 최초의 살인이기도 했습니다."
+    "example": "What's your favorite family tradition?",
+    "translation": "당신이 가장 좋아하는 가족 전통은 무엇입니까?",
+    "example2": "What is your favorite family holiday tradition?",
+    "translation2": "당신이 가장 좋아하는 가족 명절 전통은 무엇입니까?"
   },
   "grade1-15:transport": {
     "partOfSpeech": "verb",
@@ -3425,24 +3425,24 @@ export const EXAMPLE_DATA = {
   },
   "grade1-15:trust": {
     "partOfSpeech": "verb",
-    "example": "We can trust in God.",
-    "translation": "우리는 하나님을 신뢰할 수 있습니다.",
-    "example2": "I trust you will behave better from now on.",
-    "translation2": "나는 당신이 이제부터 더 잘 행동할 것이라고 믿습니다."
+    "example": "I trust you will behave better from now on.",
+    "translation": "나는 당신이 이제부터 더 잘 행동할 것이라고 믿습니다.",
+    "example2": "I don't know who to trust.",
+    "translation2": "나는 누구를 믿어야 할 지 모른다."
   },
   "grade1-15:unique": {
     "partOfSpeech": "adjective",
     "example": "Bach was unique in his handling of counterpoint.",
     "translation": "바흐는 대위법을 다루는 데 있어서 독특했습니다.",
-    "example2": "A species unique to Australia.",
-    "translation2": "호주 특유의 종."
+    "example2": "Certain types of problems have unique solutions.",
+    "translation2": "특정 유형의 문제에는 고유한 해결책이 있습니다."
   },
   "grade1-15:universe": {
     "partOfSpeech": "noun",
     "example": "They study the evolution of the universe.",
     "translation": "그들은 우주의 진화를 연구합니다.",
-    "example2": "Pastafarians believe that an invisible and undetectable Flying Spaghetti Monster created the universe.",
-    "translation2": "파스타파리안들은 눈에 보이지도 않고 감지할 수도 없는 날아다니는 스파게티 괴물이 우주를 창조했다고 믿습니다."
+    "example2": "Have you ever wondered if our universe is just a simulated political satire of one that actually exists?",
+    "translation2": "우리 우주가 실제로 존재하는 우주를 정치적으로 풍자한 시뮬레이션일 뿐인지 궁금해 본 적이 있나요?"
   },
   "grade1-15:useful": {
     "partOfSpeech": "adjective",
@@ -3502,17 +3502,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-01:abandon": {
     "partOfSpeech": "verb",
-    "example": "Abandon your life to God.",
-    "translation": "당신의 삶을 하나님께 맡기십시오.",
-    "example2": "Some say hundreds of people drowned in the deluge because they would not abandon their pets.",
-    "translation2": "어떤 사람들은 애완동물을 버리지 않았기 때문에 수백 명이 홍수에 빠져 익사했다고 말합니다."
+    "example": "Some say hundreds of people drowned in the deluge because they would not abandon their pets.",
+    "translation": "어떤 사람들은 애완동물을 버리지 않았기 때문에 수백 명이 홍수에 빠져 익사했다고 말합니다.",
+    "example2": "The leader called on both sides to 'abandon old hatreds and meet their responsibility toward peace.'.",
+    "translation2": "지도자는 양측에 '오래된 증오를 버리고 평화를 향한 책임을 다하라'고 촉구했습니다."
   },
   "grade2-01:abolish": {
     "partOfSpeech": "verb",
-    "example": "If God really existed, it would be necessary to abolish him.",
-    "translation": "만일 신이 정말로 존재한다면, 그를 없애는 것이 불가피할 것입니다.",
-    "example2": "The students were asked to abolish something important.",
-    "translation2": "학생들은 중요한 것을 폐지하라는 요청을 받았습니다."
+    "example": "The city plans to abolish the outdated rule.",
+    "translation": "시는 낡은 규정을 폐지할 계획이다.",
+    "example2": "Many students want the school to abolish the unnecessary fee.",
+    "translation2": "많은 학생들은 학교가 불필요한 수업료를 폐지하길 원합니다."
   },
   "grade2-01:abstract": {
     "partOfSpeech": "adjective",
@@ -3523,10 +3523,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-01:accelerate": {
     "partOfSpeech": "verb",
-    "example": "For Serbia and Hungary, Russia's coronavirus vaccine has been a godsend, allowing both countries to accelerate their inoculation drives.",
-    "translation": "세르비아와 헝가리의 경우 러시아의 코로나바이러스 백신은 신의 선물이 되어 두 국가 모두 예방접종 활동을 가속화할 수 있게 되었습니다.",
-    "example2": "Lauren Bularzik, Lindsey’s physical therapist, says the exo robots help to accelerate the rehabilitation process.",
-    "translation2": "Lindsey의 물리 치료사인 Lauren Bularzik은 엑소 로봇이 재활 과정을 가속화하는 데 도움이 된다고 말합니다."
+    "example": "Warm temperatures can accelerate plant growth.",
+    "translation": "따뜻한 온도는 식물 성장을 가속화할 수 있습니다.",
+    "example2": "The new technology may accelerate the research process.",
+    "translation2": "새로운 기술은 연구 과정을 가속화할 수 있습니다."
   },
   "grade2-01:accommodate": {
     "partOfSpeech": "verb",
@@ -3558,10 +3558,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-01:acquire": {
     "partOfSpeech": "verb",
-    "example": "The company also announced this year that it will acquire U.S. grocer Whole Foods, which could help expand Amazon's online food-shopping services.",
-    "translation": "또한 회사는 올해 미국의 식료품업체인 Whole Foods를 인수할 것이라고 발표했는데, 이는 Amazon의 온라인 식품 쇼핑 서비스를 확장하는 데 도움이 될 수 있습니다.",
-    "example2": "You can't acquire a language without consuming it.",
-    "translation2": "언어를 소비하지 않고는 습득할 수 없습니다."
+    "example": "You can't acquire a language without consuming it.",
+    "translation": "언어를 소비하지 않고는 습득할 수 없습니다.",
+    "example2": "The students were asked to acquire something important.",
+    "translation2": "학생들은 중요한 것을 얻으라는 요청을 받았습니다."
   },
   "grade2-01:activate": {
     "partOfSpeech": "verb",
@@ -3572,17 +3572,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-01:addiction": {
     "partOfSpeech": "noun",
-    "example": "Under Roman law addiction was the justification for slavery.",
-    "translation": "로마법에서는 중독이 노예 제도를 정당화했습니다.",
-    "example2": "Addiction is not a personal failing but an aspect of an exploitative system.",
-    "translation2": "중독은 개인적인 실패가 아니라 착취적인 시스템의 한 측면입니다."
+    "example": "Addiction is not a personal failing but an aspect of an exploitative system.",
+    "translation": "중독은 개인적인 실패가 아니라 착취적인 시스템의 한 측면입니다.",
+    "example2": "It's a bad addiction and I need to quit for good.",
+    "translation2": "그것은 나쁜 중독이고 영원히 끊어야합니다."
   },
   "grade2-01:adjust": {
     "partOfSpeech": "verb",
     "example": "We must adjust to the bad economic situation.",
     "translation": "우리는 나쁜 경제 상황에 적응해야 합니다.",
-    "example2": "Most immigrants adjust quickly to a new community. She waited for her eyes to adjust to the darkness.",
-    "translation2": "대부분의 이민자들은 새로운 지역사회에 빠르게 적응합니다. 그녀는 눈이 어둠에 적응할 때까지 기다렸습니다."
+    "example2": "The students were asked to adjust something important.",
+    "translation2": "학생들은 중요한 것을 조정하라는 요청을 받았습니다."
   },
   "grade2-01:administer": {
     "partOfSpeech": "verb",
@@ -3609,8 +3609,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I like trees, but I do not advocate living in them.",
     "translation": "나는 나무를 좋아하지만 나무 속에서 사는 것을 옹호하지는 않습니다.",
-    "example2": "Stop playing devil's advocate, Tom.",
-    "translation2": "악마의 옹호자 역할을 그만 두세요, 톰."
+    "example2": "Torres promised to reactivate the economy, tackle the country's security situation, advocate for those at risk and run an efficient government.",
+    "translation2": "토레스는 경제를 재가동하고 국가의 안보 상황을 해결하며 위험에 처한 사람들을 옹호하고 효율적인 정부를 운영하겠다고 약속했습니다."
   },
   "grade2-01:affordable": {
     "partOfSpeech": "adjective",
@@ -3623,8 +3623,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "He was aggressive and imperious; positive in his convictions.",
     "translation": "그는 공격적이고 오만한 사람이었습니다. 그의 신념에 긍정적이다.",
-    "example2": "J.K. Rowling uses aggressive litigation to silence her critics.",
-    "translation2": "J.K. Rowling은 공격적인 소송을 통해 비판자들을 침묵시킵니다."
+    "example2": "Yellow jackets are more aggressive than hornets.",
+    "translation2": "노란색 재킷은 말벌보다 더 공격적입니다."
   },
   "grade2-01:allergy": {
     "partOfSpeech": "noun",
@@ -3644,8 +3644,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "An ambassador of good will.",
     "translation": "선의의 대사.",
-    "example2": "Mwalagho was recently appointed an Ambassador for Peace by the Inter-Religious and International Federation for Peace.",
-    "translation2": "Mwalagho는 최근 Inter-Religious and International Federation for Peace에 의해 평화 대사로 임명되었습니다."
+    "example2": "The ambassador answered every question clearly.",
+    "translation2": "대사는 모든 질문에 명확하게 대답했습니다."
   },
   "grade2-02:amend": {
     "partOfSpeech": "verb",
@@ -3665,8 +3665,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Aid organizations anticipate continued flooding will displace about 200,000 people and affect the lives of 485,000 people.",
     "translation": "구호단체들은 지속적인 홍수로 인해 약 20만명의 이재민이 발생하고 485,000명의 삶에 영향을 미칠 것으로 예상하고 있습니다.",
-    "example2": "Some Central Asian residents remain skeptical of the project, while others anticipate it will be an economic boon for the region.",
-    "translation2": "일부 중앙아시아 주민들은 이 프로젝트에 여전히 회의적인 반면, 다른 주민들은 이 지역에 경제적 이익이 될 것으로 기대하고 있습니다."
+    "example2": "The students were asked to anticipate something important.",
+    "translation2": "학생들은 중요한 것을 예상하도록 요청 받았습니다."
   },
   "grade2-02:apparent": {
     "partOfSpeech": "adjective",
@@ -3693,8 +3693,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Plato made the causes of things to be matter, ideas, and an efficient architect.",
     "translation": "플라톤은 사물의 원인을 물질, 아이디어, 효율적인 건축가로 만들었습니다.",
-    "example2": "Peisistratus was the first architect of the Iliad and the Odyssey.",
-    "translation2": "페이시스트라토스(Peisistratus)는 일리아드와 오디세이의 첫 번째 건축가였습니다."
+    "example2": "Tom said he wanted to be an architect.",
+    "translation2": "톰은 자신이 건축가가 되고 싶었다고 말했다."
   },
   "grade2-02:argument": {
     "partOfSpeech": "noun",
@@ -3714,15 +3714,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "That artificial humility that her husband hated.",
     "translation": "남편이 싫어했던 그 인위적인 겸손.",
-    "example2": "The Flevopolder, the southern island of Flevoland, is the biggest artificial island in the world with an area of 970 km².",
-    "translation2": "플레보랜드(Flevoland) 남쪽 섬인 플레보폴더(Flevopolder)는 면적이 970km²에 달하는 세계 최대의 인공섬이다."
+    "example2": "A mind-controlled artificial hand with near-natural dexterity is very close to reality.",
+    "translation2": "거의 자연스러운 손재주를 지닌 마인드 컨트롤 인공 손은 현실에 매우 가깝습니다."
   },
   "grade2-02:assert": {
     "partOfSpeech": "verb",
     "example": "Women should assert themselves more!",
     "translation": "여자들은 좀 더 자신을 주장해야 해요!",
-    "example2": "If America were the best country in the world, it wouldn't need to constantly assert this.",
-    "translation2": "미국이 세계 최고의 국가라면 끊임없이 이런 주장을 할 필요는 없을 것이다."
+    "example2": "The team may assert the proposal after careful review.",
+    "translation2": "팀은 신중한 검토 후 제안을 주장할 수 있습니다."
   },
   "grade2-02:assign": {
     "partOfSpeech": "verb",
@@ -3733,10 +3733,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-02:association": {
     "partOfSpeech": "noun",
-    "example": "He joined the Modern Language Association.",
-    "translation": "그는 현대 언어 협회에 가입했습니다.",
-    "example2": "You cannot be convicted of criminal guilt by association.",
-    "translation2": "협회에 의해 형사 유죄 판결을 받을 수 없습니다."
+    "example": "You cannot be convicted of criminal guilt by association.",
+    "translation": "협회에 의해 형사 유죄 판결을 받을 수 없습니다.",
+    "example2": "His association of his father with being beaten was too strong to break.",
+    "translation2": "그의 아버지와 구타당했다는 그의 연관성은 너무 강해서 깨뜨릴 수 없었습니다."
   },
   "grade2-02:assure": {
     "partOfSpeech": "verb",
@@ -3791,15 +3791,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Intolerance is a barrier to understanding.",
     "translation": "편협함은 이해의 장벽이다.",
-    "example2": "Tom really wanted to see the Great Barrier Reef, so he booked a ticket to Austria.",
-    "translation2": "Tom은 그레이트 배리어 리프(Great Barrier Reef)를 꼭 보고 싶어서 오스트리아행 티켓을 예약했습니다."
+    "example2": "They stored the barrier in a safe place.",
+    "translation2": "그들은 장벽을 안전한 곳에 보관했습니다."
   },
   "grade2-03:biodiversity": {
     "partOfSpeech": "noun",
     "example": "A high level of biodiversity is desirable.",
     "translation": "높은 수준의 생물 다양성이 바람직합니다.",
-    "example2": "Tom and Mary are passionate about preserving biodiversity.",
-    "translation2": "Tom과 Mary는 생물 다양성 보존에 열정을 갖고 있습니다."
+    "example2": "Her biodiversity helped the team solve the problem.",
+    "translation2": "그녀의 생물 다양성은 팀이 문제를 해결하는 데 도움이 되었습니다."
   },
   "grade2-03:boundary": {
     "partOfSpeech": "noun",
@@ -3812,8 +3812,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "A NASA spacecraft skims the surface of an asteroid to capture a sample.",
     "translation": "NASA 우주선이 샘플을 포착하기 위해 소행성 표면을 훑어봅니다.",
-    "example2": "The cinema’s manager, Jean Elhelou, says moviegoers like the surround-sound and big screens that capture the special effects of the blockbuster films.",
-    "translation2": "영화관 매니저인 Jean Elhelou는 영화 관객들이 블록버스터 영화의 특수 효과를 포착하는 서라운드 사운드와 대형 스크린을 좋아한다고 말합니다."
+    "example2": "Through this noninvasive type of project investigators can study some aspects of wildlife populations that previously involved intensive capture operations.",
+    "translation2": "이러한 비침습적 유형의 프로젝트 조사관을 통해 이전에 집중적인 포획 작업을 수행했던 야생동물 개체군의 일부 측면을 연구할 수 있습니다."
   },
   "grade2-03:category": {
     "partOfSpeech": "noun",
@@ -3838,10 +3838,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-03:chemical": {
     "partOfSpeech": "adjective",
-    "example": "Ununbium is the chemical element with symbol Uub and atomic number 112.",
-    "translation": "우눈븀(Ununbium)은 기호가 Uub이고 원자 번호가 112인 화학 원소입니다.",
-    "example2": "It has a chemical taste to it.",
-    "translation2": "화학적 맛이 있어요."
+    "example": "It has a chemical taste to it.",
+    "translation": "화학적 맛이 있어요.",
+    "example2": "In the fall, a series of chemical signals, triggered by shortening day lengths, stops the growth process.",
+    "translation2": "가을에는 낮의 길이가 짧아지면서 발생하는 일련의 화학적 신호가 성장 과정을 중단시킵니다."
   },
   "grade2-03:circulation": {
     "partOfSpeech": "noun",
@@ -3880,24 +3880,24 @@ export const EXAMPLE_DATA = {
   },
   "grade2-03:combine": {
     "partOfSpeech": "verb",
-    "example": "I know a lot of French words, but it's difficult for me to combine them into sentences.",
-    "translation": "나는 프랑스어 단어를 많이 알고 있지만 이를 문장으로 결합하는 것이 어렵습니다.",
-    "example2": "I'm worried our dimensions will combine and the shadow people will be able to get me.",
-    "translation2": "우리의 차원이 합쳐져서 그림자 사람들이 나를 잡을 수 있을까 걱정됩니다."
+    "example": "I'm worried our dimensions will combine and the shadow people will be able to get me.",
+    "translation": "우리의 차원이 합쳐져서 그림자 사람들이 나를 잡을 수 있을까 걱정됩니다.",
+    "example2": "Coffee roasters combine beans from different areas to make coffees with different tastes and qualities.",
+    "translation2": "커피 로스터는 다양한 지역의 원두를 결합하여 다양한 맛과 품질의 커피를 만듭니다."
   },
   "grade2-03:commercial": {
     "partOfSpeech": "adjective",
     "example": "We believe that large, publicly available voice datasets will foster innovation and healthy commercial competition in machine-learning based speech technology.",
     "translation": "우리는 공개적으로 사용 가능한 대규모 음성 데이터 세트가 기계 학습 기반 음성 기술의 혁신과 건전한 상업적 경쟁을 촉진할 것이라고 믿습니다.",
-    "example2": "Gorbachev was the only Soviet leader to do a commercial for an American restaurant chain.",
-    "translation2": "고르바초프는 미국 레스토랑 체인의 광고를 제작한 유일한 소련 지도자였습니다."
+    "example2": "The documentary examines the creative and commercial value of this practice, called musical sampling.",
+    "translation2": "다큐멘터리는 음악 샘플링이라고 불리는 이러한 관행의 창의적이고 상업적인 가치를 조사합니다."
   },
   "grade2-03:committee": {
     "partOfSpeech": "noun",
     "example": "A committee is a group that keeps minutes and loses hours.",
     "translation": "위원회는 회의록은 유지하고 시간은 낭비하는 그룹입니다.",
-    "example2": "Historically, the errors committed by a truly revolutionary movement are infinitely more fruitful than the infallibility of the cleverest Central Committee.",
-    "translation2": "역사적으로 진정한 혁명 운동이 저지른 오류는 가장 영리한 중앙위원회의 무오류보다 훨씬 더 많은 성과를 냅니다."
+    "example2": "I'm forming an exploratory committee to decide whether I should run for president.",
+    "translation2": "나는 대통령 선거에 출마할지 여부를 결정하기 위해 탐색 위원회를 구성할 예정입니다."
   },
   "grade2-03:companion": {
     "partOfSpeech": "noun",
@@ -3917,8 +3917,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Here is the mountain dweller, who will never govern, even though he is educated and competent.",
     "translation": "여기에 교육을 받고 능력이 있음에도 불구하고 결코 통치하지 않는 산에 사는 사람이 있습니다.",
-    "example2": "If the Algerian army is so competent, why shouldn't it confront the Israeli army to liberate Palestine?",
-    "translation2": "알제리군이 그렇게 유능하다면 왜 팔레스타인 해방을 위해 이스라엘군과 맞서면 안 되는가?"
+    "example2": "The reviewers considered the final result competent.",
+    "translation2": "검토자들은 최종 결과가 적절하다고 생각했습니다."
   },
   "grade2-04:competition": {
     "partOfSpeech": "noun",
@@ -3938,8 +3938,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "When there are diametrically opposing views on a big issue that concerns millions of people, doing comprehensive research just makes sense.",
     "translation": "수백만 명의 사람들이 관심을 갖는 큰 문제에 대해 정반대의 견해가 있을 때 포괄적인 연구를 수행하는 것이 합리적입니다.",
-    "example2": "Dr. Otto says a comprehensive approach of combining abstinence and condoms is crucial to preventing infections.",
-    "translation2": "오토 박사는 금욕과 콘돔을 결합하는 포괄적인 접근 방식이 감염 예방에 중요하다고 말합니다."
+    "example2": "The reviewers considered the final result comprehensive.",
+    "translation2": "검토자들은 최종 결과가 포괄적이라고 생각했습니다."
   },
   "grade2-04:compromise": {
     "partOfSpeech": "verb",
@@ -3957,10 +3957,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-04:concept": {
     "partOfSpeech": "noun",
-    "example": "The concept of hypertext predates the World Wide Web.",
-    "translation": "하이퍼텍스트의 개념은 월드 와이드 웹(World Wide Web)보다 앞서 있습니다.",
-    "example2": "I made the concept of an NFT into an NFT.",
-    "translation2": "NFT의 개념을 NFT로 만들었습니다."
+    "example": "I made the concept of an NFT into an NFT.",
+    "translation": "NFT의 개념을 NFT로 만들었습니다.",
+    "example2": "I don't think she fully grasped the concept.",
+    "translation2": "나는 그녀가 개념을 완전히 이해했다고 생각하지 않습니다."
   },
   "grade2-04:conclusion": {
     "partOfSpeech": "noun",
@@ -3973,15 +3973,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "You cannot conduct business like this.",
     "translation": "이런 식으로 사업을 할 수는 없습니다.",
-    "example2": "Conduct an orchestra; Barenboim conducted the Chicago symphony for years.",
-    "translation2": "오케스트라를 지휘하세요. 바렌보임은 수년간 시카고 심포니를 지휘했습니다."
+    "example2": "All gods are better than their conduct.",
+    "translation2": "모든 신은 그들의 행위보다 낫습니다."
   },
   "grade2-04:confirm": {
     "partOfSpeech": "verb",
-    "example": "I can confirm some of the rumors about Tom.",
-    "translation": "Tom에 관한 소문 중 일부를 확인할 수 있습니다.",
-    "example2": "Tom can neither confirm nor deny any of the claims made about him.",
-    "translation2": "Tom은 자신에 대한 어떤 주장도 확인하거나 거부할 수 없습니다."
+    "example": "Tom can neither confirm nor deny any of the claims made about him.",
+    "translation": "Tom은 자신에 대한 어떤 주장도 확인하거나 거부할 수 없습니다.",
+    "example2": "I just need to ask you a few questions to confirm you're not a robot.",
+    "translation2": "당신이 로봇이 아닌지 확인하기 위해 몇 가지 질문만 하면 됩니다."
   },
   "grade2-04:confuse": {
     "partOfSpeech": "verb",
@@ -4015,8 +4015,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "These constitute my entire belonging.",
     "translation": "이것들은 나의 전체 소유물을 구성합니다.",
-    "example2": "Muslims constitute 1.1 percent of the population of the United States and 5 percent of its physician workforce.",
-    "translation2": "무슬림은 미국 인구의 1.1%, 의사 인력의 5%를 차지한다."
+    "example2": "The team may constitute the proposal after careful review.",
+    "translation2": "팀은 신중한 검토를 거쳐 제안서를 구성할 수 있습니다."
   },
   "grade2-04:consult": {
     "partOfSpeech": "verb",
@@ -4029,15 +4029,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "This new system favours the consumer over the producer.",
     "translation": "이 새로운 시스템은 생산자보다 소비자를 선호합니다.",
-    "example2": "Entitled \"The Next Four Billion,\" the report finds that the world's poor people comprise a relatively untapped $5 trillion consumer market.",
-    "translation2": "\"다음 40억 달러(The Next 40억)\"라는 제목의 이 보고서는 세계의 가난한 사람들이 상대적으로 아직 개척되지 않은 5조 달러 규모의 소비자 시장을 구성하고 있는 것으로 나타났습니다."
+    "example2": "Devaluing the currency also means that prices rise for consumers, and it tends to crimp consumer spending.",
+    "translation2": "통화 가치를 떨어뜨리는 것은 소비자의 가격이 상승한다는 것을 의미하며 이는 소비자 지출을 위축시키는 경향이 있습니다."
   },
   "grade2-04:contemporary": {
     "partOfSpeech": "adjective",
-    "example": "The composer Salieri was contemporary with Mozart.",
-    "translation": "작곡가 살리에리는 모차르트와 동시대 사람이었습니다.",
-    "example2": "Biologists view the chupacabras as a contemporary legend.",
-    "translation2": "생물학자들은 추파카브라를 현대의 전설로 봅니다."
+    "example": "Biologists view the chupacabras as a contemporary legend.",
+    "translation": "생물학자들은 추파카브라를 현대의 전설로 봅니다.",
+    "example2": "She alternates between solo and band recordings, which allows the singer/fiddler to showcase both contemporary pop and traditional country/bluegrass sounds.",
+    "translation2": "그녀는 솔로와 밴드 녹음을 번갈아 가며 가수/바이올린 연주자가 현대 팝과 전통적인 컨트리/블루그래스 사운드를 모두 선보일 수 있도록 합니다."
   },
   "grade2-04:contract": {
     "partOfSpeech": "noun",
@@ -4113,8 +4113,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Liberals would rather endlessly debate abstractions than spend five minutes listening to another person's lived experience.",
     "translation": "자유주의자들은 다른 사람의 실제 경험을 5분 동안 듣는 것보다 추상적인 개념에 대해 끊임없이 토론하는 것을 선호합니다.",
-    "example2": "Donald Trump is the living reductio ad absurdum of the decades-long debate over \"political correctness.\".",
-    "translation2": "도널드 트럼프(Donald Trump)는 \"정치적 올바름\"에 대한 수십 년간의 논쟁에 대한 살아있는 귀납적 광고입니다."
+    "example2": "The comment section is a microcosm of the larger cultural debate taking place.",
+    "translation2": "댓글 섹션은 현재 진행되고 있는 더 큰 문화적 논쟁의 축소판입니다."
   },
   "grade2-05:decline": {
     "partOfSpeech": "verb",
@@ -4127,8 +4127,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "It was the biggest defeat in government history, according to the BBC.",
     "translation": "BBC에 따르면 이는 정부 역사상 가장 큰 패배였다.",
-    "example2": "The Dark Lord will continue to resurrect unless we go to the Dark World and defeat him there.",
-    "translation2": "우리가 어둠의 세계로 가서 그곳에서 그를 물리치지 않는 한, 어둠의 군주는 계속해서 부활할 것입니다."
+    "example2": "The game ended in a devastating defeat.",
+    "translation2": "경기는 참담한 패배로 끝났다."
   },
   "grade2-05:define": {
     "partOfSpeech": "verb",
@@ -4139,10 +4139,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-05:democracy": {
     "partOfSpeech": "noun",
-    "example": "Israel is a parliamentary democracy.",
-    "translation": "이스라엘은 의회민주주의 국가이다.",
-    "example2": "Israel is a multi-party parliamentary republic and a liberal democracy that adopts universal suffrage.",
-    "translation2": "이스라엘은 다당제 의회공화국이자 보통선거를 채택하는 자유민주주의 국가이다."
+    "example": "American democracy is a kakistocratic institution.",
+    "translation": "미국의 민주주의는 카키스토크라틱한 제도입니다.",
+    "example2": "The demonstrators chant \"long live democracy, long live freedom and down with fundamentalism.\".",
+    "translation2": "시위대는 “민주주의 만세, 자유 만세, 근본주의 타도”를 외쳤다."
   },
   "grade2-05:density": {
     "partOfSpeech": "noun",
@@ -4162,8 +4162,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "You deserve a promotion after all the hard work you have done.",
     "translation": "당신은 열심히 일한 후에 승진할 자격이 있습니다.",
-    "example2": "Thomas Jefferson said, \"If you are willing to sacrifice some freedom to feel safe, you deserve neither.\".",
-    "translation2": "토머스 제퍼슨은 \"안전함을 느끼기 위해 어느 정도 자유를 희생할 의향이 있다면 둘 다 받을 자격이 없다\"고 말했습니다."
+    "example2": "I put trust in her that she didn't deserve.",
+    "translation2": "나는 그녀가 자격이 없다고 그녀를 믿었습니다."
   },
   "grade2-05:detect": {
     "partOfSpeech": "verb",
@@ -4176,8 +4176,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "They want to determine whether there were any unreported malfunctions and whether or not all test objectives were met.",
     "translation": "그들은 보고되지 않은 오작동이 있었는지, 그리고 모든 테스트 목표가 충족되었는지 여부를 확인하려고 합니다.",
-    "example2": "He says further studies are needed to determine to what extent these findings can be extrapolated to other areas in Africa.",
-    "translation2": "그는 이러한 발견이 아프리카의 다른 지역에 어느 정도까지 적용될 수 있는지를 결정하기 위해서는 추가 연구가 필요하다고 말했습니다."
+    "example2": "The students were asked to determine something important.",
+    "translation2": "학생들은 중요한 것을 결정하도록 요청 받았습니다."
   },
   "grade2-05:devote": {
     "partOfSpeech": "verb",
@@ -4195,10 +4195,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-05:disability": {
     "partOfSpeech": "noun",
-    "example": "Helen Keller was a socialist, antimilitarist, and disability rights activist.",
-    "translation": "헬렌 켈러는 사회주의자, 반군국주의자, 장애인 권리 운동가였습니다.",
-    "example2": "I have an invisible disability.",
-    "translation2": "나는 눈에 보이지 않는 장애를 가지고 있습니다."
+    "example": "I have an invisible disability.",
+    "translation": "나는 눈에 보이지 않는 장애를 가지고 있습니다.",
+    "example2": "I work to the extent my disability allows.",
+    "translation2": "나는 장애가 허용하는 한도 내에서 일합니다."
   },
   "grade2-06:discrimination": {
     "partOfSpeech": "noun",
@@ -4232,15 +4232,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "We want to make voice data freely and publicly available, and make sure the data represents the diversity of real people.",
     "translation": "우리는 음성 데이터를 무료로 공개적으로 제공하고 데이터가 실제 사람들의 다양성을 나타내기를 원합니다.",
-    "example2": "Taiwan is the center of diversity for the Austronesian languages.",
-    "translation2": "대만은 오스트로네시아어의 다양성의 중심지입니다."
+    "example2": "Humanity's strength lies in its diversity.",
+    "translation2": "인류의 강점은 다양성에 있습니다."
   },
   "grade2-06:dominant": {
     "partOfSpeech": "adjective",
     "example": "Television plays a dominant role in molding public opinion.",
     "translation": "텔레비전은 여론 형성에 지배적인 역할을 합니다.",
-    "example2": "Her poems subvert the dominant narrative of \"Western civilization.\".",
-    "translation2": "그녀의 시는 '서구 문명'의 지배적인 서사를 전복시킨다."
+    "example2": "The final decision seemed dominant to everyone involved.",
+    "translation2": "최종 결정은 관련된 모든 사람에게 지배적인 것처럼 보였습니다."
   },
   "grade2-06:duration": {
     "partOfSpeech": "noun",
@@ -4267,8 +4267,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "The price of jet fuel is one reason aviation technology research is so often focused on making planes lighter and more efficient.",
     "translation": "제트 연료의 가격은 항공 기술 연구가 비행기를 더 가볍고 효율적으로 만드는 데 집중되는 이유 중 하나입니다.",
-    "example2": "The ultra-modern city state Singapore has become a model that other Asian nations aspire to — organized, immaculate and efficient.",
-    "translation2": "초현대적인 도시 국가 싱가포르는 다른 아시아 국가들이 열망하는 체계적이고 완벽하며 효율적인 모델이 되었습니다."
+    "example2": "Torres promised to reactivate the economy, tackle the country's security situation, advocate for those at risk and run an efficient government.",
+    "translation2": "토레스는 경제를 재가동하고 국가의 안보 상황을 해결하며 위험에 처한 사람들을 옹호하고 효율적인 정부를 운영하겠다고 약속했습니다."
   },
   "grade2-06:elect": {
     "partOfSpeech": "verb",
@@ -4279,10 +4279,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-06:eliminate": {
     "partOfSpeech": "verb",
-    "example": "Let's eliminate the course on Akkadian hieroglyphics.",
-    "translation": "Akkadian 상형 문자에 대한 과정을 제거합시다.",
-    "example2": "Attempting to eliminate gay and trans people is a fundamentally flawed goal, as we will keep being born no matter what.",
-    "translation2": "동성애자와 트랜스젠더를 제거하려는 시도는 근본적으로 결함이 있는 목표입니다. 우리는 무슨 일이 있어도 계속해서 태어날 것이기 때문입니다."
+    "example": "Attempting to eliminate gay and trans people is a fundamentally flawed goal, as we will keep being born no matter what.",
+    "translation": "동성애자와 트랜스젠더를 제거하려는 시도는 근본적으로 결함이 있는 목표입니다. 우리는 무슨 일이 있어도 계속해서 태어날 것이기 때문입니다.",
+    "example2": "The right is attempting to eliminate trans people, but this is impossible, because trans people will always continue to be born.",
+    "translation2": "우파는 트랜스젠더를 제거하려고 시도하지만 이는 불가능합니다. 트랜스젠더는 언제나 계속해서 탄생할 것이기 때문입니다."
   },
   "grade2-06:emergency": {
     "partOfSpeech": "noun",
@@ -4295,8 +4295,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "The red light gave the central figure increased emphasis.",
     "translation": "빨간불은 중앙 인물을 더욱 강조했습니다.",
-    "example2": "―Will you tell him he can kiss my arse? Myles Crawford said throwing out his arm for emphasis.",
-    "translation2": "―그가 내 엉덩이에 키스해도 된다고 말해줄래? 마일스 크로포드는 강조하기 위해 팔을 내밀었다고 말했습니다."
+    "example2": "They worked together to improve the emphasis.",
+    "translation2": "그들은 강조점을 개선하기 위해 함께 노력했습니다."
   },
   "grade2-06:employment": {
     "partOfSpeech": "noun",
@@ -4307,24 +4307,24 @@ export const EXAMPLE_DATA = {
   },
   "grade2-06:encounter": {
     "partOfSpeech": "verb",
-    "example": "Yesterday Tom had a very unpleasant encounter with some rando on the street.",
-    "translation": "어제 톰은 길거리에서 어떤 란도와 매우 불쾌한 만남을 가졌습니다.",
-    "example2": "A fortuitous encounter with Tom Jackson laid the groundwork for my new hobby.",
-    "translation2": "톰 잭슨과의 우연한 만남은 나의 새로운 취미의 기초를 놓았습니다."
+    "example": "Tom recognized me from a single encounter at a party three years ago.",
+    "translation": "톰은 3년 전 파티에서 한 번 만났을 때 나를 알아보았습니다.",
+    "example2": "Anyone you encounter may be traumatized.",
+    "translation2": "만나는 사람마다 트라우마를 겪을 수 있습니다."
   },
   "grade2-06:engage": {
     "partOfSpeech": "verb",
-    "example": "Algerians engage in the army only to oppress \"other Algerians\".",
-    "translation": "알제리인들은 \"다른 알제리인\"을 억압하기 위해서만 군대에 참여합니다.",
-    "example2": "This is mocking certain people's inability to engage with any political topic without comparing it to Harry Potter.",
-    "translation2": "이것은 해리포터와 비교하지 않고는 어떤 정치적 주제에도 관여하지 못하는 특정 사람들의 무능력을 조롱하는 것입니다."
+    "example": "Do they engage with their voters?",
+    "translation": "그들은 유권자와 소통합니까?",
+    "example2": "People often engage under pressure.",
+    "translation2": "사람들은 종종 압박감을 느끼며 참여합니다."
   },
   "grade2-06:ensure": {
     "partOfSpeech": "verb",
     "example": "This nest egg will ensure a nice retirement for us.",
     "translation": "이 둥지 알은 우리에게 좋은 은퇴를 보장해 줄 것입니다.",
-    "example2": "Israel's future existence hinges on its ability to ensure freedom and safety for Palestinians.",
-    "translation2": "이스라엘의 미래 생존은 팔레스타인 사람들의 자유와 안전을 보장하는 능력에 달려 있습니다."
+    "example2": "Republicans have been implementing ways to ensure undemocratic minority rule, because their core demographic is shrinking.",
+    "translation2": "공화당은 핵심 인구가 줄어들고 있기 때문에 비민주적인 소수 지배를 보장하는 방법을 시행해 왔습니다."
   },
   "grade2-06:entire": {
     "partOfSpeech": "adjective",
@@ -4337,15 +4337,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "A wish that was equivalent to a command.",
     "translation": "명령과도 같은 소원.",
-    "example2": "Kabyle red \"Aza\" is the equivalent of the red cross.",
-    "translation2": "Kabyle 빨간색 \"Aza\"는 적십자와 동일합니다."
+    "example2": "When a cat or dog licks you, it's their equivalent of petting you.",
+    "translation2": "고양이나 개가 당신을 핥는 것은 당신을 쓰다듬는 것과 같습니다."
   },
   "grade2-07:era": {
     "partOfSpeech": "noun",
     "example": "In this era of post-truth politics, it's easy to cherry-pick data and come to whatever conclusion you desire.",
     "translation": "탈진실 정치 시대에는 데이터를 선별하여 원하는 결론에 도달하기가 쉽습니다.",
-    "example2": "In the McCarthy era, \"Jewish\" was widely considered synonymous with \"socialist,\" and \"Christian\" with \"capitalist.\".",
-    "translation2": "매카시 시대에 \"유대인\"은 \"사회주의자\"와 동의어로, \"기독교인\"은 \"자본주의자\"와 동의어로 널리 간주되었습니다."
+    "example2": "This mousepad is a vestige of a bygone era.",
+    "translation2": "이 마우스패드는 지나간 시대의 흔적입니다."
   },
   "grade2-07:estimate": {
     "partOfSpeech": "verb",
@@ -4370,10 +4370,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-07:exaggerate": {
     "partOfSpeech": "verb",
-    "example": "Tended to romanticize and exaggerate this `gracious Old South' imagery.",
-    "translation": "이 '은혜로운 옛 남부' 이미지를 낭만적으로 표현하고 과장하는 경향이 있습니다.",
-    "example2": "I've told you a million times not to exaggerate.",
-    "translation2": "과장하지 말라고 100만 번은 말했을 텐데."
+    "example": "I've told you a million times not to exaggerate.",
+    "translation": "과장하지 말라고 100만 번은 말했을 텐데.",
+    "example2": "The team may exaggerate the proposal after careful review.",
+    "translation2": "팀에서는 신중하게 검토한 후 제안을 과장할 수 있습니다."
   },
   "grade2-07:exception": {
     "partOfSpeech": "noun",
@@ -4400,8 +4400,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Buying the car was a big expense, but will be worth it in the long run.",
     "translation": "차를 구입하는 데는 큰 비용이 들었지만 장기적으로는 그만한 가치가 있을 것입니다.",
-    "example2": "Jones reached the final at the expense of Smith, who couldn't beat him.",
-    "translation2": "존스는 자신을 이기지 못한 스미스를 희생시키면서 결승에 진출했다."
+    "example2": "Can this be written off as a business expense?",
+    "translation2": "이것을 사업 비용으로 처리할 수 있나요?"
   },
   "grade2-07:exploit": {
     "partOfSpeech": "verb",
@@ -4433,10 +4433,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-07:faculty": {
     "partOfSpeech": "noun",
-    "example": "She transferred from the Faculty of Science to the Faculty of Medicine.",
-    "translation": "그녀는 이학부에서 의학부로 편입했습니다.",
-    "example2": "After doctoral research on his favorite insect species—ants—he joined the faculty as a zoology professor in 1956.",
-    "translation2": "자신이 가장 좋아하는 곤충 종인 개미에 대한 박사 연구를 마친 후 1956년에 동물학 교수로 교수진에 합류했습니다."
+    "example": "After doctoral research on his favorite insect species—ants—he joined the faculty as a zoology professor in 1956.",
+    "translation": "자신이 가장 좋아하는 곤충 종인 개미에 대한 박사 연구를 마친 후 1956년에 동물학 교수로 교수진에 합류했습니다.",
+    "example2": "Tom is my faculty advisor.",
+    "translation2": "Tom은 나의 교수진 고문입니다."
   },
   "grade2-07:fascinate": {
     "partOfSpeech": "verb",
@@ -4461,10 +4461,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-07:fluctuate": {
     "partOfSpeech": "verb",
-    "example": "Deirdre Carney suspected she might have COVID-19 when her temperature began to fluctuate above the normal 37 degrees Celsius.",
-    "translation": "Deirdre Carney는 체온이 정상 섭씨 37도 이상으로 오르기 시작했을 때 자신이 코로나19에 감염되었을 가능성이 있다고 의심했습니다.",
-    "example2": "Variegated leaves fluctuate between green and white, or green and yellow, and display these colors in nearly all possible patterns.",
-    "translation2": "잡색의 잎은 녹색과 흰색, 녹색과 노란색 사이를 오가며 거의 모든 가능한 패턴으로 이러한 색상을 표시합니다."
+    "example": "Variegated leaves fluctuate between green and white, or green and yellow, and display these colors in nearly all possible patterns.",
+    "translation": "잡색의 잎은 녹색과 흰색, 녹색과 노란색 사이를 오가며 거의 모든 가능한 패턴으로 이러한 색상을 표시합니다.",
+    "example2": "The new policy may fluctuate the final outcome.",
+    "translation2": "새로운 정책에 따라 최종 결과가 달라질 수 있습니다."
   },
   "grade2-07:forecast": {
     "partOfSpeech": "noun",
@@ -4496,17 +4496,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-08:genetics": {
     "partOfSpeech": "noun",
-    "example": "Lysenko believed that modern genetics was a Western imperialist plot designed to undermine Russia.",
-    "translation": "리센코는 현대 유전학이 러시아를 약화시키려는 서구 제국주의 음모라고 믿었습니다.",
-    "example2": "Their work reveals a lot about songbird genetics, and opens a new door to understanding the basis of human speech.",
-    "translation2": "그들의 연구는 명금류 유전학에 대해 많은 것을 밝혀주고 인간 언어의 기초를 이해하는 새로운 문을 열어줍니다."
+    "example": "Their work reveals a lot about songbird genetics, and opens a new door to understanding the basis of human speech.",
+    "translation": "그들의 연구는 명금류 유전학에 대해 많은 것을 밝혀주고 인간 언어의 기초를 이해하는 새로운 문을 열어줍니다.",
+    "example2": "Think about the basic genetics you may have learned in school and every vocabulary term you needed to memorize.",
+    "translation2": "학교에서 배웠을지도 모르는 기본 유전학과 외워야 할 모든 어휘에 대해 생각해 보세요."
   },
   "grade2-08:geography": {
     "partOfSpeech": "noun",
     "example": "We barely do any work in geography lessons, we just doss about.",
     "translation": "우리는 지리 수업 시간에 거의 아무 일도 하지 않고, 그저 뒹굴기만 합니다.",
-    "example2": "Due to its geography and demography, conquering Panjshir by force is considered extremely difficult.",
-    "translation2": "지형과 인구 구성으로 인해 Panjshir를 무력으로 정복하는 것은 극히 어려운 것으로 간주됩니다."
+    "example2": "The class discussed the geography from several viewpoints.",
+    "translation2": "수업에서는 여러 관점에서 지리에 대해 논의했습니다."
   },
   "grade2-08:gesture": {
     "partOfSpeech": "noun",
@@ -4547,8 +4547,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Some of these cellular modifications also include changes to the membranes that envelop the microbe and protect it from its hostile environment.",
     "translation": "이러한 세포 변형 중 일부에는 미생물을 감싸고 적대적인 환경으로부터 보호하는 막의 변화도 포함됩니다.",
-    "example2": "Humanitarian organizations fear the ongoing impasse and the hostile rhetoric could heighten local xenophobia.",
-    "translation2": "인도주의 단체들은 현재 진행 중인 교착상태와 적대적인 수사로 인해 현지 외국인 혐오증이 고조될 수 있다고 우려하고 있습니다."
+    "example2": "Lack of moderation creates a hostile environment in which it is less possible to carry out a project's main purpose.",
+    "translation2": "절제가 부족하면 프로젝트의 주요 목적을 수행하는 것이 불가능한 적대적인 환경이 조성됩니다."
   },
   "grade2-08:hypothesis": {
     "partOfSpeech": "noun",
@@ -4573,10 +4573,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-08:implement": {
     "partOfSpeech": "verb",
-    "example": "Meanwhile, Malawi’s government says it plans to implement the visa-free waiver arrangement starting in January.",
-    "translation": "한편, 말라위 정부는 1월부터 비자 면제 제도를 시행할 계획이라고 밝혔습니다.",
-    "example2": "The idea is very interesting, but I'm worried about how we are going to implement it.",
-    "translation2": "아이디어는 매우 흥미롭지만, 이를 어떻게 구현해낼지 걱정이 됩니다."
+    "example": "The idea is very interesting, but I'm worried about how we are going to implement it.",
+    "translation": "아이디어는 매우 흥미롭지만, 이를 어떻게 구현해낼지 걱정이 됩니다.",
+    "example2": "He added that it behooves both the sub-regional group and its member states to implement the agreed measures to combat the famine.",
+    "translation2": "그는 기근 퇴치를 위해 합의된 조치를 이행하는 것이 소지역 그룹과 회원국 모두의 의무라고 덧붙였습니다."
   },
   "grade2-08:imply": {
     "partOfSpeech": "verb",
@@ -4608,24 +4608,24 @@ export const EXAMPLE_DATA = {
   },
   "grade2-08:independence": {
     "partOfSpeech": "noun",
-    "example": "They maintained close relations with England even after independence.",
-    "translation": "그들은 독립 후에도 영국과 긴밀한 관계를 유지했습니다.",
-    "example2": "The Kabyle government is fighting for the independence of Kabylia, which is undergoing genocide by colonial Algeria.",
-    "translation2": "카빌레 정부는 식민지 알제리의 학살을 겪고 있는 카빌리아의 독립을 위해 싸우고 있다."
+    "example": "Many of our greatest strides, from gaining our independence to abolition of civil rights, have been led by people of faith.",
+    "translation": "독립을 쟁취하는 것부터 시민권을 폐지하는 것까지 우리의 가장 큰 진전 중 많은 부분이 신앙을 가진 사람들에 의해 주도되었습니다.",
+    "example2": "The most unpardonable sin in society is independence of thought.",
+    "translation2": "사회에서 가장 용서받을 수 없는 죄는 사상의 독립이다."
   },
   "grade2-08:industrial": {
     "partOfSpeech": "adjective",
-    "example": "Helen Keller was a member of the Industrial Workers of the World.",
-    "translation": "헬렌 켈러는 세계산업노동자연맹의 회원이었습니다.",
-    "example2": "What are the industrial applications of boron?",
-    "translation2": "붕소의 산업적 응용은 무엇입니까?"
+    "example": "What are the industrial applications of boron?",
+    "translation": "붕소의 산업적 응용은 무엇입니까?",
+    "example2": "The tit-for-tat consulate closures further escalated the tensions between the two countries over issues from trade and industrial espionage to human rights.",
+    "translation2": "영사관 폐쇄로 무역과 산업스파이, 인권 문제를 둘러싸고 양국 간 긴장이 더욱 고조됐다."
   },
   "grade2-09:inequality": {
     "partOfSpeech": "noun",
     "example": "The growing inequality between rich and poor.",
     "translation": "부자와 가난한 사람 사이의 불평등이 커지고 있습니다.",
-    "example2": "Civic organizations in southern Africa are calling on their governments to take action to relieve unemployment, inequality and poverty in the region.",
-    "translation2": "남아프리카의 시민단체들은 정부에 지역의 실업, 불평등, 빈곤을 해소하기 위한 조치를 취할 것을 촉구하고 있습니다."
+    "example2": "Trickle-down economics have been proven to increase inequality.",
+    "translation2": "낙수효과 경제학은 불평등을 증가시키는 것으로 입증되었습니다."
   },
   "grade2-09:infer": {
     "partOfSpeech": "verb",
@@ -4643,17 +4643,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-09:ingredient": {
     "partOfSpeech": "noun",
-    "example": "Holten-Anderson says iron is a key ingredient that makes the adhesive strong and flexible.",
-    "translation": "Holten-Anderson은 철분이 접착제를 강력하고 유연하게 만드는 핵심 성분이라고 말합니다.",
-    "example2": "Scientists have long known that the dandelion's milky sap contains latex, the main ingredient of raw rubber.",
-    "translation2": "과학자들은 민들레의 우유빛 수액에 생고무의 주성분인 라텍스가 포함되어 있다는 사실을 오랫동안 알고 있었습니다."
+    "example": "Scientists have long known that the dandelion's milky sap contains latex, the main ingredient of raw rubber.",
+    "translation": "과학자들은 민들레의 우유빛 수액에 생고무의 주성분인 라텍스가 포함되어 있다는 사실을 오랫동안 알고 있었습니다.",
+    "example2": "You can use any ingredient that can be skewered on a stick.",
+    "translation2": "꼬치에 꽂을 수 있는 재료라면 무엇이든 사용 가능합니다."
   },
   "grade2-09:initiative": {
     "partOfSpeech": "noun",
     "example": "But an initiative by USAID is ensuring that youth who don't complete secondary school are trained in a vocation.",
     "translation": "그러나 USAID의 계획은 중등학교를 마치지 못한 청소년들이 직업 훈련을 받을 수 있도록 보장하는 것입니다.",
-    "example2": "Since launching their initiative in April, residents agree the district is much tidier.",
-    "translation2": "4월에 계획을 시작한 이후 주민들은 이 지역이 훨씬 더 깔끔해졌다는 데 동의합니다."
+    "example2": "They participated in the national crime prevention initiative.",
+    "translation2": "그들은 국가 범죄 예방 이니셔티브에 참여했습니다."
   },
   "grade2-09:inquiry": {
     "partOfSpeech": "noun",
@@ -4671,10 +4671,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-09:institute": {
     "partOfSpeech": "noun",
-    "example": "Recently, the American Museum of Natural History established the Institute for Comparative Genomics.",
-    "translation": "최근 미국 자연사박물관은 비교유전체학연구소를 설립했다.",
-    "example2": "Researchers from the Georgia Institute of Technology say the moon’s non-silicate sand is “electrically charged” and “resistant to motion.”.",
-    "translation2": "조지아 공과대학(Georgia Institute of Technology)의 연구원들은 달의 비규산염 모래가 \"전기적으로 충전되어\" 있고 \"움직임에 저항한다\"고 말합니다."
+    "example": "The research institute published its annual report.",
+    "translation": "연구소는 연례 보고서를 발표했습니다.",
+    "example2": "The school will institute a new safety policy.",
+    "translation2": "학교는 새로운 안전 정책을 제정할 것입니다."
   },
   "grade2-09:institution": {
     "partOfSpeech": "noun",
@@ -4722,8 +4722,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Despite thorough investigation, the perpetrator of the attacks remains unknown.",
     "translation": "철저한 조사에도 불구하고 공격의 가해자는 아직 알려지지 않았습니다.",
-    "example2": "After an extensive investigation, Tom was cleared of any wrongdoing.",
-    "translation2": "광범위한 조사 끝에 Tom은 어떤 잘못도 없어졌습니다."
+    "example2": "The monitoring group has released findings of its four-month investigation into what it condemned as a \"sinister\" campaign.",
+    "translation2": "모니터링 그룹은 \"불길한\" 캠페인으로 비난한 캠페인에 대해 4개월간 조사한 결과를 발표했습니다."
   },
   "grade2-09:isolate": {
     "partOfSpeech": "verb",
@@ -4769,24 +4769,24 @@ export const EXAMPLE_DATA = {
   },
   "grade2-10:literature": {
     "partOfSpeech": "noun",
-    "example": "One aspect of Waterloo has not yet been treated in the literature.",
-    "translation": "워털루의 한 측면은 아직 문헌에서 다루어지지 않았습니다.",
-    "example2": "Her place in literature is secure.",
-    "translation2": "문학에서 그녀의 위치는 확실합니다."
+    "example": "Her place in literature is secure.",
+    "translation": "문학에서 그녀의 위치는 확실합니다.",
+    "example2": "Phoenician literature, written on papyrus, has mostly been lost to time and the elements.",
+    "translation2": "파피루스에 기록된 페니키아 문학은 대부분 시간과 환경에 의해 손실되었습니다."
   },
   "grade2-10:loyal": {
     "partOfSpeech": "adjective",
     "example": "Loyal friends stood by him.",
     "translation": "그의 곁에는 충성스러운 친구들이 있었습니다.",
-    "example2": "I think Tom is loyal.",
-    "translation2": "난 톰이 의리있다고 생각한다."
+    "example2": "She stayed loyal through thick and thin.",
+    "translation2": "그녀는 어려울 때나 어려울 때나 충성심을 유지했습니다."
   },
   "grade2-10:magnitude": {
     "partOfSpeech": "noun",
     "example": "They tried to predict the magnitude of the explosion.",
     "translation": "그들은 폭발의 규모를 예측하려고 노력했습니다.",
-    "example2": "The Cassini magnetometer instrument was designed to measure the magnitude and direction of the magnetic fields of Saturn and its moons.",
-    "translation2": "카시니 자력계 장비는 토성과 위성의 자기장의 크기와 방향을 측정하도록 설계되었습니다."
+    "example2": "Due to their huge size and luminance, they easily qualify as “first magnitude” stars.",
+    "translation2": "거대한 크기와 휘도 덕분에 이 별들은 쉽게 \"1등성\" 별로 자격을 갖습니다."
   },
   "grade2-10:manufacture": {
     "partOfSpeech": "verb",
@@ -4855,36 +4855,36 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "The plot is full of holes, but the narrative is extremely compelling.",
     "translation": "줄거리는 구멍으로 가득 차 있지만 내러티브는 매우 설득력이 있습니다.",
-    "example2": "Her poems subvert the dominant narrative of \"Western civilization.\".",
-    "translation2": "그녀의 시는 '서구 문명'의 지배적인 서사를 전복시킨다."
+    "example2": "Everyone discussed the narrative after class.",
+    "translation2": "수업이 끝난 후 모두가 이야기에 대해 토론했습니다."
   },
   "grade2-10:neglect": {
     "partOfSpeech": "verb",
-    "example": "Trump must face charges of crimes against humanity for his racially-motivated neglect of Puerto Rico.",
-    "translation": "트럼프는 푸에르토리코를 인종적으로 무시한 이유로 반인도적 범죄 혐의로 기소되어야 한다.",
-    "example2": "The team may neglect the proposal after careful review.",
-    "translation2": "팀은 신중한 검토 후 제안을 무시할 수 있습니다."
+    "example": "Do not neglect regular maintenance of the equipment.",
+    "translation": "장비의 정기적인 유지 관리를 게을리하지 마십시오.",
+    "example2": "Students may struggle if they neglect their basic skills.",
+    "translation2": "학생들이 기본 기술을 소홀히 하면 어려움을 겪을 수 있습니다."
   },
   "grade2-10:neutral": {
     "partOfSpeech": "adjective",
     "example": "I am neutral regarding the issue of gay marriage.",
     "translation": "나는 동성결혼 문제에 대해 중립적이다.",
-    "example2": "I don't know why you're talking about Sweden. They're the neutral one. They don't have an army.",
-    "translation2": "왜 스웨덴에 대해 이야기하는지 모르겠습니다. 그들은 중립적인 사람입니다. 그들은 군대가 없습니다."
+    "example2": "You aren't neutral because you refuse to acknowledge your agenda.",
+    "translation2": "당신은 당신의 의제를 인정하기를 거부하기 때문에 중립적이지 않습니다."
   },
   "grade2-10:norm": {
     "partOfSpeech": "noun",
-    "example": "It set the norm for American homes.",
-    "translation": "이는 미국 가정의 표준을 설정했습니다.",
-    "example2": "The study examined the norm in detail.",
-    "translation2": "이 연구에서는 규범을 자세히 조사했습니다."
+    "example": "Working from home has become a common norm.",
+    "translation": "재택근무는 일반적인 표준이 되었습니다.",
+    "example2": "The study challenges the traditional norm of the industry.",
+    "translation2": "이번 연구는 업계의 전통적인 규범에 도전합니다."
   },
   "grade2-10:numerous": {
     "partOfSpeech": "adjective",
     "example": "There are numerous definitions of the word 'man'.",
     "translation": "'남자'라는 단어에 대한 정의는 다양합니다.",
-    "example2": "Since its creation in 1948, the State of Israel has suffered numerous attacks and declarations of war from neighboring Arab countries.",
-    "translation2": "1948년 건국 이후, 이스라엘 국가는 이웃 아랍 국가들로부터 수많은 공격과 전쟁 선포를 겪었습니다."
+    "example2": "Whistleblowers alleged numerous cases of gross mismanagement, retaliation and investigations into staff that had a debilitating effect.",
+    "translation2": "내부 고발자들은 직원을 쇠약하게 만드는 심각한 관리 부실, 보복 및 조사 사례가 많다고 주장했습니다."
   },
   "grade2-10:obligation": {
     "partOfSpeech": "noun",
@@ -4902,10 +4902,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-11:occupy": {
     "partOfSpeech": "verb",
-    "example": "It's only a matter of time before Putin sends little green men to occupy the moon.",
-    "translation": "푸틴이 달을 점령하기 위해 작은 녹색 사람들을 보내는 것은 시간 문제일 뿐입니다.",
-    "example2": "The teacher could occupy a student after class.",
-    "translation2": "교사는 수업 후에 학생을 점유할 수 있습니다."
+    "example": "Books occupy most of the space on the shelf.",
+    "translation": "책은 선반 공간의 대부분을 차지합니다.",
+    "example2": "The activity will occupy the students for an hour.",
+    "translation2": "이 활동은 학생들이 한 시간 동안 진행하게 됩니다."
   },
   "grade2-11:operate": {
     "partOfSpeech": "verb",
@@ -4916,10 +4916,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-11:opponent": {
     "partOfSpeech": "noun",
-    "example": "\"The lizard dares to face the hydra\" means something like \"His opponent is too strong for him to face.\".",
-    "translation": "\"도마뱀이 감히 히드라와 맞서다\"는 것은 \"그의 상대가 너무 강해서 상대할 수 없다\"는 뜻이다.",
-    "example2": "The racer looked as though he might eat the wall after trying to juke his opponent.",
-    "translation2": "그 경주자는 상대방을 조롱하려고 시도한 후 벽을 먹어치울 것처럼 보였습니다."
+    "example": "The racer looked as though he might eat the wall after trying to juke his opponent.",
+    "translation": "그 경주자는 상대방을 조롱하려고 시도한 후 벽을 먹어치울 것처럼 보였습니다.",
+    "example2": "Tom made his opponent tap out.",
+    "translation2": "Tom은 상대방을 탭아웃하게 만들었습니다."
   },
   "grade2-11:option": {
     "partOfSpeech": "noun",
@@ -4974,8 +4974,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Here the air was usually rough and a good percentage of air travelers were troubled with airsickness.",
     "translation": "이곳의 공기는 대개 거칠었고 항공 여행자 중 상당수가 멀미로 고생했습니다.",
-    "example2": "A civic organization that fights for the right to water says a low percentage of Zimbabweans has access to clean water.",
-    "translation2": "물에 대한 권리를 위해 싸우는 한 시민 단체는 소수의 짐바브웨 사람들이 깨끗한 물을 이용할 수 있다고 말합니다."
+    "example2": "The percentage between the two ideas became clear.",
+    "translation2": "두 아이디어 사이의 비율이 명확해졌습니다."
   },
   "grade2-11:performance": {
     "partOfSpeech": "noun",
@@ -4993,10 +4993,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-11:persist": {
     "partOfSpeech": "verb",
-    "example": "Aspiring converts to Judaism are traditionally rejected at first, only allowed to convert if they persist in wanting to do so.",
-    "translation": "유대교로의 개종을 꿈꾸는 사람들은 전통적으로 처음에는 거부당했으며, 그들이 계속해서 그렇게 하기를 원하는 경우에만 개종을 허용했습니다.",
-    "example2": "The pattern could persist over time.",
-    "translation2": "패턴은 시간이 지나도 지속될 수 있습니다."
+    "example": "The symptoms may persist for several days.",
+    "translation": "증상은 며칠 동안 지속될 수 있습니다.",
+    "example2": "If problems persist, ask the teacher for help.",
+    "translation2": "문제가 지속되면 교사에게 도움을 요청하세요."
   },
   "grade2-11:phenomenon": {
     "partOfSpeech": "noun",
@@ -5091,10 +5091,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-12:promote": {
     "partOfSpeech": "verb",
-    "example": "At the end of Primary 6 students can promote directly to the secondary section of SIS.",
-    "translation": "초등 6학년이 끝나면 학생들은 SIS의 중등 섹션으로 직접 승격할 수 있습니다.",
-    "example2": "Researchers have developed a moisturizing lotion with the potential to treat deadly skin cancers, psoriasis and promote diabetic wound healing.",
-    "translation2": "연구자들은 치명적인 피부암, 건선을 치료하고 당뇨병성 상처 치유를 촉진할 수 있는 잠재력을 지닌 보습 로션을 개발했습니다."
+    "example": "Researchers have developed a moisturizing lotion with the potential to treat deadly skin cancers, psoriasis and promote diabetic wound healing.",
+    "translation": "연구자들은 치명적인 피부암, 건선을 치료하고 당뇨병성 상처 치유를 촉진할 수 있는 잠재력을 지닌 보습 로션을 개발했습니다.",
+    "example2": "Do you promote hygiene at work?",
+    "translation2": "직장에서 위생을 장려합니까?"
   },
   "grade2-12:proportion": {
     "partOfSpeech": "noun",
@@ -5105,10 +5105,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-12:prospect": {
     "partOfSpeech": "noun",
-    "example": "Even after a nuclear apocalypse, life on Earth would still be a more hopeful prospect than human colonization of Mars.",
-    "translation": "핵 재앙 이후에도 지구상의 생명체는 인간이 화성을 식민지화하는 것보다 여전히 더 희망적인 전망일 것입니다.",
-    "example2": "No peril daunts her, no prospect of fatigue or discomfort disheartens or repels her.",
-    "translation2": "어떤 위험도 그녀를 위협하지 않으며, 어떤 피로나 불편함도 그녀를 낙담시키거나 거부하지 않습니다."
+    "example": "No peril daunts her, no prospect of fatigue or discomfort disheartens or repels her.",
+    "translation": "어떤 위험도 그녀를 위협하지 않으며, 어떤 피로나 불편함도 그녀를 낙담시키거나 거부하지 않습니다.",
+    "example2": "The prospect lasted longer than expected.",
+    "translation2": "전망은 예상보다 오래 지속되었습니다."
   },
   "grade2-12:psychological": {
     "partOfSpeech": "adjective",
@@ -5219,8 +5219,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "I represent the silent majority.",
     "translation": "나는 침묵하는 다수를 대표합니다.",
-    "example2": "AIPAC is an unaccountable lobbying group with extreme opinions on Israel that do not represent those of American Jews.",
-    "translation2": "AIPAC는 미국 유대인의 의견을 대표하지 않는 이스라엘에 대한 극단적인 의견을 내세우는 무책임한 로비단체이다."
+    "example2": "Braille is a code that uses bumps and indentation on a surface to represent letters, which can be recognized by touch.",
+    "translation2": "점자는 문자를 표현하기 위해 표면의 돌기와 들여쓰기를 사용하여 터치로 인식할 수 있는 코드입니다."
   },
   "grade2-13:request": {
     "partOfSpeech": "verb",
@@ -5231,17 +5231,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-13:rescue": {
     "partOfSpeech": "verb",
-    "example": "Don't worry. Someone will come and rescue us eventually.",
-    "translation": "걱정하지 마. 결국 누군가 와서 우리를 구출할 거야.",
-    "example2": "Esther's cat is a rescue.",
-    "translation2": "에스더의 고양이는 구조입니다."
+    "example": "Esther's cat is a rescue.",
+    "translation": "에스더의 고양이는 구조입니다.",
+    "example2": "I entered this contest and wrote a jingle for them about rescue animals and I won $100,000.",
+    "translation2": "저는 이 콘테스트에 참가하여 동물 구조에 관한 노래를 작곡하여 $100,000를 받았습니다."
   },
   "grade2-13:resist": {
     "partOfSpeech": "verb",
     "example": "I couldn't resist a touch of schadenfreude when he was defeated so heavily in the election.",
     "translation": "그가 선거에서 크게 패배했을 때 나는 샤덴프로이데의 손길을 거부할 수 없었습니다.",
-    "example2": "The Long Now’s Revive and Restore project is exploring how to genetically modify the ferret’s DNA to resist plague.",
-    "translation2": "Long Now의 Revive and Restore 프로젝트는 전염병에 저항하기 위해 흰족제비의 DNA를 유전적으로 변형하는 방법을 탐구하고 있습니다."
+    "example2": "We're starting a collective to resist negligent landlords.",
+    "translation2": "우리는 태만한 집주인에 저항하기 위해 집단을 시작하고 있습니다."
   },
   "grade2-13:resource": {
     "partOfSpeech": "noun",
@@ -5275,8 +5275,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "The actress won't reveal how old she is.",
     "translation": "여배우는 자신의 나이를 밝히지 않을 것입니다.",
-    "example2": "God rarely reveal his plans for Mankind.",
-    "translation2": "하나님은 인류를 위한 자신의 계획을 거의 드러내지 않으십니다."
+    "example2": "He didn't reveal his secret.",
+    "translation2": "그는 자신의 비밀을 밝히지 않았다."
   },
   "grade2-13:reverse": {
     "partOfSpeech": "verb",
@@ -5308,10 +5308,10 @@ export const EXAMPLE_DATA = {
   },
   "grade2-13:scope": {
     "partOfSpeech": "noun",
-    "example": "The team needs to define the scope of the project by Monday.",
-    "translation": "팀은 월요일까지 프로젝트 범위를 정의해야 합니다.",
-    "example2": "A variable of global scope can be referenced anywhere in the program.",
-    "translation2": "전역 범위의 변수는 프로그램의 어느 곳에서나 참조될 수 있습니다."
+    "example": "A variable of global scope can be referenced anywhere in the program.",
+    "translation": "전역 범위의 변수는 프로그램의 어느 곳에서나 참조될 수 있습니다.",
+    "example2": "Tom looked through the scope on his rifle.",
+    "translation2": "톰은 소총의 조준경을 들여다보았습니다."
   },
   "grade2-13:seek": {
     "partOfSpeech": "verb",
@@ -5387,22 +5387,22 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "It is a colonial divide-and-conquer strategy to pit religious people against one another.",
     "translation": "종교인들을 서로 대립시키려는 식민지 분할정복 전략이다.",
-    "example2": "Dog-whistle politics were employed extensively by Richard Nixon as part of what became known as the Southern Strategy.",
-    "translation2": "개 휘파람 정치는 남부 전략으로 알려진 것의 일부로 Richard Nixon에 의해 광범위하게 사용되었습니다."
+    "example2": "When I have a panic attack, my best strategy for coping with it is to accept whatever I'm afraid of.",
+    "translation2": "공황 발작이 일어났을 때 대처하기 위한 최선의 전략은 내가 두려워하는 모든 것을 받아들이는 것입니다."
   },
   "grade2-14:strengthen": {
     "partOfSpeech": "verb",
     "example": "This exercise will strengthen your upper body.",
     "translation": "이 운동은 상체를 강화시켜 줍니다.",
-    "example2": "In hindsight, it appeared to be an attempt to strengthen Nixon’s lead in the election.",
-    "translation2": "돌이켜보면 이는 선거에서 닉슨의 주도권을 강화하려는 시도로 보였다."
+    "example2": "We must strengthen our alliance.",
+    "translation2": "우리는 동맹을 강화해야 합니다."
   },
   "grade2-14:submit": {
     "partOfSpeech": "verb",
     "example": "I submit to you that the accused is guilty.",
     "translation": "피고인이 유죄임을 알려드립니다.",
-    "example2": "Get in touch via email or on Discourse, submit feedback through GitHub, or join us on Slack.",
-    "translation2": "이메일이나 Discourse를 통해 연락하거나, GitHub를 통해 피드백을 제출하거나, Slack에 참여하세요."
+    "example2": "Tom is supposed to submit the report by the end of play.",
+    "translation2": "톰은 플레이가 끝날 때까지 보고서를 제출하기로 되어 있습니다."
   },
   "grade2-14:substance": {
     "partOfSpeech": "noun",
@@ -5441,24 +5441,24 @@ export const EXAMPLE_DATA = {
   },
   "grade2-14:symbol": {
     "partOfSpeech": "noun",
-    "example": "The eagle is a symbol of the United States.",
-    "translation": "독수리는 미국의 상징이다.",
-    "example2": "$ is the symbol for dollars in the US and some other countries.",
-    "translation2": "$는 미국과 일부 다른 국가에서 달러를 나타내는 기호입니다."
+    "example": "$ is the symbol for dollars in the US and some other countries.",
+    "translation": "$는 미국과 일부 다른 국가에서 달러를 나타내는 기호입니다.",
+    "example2": "The lion is the symbol of courage; the lamb is the symbol of meekness or patience.",
+    "translation2": "사자는 용기의 상징입니다. 어린 양은 온유함이나 인내의 상징입니다."
   },
   "grade2-14:target": {
     "partOfSpeech": "noun",
     "example": "Tom aimed at the target.",
     "translation": "톰은 표적을 겨눴다.",
-    "example2": "Using Linux in your target language is a great way to learn new vocabulary and gain practical experience.",
-    "translation2": "대상 언어로 Linux를 사용하는 것은 새로운 어휘를 배우고 실제 경험을 얻을 수 있는 좋은 방법입니다."
+    "example2": "Try to get more exposure to your target language.",
+    "translation2": "목표 언어에 더 많이 노출되도록 노력하십시오."
   },
   "grade2-14:temperature": {
     "partOfSpeech": "noun",
     "example": "The temperature in the room dropped nearly 20 degrees; it went from hot to cold.",
     "translation": "방의 온도는 거의 20도나 떨어졌습니다. 더위에서 추위로 바뀌었습니다.",
-    "example2": "You have a temperature. I think you should stay home today. You’re sick.",
-    "translation2": "당신은 온도가 있습니다. 오늘은 집에 있어야 할 것 같아요. 당신은 아프다."
+    "example2": "Nitrous oxide is inert at room temperature.",
+    "translation2": "아산화질소는 실온에서 불활성입니다."
   },
   "grade2-15:tension": {
     "partOfSpeech": "noun",
@@ -5469,17 +5469,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-15:threat": {
     "partOfSpeech": "noun",
-    "example": "Earthquakes are a constant threat in Japan.",
-    "translation": "지진은 일본에서 끊임없는 위협이 되고 있습니다.",
-    "example2": "They were under threat of arrest.",
-    "translation2": "그들은 체포 위협을 받았습니다."
+    "example": "They were under threat of arrest.",
+    "translation": "그들은 체포 위협을 받았습니다.",
+    "example2": "Disease is a threat to human beings.",
+    "translation2": "질병은 인류에게 있어서 위협이야."
   },
   "grade2-15:trace": {
     "partOfSpeech": "noun",
-    "example": "He speaks French with a trace of an accent.",
-    "translation": "그는 약간의 액센트가 있는 프랑스어를 구사합니다.",
-    "example2": "There wasn't a trace of evidence for the claim.",
-    "translation2": "주장에 대한 증거는 흔적도 없었습니다."
+    "example": "There wasn't a trace of evidence for the claim.",
+    "translation": "주장에 대한 증거는 흔적도 없었습니다.",
+    "example2": "Your cell phone company can put a trace on your line.",
+    "translation2": "귀하의 휴대전화 회사에서 귀하의 회선에 대한 추적을 할 수 있습니다."
   },
   "grade2-15:transform": {
     "partOfSpeech": "verb",
@@ -5506,15 +5506,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "She had to undergo surgery because of her broken leg.",
     "translation": "그녀는 다리가 부러져 수술을 받아야 했습니다.",
-    "example2": "He was allowed to go to Britain last month to undergo treatment for a prolapsed disc—a medical condition affecting the spine.",
-    "translation2": "그는 척추에 영향을 미치는 질병인 디스크 탈출증 치료를 받기 위해 지난달 영국으로 가는 것이 허용되었습니다."
+    "example2": "The test is not always accurate, so many men undergo a painful second test, a biopsy of the prostate.",
+    "translation2": "이 검사가 항상 정확하지는 않기 때문에 많은 남성이 고통스러운 두 번째 검사인 전립선 생검을 받습니다."
   },
   "grade2-15:undertake": {
     "partOfSpeech": "verb",
-    "example": "She likes to undertake a fresh challenge, to “initialize my life every seven, eight years,” Kuno said.",
-    "translation": "그녀는 \"7, 8년마다 내 삶을 초기화하는 것\"이라는 새로운 도전을 좋아한다고 Kuno는 말했습니다.",
-    "example2": "The students were asked to undertake something important.",
-    "translation2": "학생들은 중요한 일을 맡아 달라는 요청을 받았습니다."
+    "example": "The team will undertake a detailed review of the data.",
+    "translation": "팀은 데이터를 자세히 검토할 것입니다.",
+    "example2": "Students undertake independent research in the final semester.",
+    "translation2": "학생들은 마지막 학기에 독립적인 연구를 수행합니다."
   },
   "grade2-15:unemployment": {
     "partOfSpeech": "noun",
@@ -5525,17 +5525,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-15:uniform": {
     "partOfSpeech": "adjective",
-    "example": "The difference between a Nazi and a crypto-Nazi is that one wears a swastika while the other wears a police uniform.",
-    "translation": "나치와 암호 나치의 차이점은 한 사람은 만자를 입고 다른 사람은 경찰 복을 입는다는 것입니다.",
-    "example2": "There will never be a uniform and universally accepted standard for determining the boundaries of languages and dialects.",
-    "translation2": "언어와 방언의 경계를 결정하는 통일되고 보편적으로 받아들여지는 표준은 결코 존재하지 않을 것입니다."
+    "example": "There will never be a uniform and universally accepted standard for determining the boundaries of languages and dialects.",
+    "translation": "언어와 방언의 경계를 결정하는 통일되고 보편적으로 받아들여지는 표준은 결코 존재하지 않을 것입니다.",
+    "example2": "We had to wear a uniform.",
+    "translation2": "우리는 유니폼을 입어야 했어요."
   },
   "grade2-15:urban": {
     "partOfSpeech": "adjective",
     "example": "Zimbabwe's food situation in both urban and rural areas remained precarious in 2006.",
     "translation": "짐바브웨의 도시와 농촌 지역의 식량 상황은 2006년에도 여전히 불안정했습니다.",
-    "example2": "In India, where some children from poor urban communities do not attend school, voluntary groups have found creative ways to impart education.",
-    "translation2": "가난한 도시 지역사회의 어린이 중 일부가 학교에 다니지 않는 인도에서는 자원 봉사 단체가 교육을 전달하는 창의적인 방법을 찾았습니다."
+    "example2": "Urban renewal is another way of saying gentrification.",
+    "translation2": "도시재생은 젠트리피케이션을 말하는 또 다른 표현이다."
   },
   "grade2-15:valid": {
     "partOfSpeech": "adjective",
@@ -5574,17 +5574,17 @@ export const EXAMPLE_DATA = {
   },
   "grade2-15:vital": {
     "partOfSpeech": "adjective",
-    "example": "Egyptian economists are fretting, as the global economic crisis bites, hitting vital sources of government revenue, like tariffs from Suez Canal traffic.",
-    "translation": "이집트 경제학자들은 글로벌 경제 위기가 닥치면서 수에즈 운하 교통에 대한 관세와 같은 중요한 정부 수입원에 타격을 가하면서 초조해하고 있습니다.",
-    "example2": "They are now drawing lessons to make sure that rumors and misinformation will never again scuttle a vital health campaign.",
-    "translation2": "그들은 이제 소문과 잘못된 정보가 다시는 중요한 건강 캠페인을 방해하지 않도록 교훈을 얻고 있습니다."
+    "example": "They are now drawing lessons to make sure that rumors and misinformation will never again scuttle a vital health campaign.",
+    "translation": "그들은 이제 소문과 잘못된 정보가 다시는 중요한 건강 캠페인을 방해하지 않도록 교훈을 얻고 있습니다.",
+    "example2": "Mary played a vital role in the child care program during the crisis.",
+    "translation2": "메리는 위기 상황 동안 보육 프로그램에서 중요한 역할을 했습니다."
   },
   "grade2-15:voluntary": {
     "partOfSpeech": "adjective",
     "example": "Man is a voluntary agent.",
     "translation": "인간은 자발적인 행위자이다.",
-    "example2": "In India, where some children from poor urban communities do not attend school, voluntary groups have found creative ways to impart education.",
-    "translation2": "가난한 도시 지역사회의 어린이 중 일부가 학교에 다니지 않는 인도에서는 자원 봉사 단체가 교육을 전달하는 창의적인 방법을 찾았습니다."
+    "example2": "Once all the voluntary evacuations have taken place, then we will concentrate our efforts and our forces to mandatorily evacuate individuals.",
+    "translation2": "모든 자발적 대피가 완료되면 우리는 개인의 강제 대피에 모든 노력과 힘을 집중할 것입니다."
   },
   "grade2-15:widespread": {
     "partOfSpeech": "adjective",
@@ -5616,17 +5616,17 @@ export const EXAMPLE_DATA = {
   },
   "grade3-01:abstain": {
     "partOfSpeech": "verb",
-    "example": "In order to improve his health, Rob decided to abstain from smoking.",
-    "translation": "건강을 개선하기 위해 Rob은 흡연을 중단하기로 결정했습니다.",
-    "example2": "I abstain from this vote, as I have no particular preference.",
-    "translation2": "나는 특별히 선호하는 바가 없기 때문에 이번 투표에 기권합니다."
+    "example": "I abstain from this vote, as I have no particular preference.",
+    "translation": "나는 특별히 선호하는 바가 없기 때문에 이번 투표에 기권합니다.",
+    "example2": "People often abstain under pressure.",
+    "translation2": "사람들은 압력을 받으면 기권하는 경우가 많습니다."
   },
   "grade3-01:abundance": {
     "partOfSpeech": "noun",
-    "example": "Poppies grow in abundance in Kabylia.",
-    "translation": "카빌리아에는 양귀비가 많이 자랍니다.",
-    "example2": "I went to my garden and found abundance.",
-    "translation2": "나는 내 정원에 가서 풍요로움을 발견했습니다."
+    "example": "I went to my garden and found abundance.",
+    "translation": "나는 내 정원에 가서 풍요로움을 발견했습니다.",
+    "example2": "The report clearly described the abundance.",
+    "translation2": "보고서는 풍부함을 명확하게 설명했습니다."
   },
   "grade3-01:academic": {
     "partOfSpeech": "adjective",
@@ -5714,10 +5714,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-01:alliance": {
     "partOfSpeech": "noun",
-    "example": "Korea is focused on a steadfast alliance with the U.S. and wants a harmonized relationship with China.",
-    "translation": "한국은 미국과의 확고한 동맹에 중점을 두고 있으며 중국과의 조화로운 관계를 원하고 있다.",
-    "example2": "Through their unholy alliance, the ambitious campaign manager and the morally compromised politician make their way to the top.",
-    "translation2": "야심찬 캠페인 관리자와 도덕적으로 타협한 정치인은 그들의 불경스러운 동맹을 통해 정상에 오르게 됩니다."
+    "example": "Through their unholy alliance, the ambitious campaign manager and the morally compromised politician make their way to the top.",
+    "translation": "야심찬 캠페인 관리자와 도덕적으로 타협한 정치인은 그들의 불경스러운 동맹을 통해 정상에 오르게 됩니다.",
+    "example2": "The intergalactic alliance was in danger of collapsing.",
+    "translation2": "은하계 동맹이 붕괴될 위험에 처해 있었습니다."
   },
   "grade3-01:ambiguity": {
     "partOfSpeech": "noun",
@@ -5728,17 +5728,17 @@ export const EXAMPLE_DATA = {
   },
   "grade3-01:amendment": {
     "partOfSpeech": "noun",
-    "example": "The First Amendment guarantees freedom of religion, speech, press, assembly, and petition.",
-    "translation": "수정헌법 제1조는 종교, 언론, 언론, 집회, 청원의 자유를 보장합니다.",
-    "example2": "The amendment is still pending ratification.",
-    "translation2": "개정안은 아직 비준을 기다리고 있다."
+    "example": "The amendment is still pending ratification.",
+    "translation": "개정안은 아직 비준을 기다리고 있다.",
+    "example2": "The amendment required careful planning.",
+    "translation2": "개정안에는 신중한 계획이 필요했습니다."
   },
   "grade3-01:amplify": {
     "partOfSpeech": "verb",
     "example": "It was a mistake to amplify this debate with thoughtless responses.",
     "translation": "경솔한 답변으로 이 논쟁을 증폭시킨 것은 실수였습니다.",
-    "example2": "Tinfoil hats actually amplify the mind control signals. That's how they get you.",
-    "translation2": "은박지 모자는 실제로 마인드 컨트롤 신호를 증폭시킵니다. 그것이 그들이 당신을 잡는 방법입니다."
+    "example2": "The pattern could amplify over time.",
+    "translation2": "패턴은 시간이 지남에 따라 증폭될 수 있습니다."
   },
   "grade3-02:anarchy": {
     "partOfSpeech": "noun",
@@ -5756,10 +5756,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-02:anonymous": {
     "partOfSpeech": "adjective",
-    "example": "A lot of people are saying that Trump loves anonymous sources.",
-    "translation": "많은 사람들은 트럼프가 익명의 소식통을 좋아한다고 말합니다.",
-    "example2": "Alcoholics Anonymous is a cult.",
-    "translation2": "익명의 알코올 중독자는 컬트입니다."
+    "example": "An anonymous donor paid for the new library books.",
+    "translation": "익명의 기부자가 도서관의 새 도서 구입 비용을 지불했습니다.",
+    "example2": "The survey allows students to remain anonymous.",
+    "translation2": "설문조사를 통해 학생들은 익명을 유지할 수 있습니다."
   },
   "grade3-02:antidote": {
     "partOfSpeech": "noun",
@@ -5777,10 +5777,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-02:apprehend": {
     "partOfSpeech": "verb",
-    "example": "Federal immigration authorities daily apprehend some 7,000 migrants trying to cross the northern Mexican border.",
-    "translation": "연방 이민 당국은 매일 북부 멕시코 국경을 넘으려는 약 7,000명의 이주민을 체포하고 있습니다.",
-    "example2": "The students were asked to apprehend something important.",
-    "translation2": "학생들은 중요한 것을 파악하라는 요청을 받았습니다."
+    "example": "It took time to apprehend the meaning of the poem.",
+    "translation": "시의 의미를 이해하는 데 시간이 걸렸습니다.",
+    "example2": "Police were able to apprehend the suspect quickly.",
+    "translation2": "경찰은 용의자를 신속하게 체포할 수 있었다."
   },
   "grade3-02:arduous": {
     "partOfSpeech": "adjective",
@@ -5826,10 +5826,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-02:authentic": {
     "partOfSpeech": "adjective",
-    "example": "Israel is the land of all authentic prophets.",
-    "translation": "이스라엘은 모든 정통 선지자들의 땅이다.",
-    "example2": "The final decision seemed authentic to everyone involved.",
-    "translation2": "최종 결정은 관련된 모든 사람에게 진정성 있는 것처럼 보였습니다."
+    "example": "The museum displayed an authentic ancient vase.",
+    "translation": "박물관에는 진짜 고대 꽃병이 전시되어 있었습니다.",
+    "example2": "Her honest response felt authentic to the audience.",
+    "translation2": "그녀의 솔직한 대답은 청중들에게 진정성 있게 느껴졌습니다."
   },
   "grade3-02:autonomy": {
     "partOfSpeech": "noun",
@@ -5854,10 +5854,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-02:barren": {
     "partOfSpeech": "adjective",
-    "example": "Verily I say unto thee, lay thine eyes upon the field in which my fucks are grown. Behold that it is barren.",
-    "translation": "진실로 내가 네게 말하노니, 내 자지가 자라는 밭을 네 눈으로 바라보라. 보라, 그곳은 황폐하다.",
-    "example2": "On a windswept barren mountainside, several kilometers east of Gardez, a few hundred men huddle against the cold.",
-    "translation2": "Gardez에서 동쪽으로 몇 킬로미터 떨어진 바람이 휘몰아치는 황량한 산허리에는 수백 명의 남자들이 추위를 막기 위해 모여 있습니다."
+    "example": "The war left the land barren and lifeless.",
+    "translation": "전쟁으로 인해 땅은 황폐해지고 생명이 없게 되었습니다.",
+    "example2": "The reviewers considered the final result barren.",
+    "translation2": "리뷰어들은 최종 결과가 불모지라고 생각했습니다."
   },
   "grade3-02:benevolence": {
     "partOfSpeech": "noun",
@@ -5875,10 +5875,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-02:bleak": {
     "partOfSpeech": "adjective",
-    "example": "Life in the Aran Islands has always been bleak and difficult.",
-    "translation": "애런 제도의 삶은 늘 암울하고 힘들었습니다.",
-    "example2": "A bleak future is in store for you.",
-    "translation2": "당신에게는 암울한 미래가 기다리고 있습니다."
+    "example": "A bleak future is in store for you.",
+    "translation": "당신에게는 암울한 미래가 기다리고 있습니다.",
+    "example2": "But with an official camp recently opened specifically to accommodate them, some have chosen to remain in the bleak shelter.",
+    "translation2": "그러나 최근 그들을 수용하기 위해 특별히 공식 캠프가 열리면서 일부 사람들은 황량한 보호소에 남아 있기를 선택했습니다."
   },
   "grade3-03:bolster": {
     "partOfSpeech": "verb",
@@ -5896,10 +5896,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-03:bureaucracy": {
     "partOfSpeech": "noun",
-    "example": "Adolf Eichmann hated rules and was contemptuous of bureaucracy.",
-    "translation": "아돌프 아이히만(Adolf Eichmann)은 규칙을 싫어했고 관료주의를 경멸했습니다.",
-    "example2": "Leaders from the bureaucracy met to discuss the plan.",
-    "translation2": "관료 지도자들이 모여서 계획을 논의했습니다."
+    "example": "A complex bureaucracy can delay simple decisions.",
+    "translation": "복잡한 관료제는 단순한 결정을 지연시킬 수 있습니다.",
+    "example2": "The reform aims to make the bureaucracy more efficient.",
+    "translation2": "개혁의 목표는 관료제를 더욱 효율적으로 만드는 것입니다."
   },
   "grade3-03:calibrate": {
     "partOfSpeech": "verb",
@@ -5947,15 +5947,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "verb",
     "example": "Students cite the cost of flights, and worries about renewing visas as the main reasons for not traveling.",
     "translation": "학생들은 여행을 하지 않는 주된 이유로 비행 비용과 비자 갱신에 대한 걱정을 꼽습니다.",
-    "example2": "Please cite an authority on the English language, rather than Grammarly.",
-    "translation2": "문법보다는 영어에 관한 권위자를 인용해 주십시오."
+    "example2": "The students were asked to cite something important.",
+    "translation2": "학생들은 중요한 내용을 인용해 달라는 요청을 받았습니다."
   },
   "grade3-03:cognitive": {
     "partOfSpeech": "adjective",
-    "example": "I'm not sure why the right is itching to bar Donald Trump from another term by introducing cognitive tests for the presidency.",
-    "translation": "우파가 대통령직에 대한 인지 테스트를 도입하여 도널드 트럼프의 다른 임기를 금지하려고 애쓰는 이유가 무엇인지 잘 모르겠습니다.",
-    "example2": "Cognitive behavioral therapy doesn't work for everything or everyone.",
-    "translation2": "인지 행동 치료는 모든 사람 또는 모든 사람에게 효과가 있는 것은 아닙니다."
+    "example": "Cognitive behavioral therapy doesn't work for everything or everyone.",
+    "translation": "인지 행동 치료는 모든 사람 또는 모든 사람에게 효과가 있는 것은 아닙니다.",
+    "example2": "Have you tried cognitive behavioral therapy?",
+    "translation2": "인지행동치료를 받아보셨나요?"
   },
   "grade3-03:cohesion": {
     "partOfSpeech": "noun",
@@ -5996,8 +5996,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "His complacency was absolutely disgusting.",
     "translation": "그의 안일함은 정말 역겨웠습니다.",
-    "example2": "The Sisters of Perpetual Indulgence, a community organization founded in San Francisco, California, battle complacency with flamboyance and humor.",
-    "translation2": "캘리포니아주 샌프란시스코에 설립된 지역사회 단체인 Sisters of Perpetual Indulgence는 화려함과 유머로 안주심에 맞서 싸우고 있습니다."
+    "example2": "She expressed her complacency honestly.",
+    "translation2": "그녀는 솔직하게 자신의 안도감을 표현했다."
   },
   "grade3-03:complement": {
     "partOfSpeech": "verb",
@@ -6045,8 +6045,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "This arrangement must be kept confidential.",
     "translation": "이 합의는 비밀로 유지되어야 합니다.",
-    "example2": "I am holding in my hand a microfilm of very highly confidential secret State Department documents.",
-    "translation2": "나는 극비의 국무부 비밀 문서가 담긴 마이크로필름을 손에 들고 있습니다."
+    "example2": "The reviewers considered the final result confidential.",
+    "translation2": "검토자들은 최종 결과를 기밀로 간주했습니다."
   },
   "grade3-04:conform": {
     "partOfSpeech": "verb",
@@ -6059,8 +6059,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "He dismissed it as mere conjecture.",
     "translation": "그는 이를 단순한 추측이라고 일축했다.",
-    "example2": "Tom claims he proved Goldbach's conjecture.",
-    "translation2": "Tom은 Goldbach의 추측을 증명했다고 주장합니다."
+    "example2": "Her conjecture changed after she reviewed the evidence.",
+    "translation2": "그녀의 추측은 증거를 검토한 후 바뀌었습니다."
   },
   "grade3-04:conscientious": {
     "partOfSpeech": "adjective",
@@ -6094,8 +6094,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "We should have a contingency plan.",
     "translation": "우리는 비상 계획을 세워야 합니다.",
-    "example2": "Does Tom have a contingency plan?",
-    "translation2": "Tom은 비상 계획을 갖고 있나요?"
+    "example2": "Contingency plans in some countries include quarantining families when any family member contracts the disease.",
+    "translation2": "일부 국가의 비상 계획에는 가족 구성원이 질병에 걸릴 경우 가족을 격리하는 것이 포함됩니다."
   },
   "grade3-04:contradictory": {
     "partOfSpeech": "noun",
@@ -6106,10 +6106,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-04:converge": {
     "partOfSpeech": "verb",
-    "example": "Tourists are starting to converge on Washington for one of the capital's greatest Springtime celebrations, the blooming of the cherry trees.",
-    "translation": "관광객들은 수도의 가장 큰 봄 축제 중 하나인 벚꽃 개화를 위해 워싱턴으로 모여들기 시작했습니다.",
-    "example2": "The situation may converge without warning.",
-    "translation2": "상황은 예고 없이 수렴될 수 있습니다."
+    "example": "The two paths converge near the river.",
+    "translation": "두 길은 강 근처에서 수렴됩니다.",
+    "example2": "Our opinions began to converge after a long discussion.",
+    "translation2": "우리의 의견은 오랜 토론 끝에 수렴되기 시작했습니다."
   },
   "grade3-04:conviction": {
     "partOfSpeech": "noun",
@@ -6199,8 +6199,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "A kite too delicate to fly safely.",
     "translation": "너무 연약해서 안전하게 날 수 없는 연입니다.",
-    "example2": "Famed for its strong, yet delicate, aroma, Kampot pepper can range from intensely spicy to mildly sweet.",
-    "translation2": "강하면서도 섬세한 향으로 유명한 캄폿 고추는 매우 매운 것부터 약간 달콤한 것까지 다양합니다."
+    "example2": "The reviewers considered the final result delicate.",
+    "translation2": "검토자들은 최종 결과가 미묘하다고 생각했습니다."
   },
   "grade3-05:demographic": {
     "partOfSpeech": "adjective",
@@ -6220,8 +6220,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "Losing him is no great deprivation.",
     "translation": "그를 잃는 것은 큰 박탈감이 아닙니다.",
-    "example2": "They put Tom in a sensory deprivation tank.",
-    "translation2": "그들은 톰을 감각 차단 탱크에 가두었습니다."
+    "example2": "Tom is in a sensory deprivation tank.",
+    "translation2": "톰은 감각 차단 탱크에 있습니다."
   },
   "grade3-05:desolation": {
     "partOfSpeech": "noun",
@@ -6232,10 +6232,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-05:deter": {
     "partOfSpeech": "verb",
-    "example": "His ominous words did not deter Mary.",
-    "translation": "그의 불길한 말은 마리아를 단념시키지 못했습니다.",
-    "example2": "Tom installed security cameras on his property to deter thieves.",
-    "translation2": "톰은 도둑을 막기 위해 자신의 집에 보안 카메라를 설치했습니다."
+    "example": "Tom installed security cameras on his property to deter thieves.",
+    "translation": "톰은 도둑을 막기 위해 자신의 집에 보안 카메라를 설치했습니다.",
+    "example2": "Police presence in the neighborhood was increased as a measure to deter crime.",
+    "translation2": "범죄를 예방하기 위한 조치로 인근 지역에 경찰의 배치가 강화되었습니다."
   },
   "grade3-05:deterrent": {
     "partOfSpeech": "noun",
@@ -6281,10 +6281,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-05:discreet": {
     "partOfSpeech": "adjective",
-    "example": "John just doesn't understand that laughing at Mary all day is not very discreet.",
-    "translation": "John은 하루 종일 Mary를 보고 웃는 것이 그다지 신중하지 않다는 것을 이해하지 못합니다.",
-    "example2": "The reviewers considered the final result discreet.",
-    "translation2": "검토자들은 최종 결과가 신중하다고 생각했습니다."
+    "example": "She was discreet when discussing the private matter.",
+    "translation": "그녀는 사적인 문제를 논의할 때 신중했습니다.",
+    "example2": "A discreet sign marked the entrance to the office.",
+    "translation2": "사무실 입구에는 눈에 띄는 표지판이 표시되어 있었습니다."
   },
   "grade3-05:discretion": {
     "partOfSpeech": "noun",
@@ -6309,10 +6309,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-06:disparity": {
     "partOfSpeech": "noun",
-    "example": "“This is a scandal that must stop now,” said the director-general about the global vaccine disparity.",
-    "translation": "사무총장은 글로벌 백신 격차에 대해 “이것은 이제 멈춰야 할 스캔들”이라고 말했습니다.",
-    "example2": "Her disparity helped the team solve the problem.",
-    "translation2": "그녀의 차이는 팀이 문제를 해결하는 데 도움이 되었습니다."
+    "example": "The report revealed a large disparity in income.",
+    "translation": "보고서는 소득 격차가 크다는 사실을 드러냈다.",
+    "example2": "Education can help reduce the disparity between regions.",
+    "translation2": "교육은 지역 간 격차를 줄이는 데 도움이 될 수 있습니다."
   },
   "grade3-06:dispute": {
     "partOfSpeech": "noun",
@@ -6330,17 +6330,17 @@ export const EXAMPLE_DATA = {
   },
   "grade3-06:distort": {
     "partOfSpeech": "verb",
-    "example": "Get the facts first. You can distort them later.",
-    "translation": "사실을 먼저 알아보세요. 나중에 왜곡할 수 있습니다.",
-    "example2": "The students were asked to distort something important.",
-    "translation2": "학생들은 중요한 것을 왜곡하라는 요청을 받았습니다."
+    "example": "A curved mirror can distort your reflection.",
+    "translation": "곡면 거울은 반사를 왜곡할 수 있습니다.",
+    "example2": "Leaving out evidence may distort the truth.",
+    "translation2": "증거를 생략하면 진실이 왜곡될 수 있습니다."
   },
   "grade3-06:doctrine": {
     "partOfSpeech": "noun",
-    "example": "Some persons have asserted that the earliest Christians were Ebionites, and taught a system of doctrine akin to modern Unitarianism.",
-    "translation": "어떤 사람들은 초기 기독교인들이 에비온파였으며 현대 유니테리언주의와 유사한 교리 체계를 가르쳤다고 주장했습니다.",
-    "example2": "Her doctrine changed after she reviewed the evidence.",
-    "translation2": "그녀가 증거를 검토한 후 그녀의 교리는 바뀌었습니다."
+    "example": "The course examines a major legal doctrine.",
+    "translation": "이 과정에서는 주요 법률 교리를 검토합니다.",
+    "example2": "The organization changed its doctrine after the debate.",
+    "translation2": "조직은 토론 후 교리를 변경했습니다."
   },
   "grade3-06:dormant": {
     "partOfSpeech": "adjective",
@@ -6351,10 +6351,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-06:dwindle": {
     "partOfSpeech": "verb",
-    "example": "The prospects of Zimbabwe facing hunger in the coming months are high, as stocks dwindle and donors ignore calls for more aid.",
-    "translation": "재고가 줄어들고 기부자들이 추가 원조 요청을 무시함에 따라 짐바브웨가 앞으로 몇 달 동안 기아에 직면할 가능성이 높습니다.",
-    "example2": "The pattern could dwindle over time.",
-    "translation2": "시간이 지남에 따라 패턴이 줄어들 수 있습니다."
+    "example": "Food supplies began to dwindle during the long journey.",
+    "translation": "긴 여행 동안 식량 공급이 줄어들기 시작했습니다.",
+    "example2": "Attendance may dwindle if the program loses support.",
+    "translation2": "프로그램이 지원을 잃으면 출석률이 줄어들 수 있습니다."
   },
   "grade3-06:eclectic": {
     "partOfSpeech": "adjective",
@@ -6444,22 +6444,22 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "The people responsible for the opioid epidemic will never face any consequences.",
     "translation": "오피오이드 전염병에 책임이 있는 사람들은 결코 어떤 결과도 직면하지 않을 것입니다.",
-    "example2": "In the U.S. there is an epidemic of police officers summarily executing young Black men.",
-    "translation2": "미국에서는 젊은 흑인 남성을 즉석 처형하는 경찰이 급증하고 있습니다."
+    "example2": "Xylazine is proof that the heroin epidemic is intentionally being inflicted on people.",
+    "translation2": "자일라진은 헤로인 전염병이 의도적으로 사람들에게 가해지고 있다는 증거입니다."
   },
   "grade3-07:equitable": {
     "partOfSpeech": "adjective",
-    "example": "White Americans are so afraid of a more equitable society that they actually elected Donald Trump.",
-    "translation": "백인 미국인들은 보다 공평한 사회를 너무 두려워하여 실제로 도널드 트럼프를 선출했습니다.",
-    "example2": "The final decision seemed equitable to everyone involved.",
-    "translation2": "최종 결정은 관련된 모든 사람에게 공평한 것처럼 보였습니다."
+    "example": "The committee sought an equitable solution for everyone.",
+    "translation": "위원회는 모든 사람을 위한 공평한 해결책을 모색했습니다.",
+    "example2": "Students deserve equitable access to educational resources.",
+    "translation2": "학생들은 교육 자원에 공평하게 접근할 자격이 있습니다."
   },
   "grade3-07:eradicate": {
     "partOfSpeech": "verb",
-    "example": "Christianity's main connection to Judaism throughout history has been its attempt to eradicate and supplant it.",
-    "translation": "역사를 통틀어 기독교와 유대교의 주된 연관성은 유대교를 근절하고 대체하려는 시도였습니다.",
-    "example2": "The teacher could eradicate a student after class.",
-    "translation2": "교사는 수업이 끝난 후 학생을 퇴학시킬 수 있습니다."
+    "example": "The campaign aims to eradicate the disease completely.",
+    "translation": "이 캠페인은 질병을 완전히 근절하는 것을 목표로 합니다.",
+    "example2": "Education can help eradicate harmful misconceptions.",
+    "translation2": "교육은 해로운 오해를 근절하는 데 도움이 될 수 있습니다."
   },
   "grade3-07:erroneous": {
     "partOfSpeech": "adjective",
@@ -6479,8 +6479,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "We're not immortal, but we are eternal.",
     "translation": "우리는 불멸은 아니지만 영원합니다.",
-    "example2": "The exhibit, called \"Eternal Ancestors: The Art of the Central African Reliquary,\" sheds light on the history and traditions of the region.",
-    "translation2": "\"영원한 조상: 중앙아프리카 성물함의 예술\"이라는 제목의 전시회는 이 지역의 역사와 전통을 조명합니다."
+    "example2": "The mountains are eternal witnesses.",
+    "translation2": "산들은 영원한 증인이다."
   },
   "grade3-07:evade": {
     "partOfSpeech": "verb",
@@ -6512,10 +6512,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-07:exotic": {
     "partOfSpeech": "adjective",
-    "example": "Chang says drinkers in Taiwan find the whiskies from Scotland to be more exotic.",
-    "translation": "Chang은 대만의 술꾼들이 스코틀랜드산 위스키를 더 이국적으로 느낀다고 말했습니다.",
-    "example2": "Abigail Allwood's team trudged a 10-kilometer-long stretch of stromatolites and identified seven different types with exotic shapes.",
-    "translation2": "Abigail Allwood 팀은 10km 길이의 스트로마톨라이트를 터벅터벅 걸어가며 이국적인 모양을 지닌 7가지 유형의 스트로마톨라이트를 식별했습니다."
+    "example": "They kayaked through mangroves and saw many exotic birds.",
+    "translation": "그들은 맹그로브 숲 사이로 카약을 타고 많은 이국적인 새들을 보았습니다.",
+    "example2": "The reviewers considered the final result exotic.",
+    "translation2": "리뷰어들은 최종 결과가 이색적이라고 생각했습니다."
   },
   "grade3-07:expedite": {
     "partOfSpeech": "verb",
@@ -6526,10 +6526,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-07:expulsion": {
     "partOfSpeech": "noun",
-    "example": "According to the Academy's code of conduct, such consequences could entail \"suspension of membership or expulsion from membership.\".",
-    "translation": "아카데미의 행동 강령에 따르면 그러한 결과는 \"회원 자격 정지 또는 회원 제명\"을 수반할 수 있습니다.",
-    "example2": "The expulsion required careful planning.",
-    "translation2": "퇴학에는 신중한 계획이 필요했습니다."
+    "example": "Repeated misconduct may lead to expulsion from school.",
+    "translation": "반복적인 위법 행위는 학교에서 퇴학을 당할 수 있습니다.",
+    "example2": "The committee reviewed the student's expulsion carefully.",
+    "translation2": "위원회는 학생의 퇴학을 주의 깊게 검토했습니다."
   },
   "grade3-07:extinguish": {
     "partOfSpeech": "verb",
@@ -6570,8 +6570,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "The \"goes\" in \"he goes\" is a finite form of a verb.",
     "translation": "\"he goes\"의 \"goes\"는 동사의 유한형입니다.",
-    "example2": "Professor Jackson drew a deterministic finite automaton on the board.",
-    "translation2": "잭슨 교수는 칠판에 결정론적인 유한 자동인형을 그렸습니다."
+    "example2": "Great... another day of learning about nondeterministic finite automata.",
+    "translation2": "좋습니다... 비결정론적 유한 오토마타에 대해 배우는 또 다른 날입니다."
   },
   "grade3-07:fluctuation": {
     "partOfSpeech": "noun",
@@ -6708,10 +6708,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-08:immune": {
     "partOfSpeech": "adjective",
-    "example": "Immune from taxation as long as he resided in Bermuda.",
-    "translation": "버뮤다에 거주하는 동안 과세로부터 면제됩니다.",
-    "example2": "As a diplomat, you are immune from prosecution.",
-    "translation2": "외교관으로서 당신은 기소로부터 면제됩니다."
+    "example": "As a diplomat, you are immune from prosecution.",
+    "translation": "외교관으로서 당신은 기소로부터 면제됩니다.",
+    "example2": "I am immune to chicken pox.",
+    "translation2": "나는 수두에 면역이다."
   },
   "grade3-08:impartiality": {
     "partOfSpeech": "noun",
@@ -6764,10 +6764,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-09:indifference": {
     "partOfSpeech": "noun",
-    "example": "There was a curious mixture of stupendous Samaritanism and tremendous indifference.",
-    "translation": "엄청난 사마리아주의와 엄청난 무관심이 기묘하게 혼합되어 있었습니다.",
-    "example2": "She expressed her indifference honestly.",
-    "translation2": "그녀는 자신의 무관심을 솔직하게 표현했습니다."
+    "example": "Public indifference allowed the problem to continue.",
+    "translation": "대중의 무관심으로 인해 문제가 계속되었습니다.",
+    "example2": "Her indifference to the result surprised the team.",
+    "translation2": "결과에 대한 그녀의 무관심은 팀을 놀라게 했습니다."
   },
   "grade3-09:indignation": {
     "partOfSpeech": "noun",
@@ -6799,24 +6799,24 @@ export const EXAMPLE_DATA = {
   },
   "grade3-09:inhibit": {
     "partOfSpeech": "verb",
-    "example": "It’s believed purple nut sedge may have the ability to inhibit the growth of Streptococcus mutans.",
-    "translation": "보라색 너트 사초에는 연쇄상 구균 뮤탄스의 성장을 억제하는 능력이 있을 수 있다고 믿어집니다.",
-    "example2": "The team may inhibit the proposal after careful review.",
-    "translation2": "팀은 신중한 검토 후 제안을 금지할 수 있습니다."
+    "example": "Fear can inhibit creative thinking.",
+    "translation": "두려움은 창의적인 사고를 방해할 수 있습니다.",
+    "example2": "The medicine may inhibit the growth of bacteria.",
+    "translation2": "약은 박테리아의 성장을 억제할 수 있습니다."
   },
   "grade3-09:injustice": {
     "partOfSpeech": "noun",
-    "example": "In short, the Anarchist tendency is a necessity of progress, a protest against usurpation, privilege, and injustice.",
-    "translation": "요컨대 무정부주의 경향은 진보의 필요성이자 찬탈, 특권, 불의에 대한 항의이다.",
-    "example2": "The BMJ editorial describes oppression against women and girls as a great injustice that is insidious, systematic and widespread.",
-    "translation2": "BMJ 사설은 여성과 소녀에 대한 억압을 교활하고 체계적이며 널리 퍼져 있는 큰 불의로 묘사합니다."
+    "example": "The BMJ editorial describes oppression against women and girls as a great injustice that is insidious, systematic and widespread.",
+    "translation": "BMJ 사설은 여성과 소녀에 대한 억압을 교활하고 체계적이며 널리 퍼져 있는 큰 불의로 묘사합니다.",
+    "example2": "The injustice required careful planning.",
+    "translation2": "불의에는 신중한 계획이 필요했습니다."
   },
   "grade3-09:innovative": {
     "partOfSpeech": "adjective",
-    "example": "Is British industry innovative enough?",
-    "translation": "영국 산업은 충분히 혁신적인가?",
-    "example2": "These people are working on the goals in innovative ways.",
-    "translation2": "이 사람들은 혁신적인 방식으로 목표를 달성하기 위해 노력하고 있습니다."
+    "example": "These people are working on the goals in innovative ways.",
+    "translation": "이 사람들은 혁신적인 방식으로 목표를 달성하기 위해 노력하고 있습니다.",
+    "example2": "They collaborate to create innovative solutions.",
+    "translation2": "그들은 혁신적인 솔루션을 만들기 위해 협력합니다."
   },
   "grade3-09:insignificant": {
     "partOfSpeech": "adjective",
@@ -6871,8 +6871,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Form was treated as something intrinsic, as the very essence of the thing.",
     "translation": "형태는 사물의 본질인 본질적인 것으로 취급되었습니다.",
-    "example2": "Tom lacks intrinsic motivation to study French.",
-    "translation2": "Tom은 프랑스어를 공부하려는 내재적 동기가 부족합니다."
+    "example2": "I question the intrinsic value of nihilism.",
+    "translation2": "나는 허무주의의 본질적인 가치에 의문을 제기합니다."
   },
   "grade3-10:invalidate": {
     "partOfSpeech": "verb",
@@ -6934,15 +6934,15 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "She worked for women's liberation.",
     "translation": "그녀는 여성 해방을 위해 일했습니다.",
-    "example2": "The so-called People's Liberation Army wants to put its boot down on Taiwan.",
-    "translation2": "소위 인민 해방군은 대만을 진압하려고 합니다."
+    "example2": "The team completed the liberation before the deadline.",
+    "translation2": "팀은 마감일 이전에 해방을 완료했습니다."
   },
   "grade3-10:lucrative": {
     "partOfSpeech": "adjective",
     "example": "Tom became convinced that mining guano would be a lucrative business venture.",
     "translation": "Tom은 구아노 채굴이 수익성 있는 사업이 될 것이라고 확신하게 되었습니다.",
-    "example2": "The sale of Nile Perch fish maw in Uganda has become a lucrative business, especially for distributors.",
-    "translation2": "우간다에서 나일퍼치 어류 판매는 특히 유통업체에게 수익성이 좋은 사업이 되었습니다."
+    "example2": "Computer programming was devalued as a women's job until it became lucrative, at which point women were sidelined.",
+    "translation2": "컴퓨터 프로그래밍은 수익성이 높아질 때까지 여성의 직업으로 평가절하되었으며, 그 시점에서 여성은 소외되었습니다."
   },
   "grade3-10:manifest": {
     "partOfSpeech": "adjective",
@@ -6974,10 +6974,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-10:milestone": {
     "partOfSpeech": "noun",
-    "example": "Brazil passed a grim milestone Saturday, reporting more than 150,000 deaths from COVID-19, according to the Brazilian Health Ministry.",
-    "translation": "브라질 보건부에 따르면 브라질은 토요일 코로나19로 인한 사망자가 15만 명 이상을 기록하며 암울한 이정표를 통과했습니다.",
-    "example2": "The global end of leaded gasoline use has been lauded as a milestone by the United Nations Environment Program.",
-    "translation2": "유연 휘발유 사용의 전 세계적 종식은 UN 환경 프로그램에 의해 이정표로 칭찬되었습니다."
+    "example": "Graduation is an important milestone in a student's life.",
+    "translation": "졸업은 학생의 인생에서 중요한 이정표입니다.",
+    "example2": "The team celebrated a major milestone in the project.",
+    "translation2": "팀은 프로젝트의 중요한 이정표를 축하했습니다."
   },
   "grade3-10:misinterpret": {
     "partOfSpeech": "verb",
@@ -7037,10 +7037,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-11:nurture": {
     "partOfSpeech": "verb",
-    "example": "Unlike similar competitions, the biennial New York Piano Competition is designed to nurture young talent.",
-    "translation": "2년마다 열리는 뉴욕피아노콩쿠르는 유사한 대회와 달리 젊은 인재를 양성하기 위해 마련됐다.",
-    "example2": "Identity is shaped by both nature and nurture.",
-    "translation2": "정체성은 본성과 양육에 의해 형성됩니다."
+    "example": "Identity is shaped by both nature and nurture.",
+    "translation": "정체성은 본성과 양육에 의해 형성됩니다.",
+    "example2": "How do you nurture yourself daily?",
+    "translation2": "매일 어떻게 자신을 키우나요?"
   },
   "grade3-11:obsess": {
     "partOfSpeech": "verb",
@@ -7051,10 +7051,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-11:obsolete": {
     "partOfSpeech": "adjective",
-    "example": "It is speculated that, within a few years, the Internet's speedy delivery of news worldwide will make newspapers obsolete.",
-    "translation": "몇 년 안에 인터넷을 통해 전 세계적으로 뉴스가 빠르게 전달되면서 신문은 쓸모없게 될 것이라고 추측됩니다.",
-    "example2": "Supersessionism is the theological belief that Christianity has replaced Judaism, rendering it obsolete and taking its place.",
-    "translation2": "대체주의는 기독교가 유대교를 대체하여 유대교를 쓸모없게 만들고 그 자리를 대신한다는 신학적 믿음입니다."
+    "example": "Smartphones made many older devices obsolete.",
+    "translation": "스마트폰은 많은 오래된 장치를 쓸모없게 만들었습니다.",
+    "example2": "The factory replaced its obsolete equipment.",
+    "translation2": "공장은 더 이상 사용되지 않는 장비를 교체했습니다."
   },
   "grade3-11:opaque": {
     "partOfSpeech": "adjective",
@@ -7088,8 +7088,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "He framed the problem within the psychoanalytic paradigm.",
     "translation": "그는 정신분석적 패러다임 내에서 문제의 틀을 잡았습니다.",
-    "example2": "The GNH Commission secretary says the Gross National Happiness paradigm offers an alternative approach to development.",
-    "translation2": "GNH 위원회 사무총장은 국민 총 행복(Gross National Happiness) 패러다임이 개발에 대한 대안적인 접근 방식을 제공한다고 말합니다."
+    "example2": "The study examined the paradigm in detail.",
+    "translation2": "이 연구에서는 패러다임을 자세히 조사했습니다."
   },
   "grade3-11:paradoxical": {
     "partOfSpeech": "adjective",
@@ -7142,17 +7142,17 @@ export const EXAMPLE_DATA = {
   },
   "grade3-12:polarize": {
     "partOfSpeech": "verb",
-    "example": "The result is an eye-opening documentary about the political and cultural divides that still polarize Americans today.",
-    "translation": "그 결과 오늘날 미국인들을 여전히 양극화시키고 있는 정치적, 문화적 분열에 대한 놀라운 다큐멘터리가 탄생했습니다.",
-    "example2": "The new policy may polarize the final outcome.",
-    "translation2": "새로운 정책은 최종 결과를 양극화할 수 있습니다."
+    "example": "The issue may polarize public opinion.",
+    "translation": "이 문제는 여론을 양극화시킬 수 있다.",
+    "example2": "Extreme claims can polarize a classroom discussion.",
+    "translation2": "극단적인 주장은 교실 토론을 양극화할 수 있습니다."
   },
   "grade3-12:precede": {
     "partOfSpeech": "verb",
     "example": "Stone tools precede bronze tools.",
     "translation": "석기 도구는 청동 도구보다 우선합니다.",
-    "example2": "Most English adjectives precede the noun they modify.",
-    "translation2": "대부분의 영어 형용사는 자신이 수식하는 명사 앞에 옵니다."
+    "example2": "A small change could precede the entire process.",
+    "translation2": "전체 프로세스에 앞서 작은 변화가 있을 수 있습니다."
   },
   "grade3-12:preclude": {
     "partOfSpeech": "verb",
@@ -7170,10 +7170,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-12:premise": {
     "partOfSpeech": "noun",
-    "example": "At least that is the premise of a global gathering of scientists, government representatives and innovators in Senegal this week.",
-    "translation": "적어도 그것이 이번 주 세네갈에서 열리는 과학자, 정부 대표, 혁신가들의 전 세계 모임의 전제입니다.",
-    "example2": "The premise gave the students useful information.",
-    "translation2": "전제는 학생들에게 유용한 정보를 제공했습니다."
+    "example": "The argument begins with a false premise.",
+    "translation": "논쟁은 잘못된 전제에서 시작됩니다.",
+    "example2": "The story is built on an unusual premise.",
+    "translation2": "이야기는 특이한 전제를 바탕으로 만들어졌습니다."
   },
   "grade3-12:presumption": {
     "partOfSpeech": "noun",
@@ -7200,8 +7200,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "A new theory is the most prominent feature of the book.",
     "translation": "새로운 이론은 이 책의 가장 두드러진 특징이다.",
-    "example2": "Emma Goldman was a prominent Jewish anarchist.",
-    "translation2": "엠마 골드만(Emma Goldman)은 저명한 유대인 무정부주의자였습니다."
+    "example2": "There are several varieties of omelettes, each named after the ingredient prominent in the composition.",
+    "translation2": "오믈렛에는 여러 종류가 있으며, 각 이름은 구성 요소에서 눈에 띄는 성분의 이름을 따서 명명되었습니다."
   },
   "grade3-12:propel": {
     "partOfSpeech": "verb",
@@ -7219,10 +7219,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-12:provisional": {
     "partOfSpeech": "adjective",
-    "example": "The President of the Kabyle Provisional Government is Mr Ferhat Mehenni.",
-    "translation": "카빌레 임시정부의 대통령은 페르하트 메헨니(Ferhat Mehenni)입니다.",
-    "example2": "Pakistani Prime Minister Imran Khan announced Sunday his government had decided to give “provisional provincial” status to part of Pakistan-administered Kashmir.",
-    "translation2": "임란 칸 파키스탄 총리는 일요일 정부가 파키스탄이 관리하는 카슈미르 일부 지역에 '임시 주' 지위를 부여하기로 결정했다고 발표했습니다."
+    "example": "The provisional presidential results show the ruling party garnered 60% of the vote, with 33% of the vote counted.",
+    "translation": "임시대통령 결과에 따르면 여당은 60%의 득표율을 기록했고, 33%의 득표율을 기록했다.",
+    "example2": "The final decision seemed provisional to everyone involved.",
+    "translation2": "최종 결정은 관련된 모든 사람에게 잠정적인 것처럼 보였습니다."
   },
   "grade3-12:proximity": {
     "partOfSpeech": "noun",
@@ -7240,10 +7240,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-12:quest": {
     "partOfSpeech": "noun",
-    "example": "Protesters with sledge hammers eventually knocked down much of the wall, scenes of which symbolized the quest for lasting freedom in Europe.",
-    "translation": "큰 망치를 든 시위자들은 결국 벽의 대부분을 무너뜨렸고, 그 장면은 유럽의 지속적인 자유를 향한 탐구를 상징했습니다.",
-    "example2": "The class discussed the quest from several viewpoints.",
-    "translation2": "수업에서는 여러 관점에서 탐구에 대해 논의했습니다."
+    "example": "The scientist began a quest for a better solution.",
+    "translation": "과학자는 더 나은 해결책을 찾기 시작했습니다.",
+    "example2": "Their quest for knowledge continued throughout the journey.",
+    "translation2": "지식에 대한 그들의 탐구는 여행 내내 계속되었습니다."
   },
   "grade3-12:rationale": {
     "partOfSpeech": "noun",
@@ -7310,10 +7310,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-13:renowned": {
     "partOfSpeech": "adjective",
-    "example": "The movie “Three Stars” is about world-renowned chefs.",
-    "translation": "영화 '쓰리스타즈'는 세계적인 셰프들의 이야기를 그린다.",
-    "example2": "A renowned gospel singer in Malawi has raised more than $20,000 in donations for the country’s only pediatric cancer ward.",
-    "translation2": "말라위의 유명한 가스펠 가수가 말라위의 유일한 소아암 병동을 위해 2만 달러 이상의 기부금을 모금했습니다."
+    "example": "The population is renowned for its remarkable growth during the 20th century, following virtual annihilation by sealers in the 19th century.",
+    "translation": "인구는 19세기 바다표범에 의해 사실상 멸종된 이후 20세기 동안 눈에 띄게 증가한 것으로 유명합니다.",
+    "example2": "The reviewers considered the final result renowned.",
+    "translation2": "검토자들은 최종 결과가 유명하다고 생각했습니다."
   },
   "grade3-13:replenish": {
     "partOfSpeech": "verb",
@@ -7331,10 +7331,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-13:resilient": {
     "partOfSpeech": "adjective",
-    "example": "The Kabyle people are resilient; when they want, they harden more than granite.",
-    "translation": "Kabyle 사람들은 탄력적입니다. 원할 때 화강암보다 더 단단해집니다.",
-    "example2": "Researchers in New Zealand have developed new technology that could make bridges more resilient to earthquakes.",
-    "translation2": "뉴질랜드 연구원들이 지진에 대한 복원력을 더욱 강화할 수 있는 교량을 만들 수 있는 새로운 기술을 개발했습니다."
+    "example": "People are very resilient in general.",
+    "translation": "사람들은 일반적으로 회복력이 매우 뛰어납니다.",
+    "example2": "They shine like the stars, resilient and bright.",
+    "translation2": "그들은 별처럼 빛나고 탄력 있고 밝게 빛납니다."
   },
   "grade3-13:restrain": {
     "partOfSpeech": "verb",
@@ -7361,8 +7361,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "It's not a particularly brilliant revelation of mine.",
     "translation": "그것은 나의 특별한 계시가 아닙니다.",
-    "example2": "Ever since the Book of Revelation was first written, scholars have pondered and debated the question, \"What was this guy on?\".",
-    "translation2": "요한계시록이 처음 기록된 이후로 학자들은 “이 사람은 무엇을 입고 있었느냐?”라는 질문에 대해 고민하고 토론해 왔습니다."
+    "example2": "Everyone discussed the revelation after class.",
+    "translation2": "수업이 끝난 후 모두가 그 계시에 대해 토론했습니다."
   },
   "grade3-13:rigid": {
     "partOfSpeech": "adjective",
@@ -7389,8 +7389,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "noun",
     "example": "It had the sanction of the church.",
     "translation": "교회의 승인을 받은 것이었습니다.",
-    "example2": "The whalers had been operating in the contested waters off the island with sanction from the Japanese government.",
-    "translation2": "포경선들은 일본 정부의 승인을 받아 섬 앞바다의 분쟁 해역에서 활동해 왔습니다."
+    "example2": "The sanction gave the students useful information.",
+    "translation2": "이 제재는 학생들에게 유용한 정보를 제공했습니다."
   },
   "grade3-13:scrutiny": {
     "partOfSpeech": "noun",
@@ -7431,8 +7431,8 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "There is a physical reality, but we must be skeptical of our knowledge of it.",
     "translation": "물리적 현실이 있지만 우리는 그것에 대한 우리의 지식에 대해 회의적이어야 합니다.",
-    "example2": "Some Central Asian residents remain skeptical of the project, while others anticipate it will be an economic boon for the region.",
-    "translation2": "일부 중앙아시아 주민들은 이 프로젝트에 여전히 회의적인 반면, 다른 주민들은 이 지역에 경제적 이익이 될 것으로 기대하고 있습니다."
+    "example2": "James was skeptical about cisgenderism.",
+    "translation2": "제임스는 시스젠더리즘에 대해 회의적이었습니다."
   },
   "grade3-14:solemn": {
     "partOfSpeech": "adjective",
@@ -7464,10 +7464,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-14:stereotype": {
     "partOfSpeech": "noun",
-    "example": "Other Jewish subgroups often stereotype Ashkenazim as boring and joyless.",
-    "translation": "다른 유대인 하위 그룹은 종종 Ashkenazim을 지루하고 즐거움이 없는 것으로 고정관념화합니다.",
-    "example2": "Contrary to stereotype, not every whale is big. That's according to our onboard naturalist.",
-    "translation2": "고정관념과는 달리, 모든 고래가 큰 것은 아닙니다. 그것은 우리 선상 자연주의자의 말에 따른 것입니다."
+    "example": "The film challenges a common cultural stereotype.",
+    "translation": "영화는 일반적인 문화적 고정관념에 도전한다.",
+    "example2": "We should not judge a person by a stereotype.",
+    "translation2": "우리는 고정관념으로 사람을 판단해서는 안 됩니다."
   },
   "grade3-14:strenuous": {
     "partOfSpeech": "adjective",
@@ -7548,10 +7548,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-14:tangible": {
     "partOfSpeech": "adjective",
-    "example": "In the Hindu religion, an \"avatar\" is an incarnation, in tangible human or animal form, of an ethereal deity.",
-    "translation": "힌두교에서 \"아바타\"는 천상의 신이 인간이나 동물의 형태로 화신한 것을 의미합니다.",
-    "example2": "The final decision seemed tangible to everyone involved.",
-    "translation2": "최종 결정은 관련된 모든 사람에게 확실한 것처럼 보였습니다."
+    "example": "The new policy produced tangible benefits for students.",
+    "translation": "새로운 정책은 학생들에게 실질적인 혜택을 제공했습니다.",
+    "example2": "The team needed tangible evidence to support the claim.",
+    "translation2": "팀은 주장을 뒷받침할 실질적인 증거가 필요했습니다."
   },
   "grade3-14:tentative": {
     "partOfSpeech": "adjective",
@@ -7562,10 +7562,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-15:threshold": {
     "partOfSpeech": "noun",
-    "example": "Old dog Spot, who was stretched upon the woodshed threshold, gazed at Snowball with a lofty air.",
-    "translation": "숲속 문턱에 몸을 쭉 뻗은 늙은 개 스팟은 고상한 표정으로 스노볼을 바라보았다.",
-    "example2": "They used the threshold to prepare for the test.",
-    "translation2": "그들은 테스트를 준비하기 위해 임계값을 사용했습니다."
+    "example": "The noise level remained below the safety threshold.",
+    "translation": "소음 수준은 안전 기준치 미만으로 유지되었습니다.",
+    "example2": "She paused at the threshold before entering the room.",
+    "translation2": "그녀는 방에 들어가기 전에 문지방에서 잠시 멈췄다."
   },
   "grade3-15:thwart": {
     "partOfSpeech": "verb",
@@ -7576,10 +7576,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-15:trait": {
     "partOfSpeech": "noun",
-    "example": "Neurosis is a trait often stereotypically assigned to Ashkenazi Jews.",
-    "translation": "신경증은 흔히 아슈게나지 유대인에게 고정관념으로 나타나는 특성입니다.",
-    "example2": "Kindness is the most beautiful trait a person can have.",
-    "translation2": "친절은 사람이 가질 수 있는 가장 아름다운 특성입니다."
+    "example": "Kindness is the most beautiful trait a person can have.",
+    "translation": "친절은 사람이 가질 수 있는 가장 아름다운 특성입니다.",
+    "example2": "Her trait helped the team solve the problem.",
+    "translation2": "그녀의 특성은 팀이 문제를 해결하는 데 도움이 되었습니다."
   },
   "grade3-15:transient": {
     "partOfSpeech": "adjective",
@@ -7613,22 +7613,22 @@ export const EXAMPLE_DATA = {
     "partOfSpeech": "adjective",
     "example": "Stumps...had uncanny shapes as of monstrous creatures.",
     "translation": "그루터기는...괴물처럼 기괴한 모양을 하고 있었습니다.",
-    "example2": "Using his uncanny powers of deduction and the latest in high-tech gadgetry, Agent 86 never seems to get it quite right.",
-    "translation2": "그의 놀라운 추리력과 최신 하이테크 장치를 사용하는 Agent 86은 결코 올바른 결과를 얻지 못하는 것 같습니다."
+    "example2": "The final decision seemed uncanny to everyone involved.",
+    "translation2": "최종 결정은 관련된 모든 사람에게 기괴한 것처럼 보였습니다."
   },
   "grade3-15:undermine": {
     "partOfSpeech": "verb",
-    "example": "Lysenko believed that modern genetics was a Western imperialist plot designed to undermine Russia.",
-    "translation": "리센코는 현대 유전학이 러시아를 약화시키려는 서구 제국주의 음모라고 믿었습니다.",
-    "example2": "The CIA used false flag operations to undermine Mohammad Mosaddegh.",
-    "translation2": "CIA는 Mohammad Mosaddegh를 약화시키기 위해 위장 작전을 사용했습니다."
+    "example": "Constant criticism can undermine a student's confidence.",
+    "translation": "끊임없는 비판은 학생의 자신감을 약화시킬 수 있습니다.",
+    "example2": "Weak evidence may undermine the main argument.",
+    "translation2": "약한 증거는 주요 주장을 약화시킬 수 있습니다."
   },
   "grade3-15:unpredictable": {
     "partOfSpeech": "adjective",
-    "example": "Tom's unpredictable behavior always kept Mary on edge, never knowing what he would do next.",
-    "translation": "Tom의 예측할 수 없는 행동으로 인해 Mary는 그가 다음에 무엇을 할지 전혀 알 수 없어 항상 불안해졌습니다.",
-    "example2": "The future is unpredictable but exciting.",
-    "translation2": "미래는 예측할 수 없지만 흥미롭습니다."
+    "example": "The future is unpredictable but exciting.",
+    "translation": "미래는 예측할 수 없지만 흥미롭습니다.",
+    "example2": "The final decision seemed unpredictable to everyone involved.",
+    "translation2": "최종 결정은 관련된 모든 사람에게 예측할 수 없는 것처럼 보였습니다."
   },
   "grade3-15:uphold": {
     "partOfSpeech": "verb",
@@ -7639,10 +7639,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-15:vagueness": {
     "partOfSpeech": "noun",
-    "example": "The Conservative manifesto is a model of vagueness.",
-    "translation": "보수당 선언문은 모호함의 모델이다.",
-    "example2": "These terms were used with a vagueness that suggested little or no thought about what each might convey.",
-    "translation2": "이러한 용어는 각각이 전달할 내용에 대해 거의 또는 전혀 생각하지 못하게 하는 모호하게 사용되었습니다."
+    "example": "These terms were used with a vagueness that suggested little or no thought about what each might convey.",
+    "translation": "이러한 용어는 각각이 전달할 내용에 대해 거의 또는 전혀 생각하지 못하게 하는 모호하게 사용되었습니다.",
+    "example2": "The report clearly described the vagueness.",
+    "translation2": "보고서는 모호함을 명확하게 설명했습니다."
   },
   "grade3-15:vanish": {
     "partOfSpeech": "verb",
@@ -7681,10 +7681,10 @@ export const EXAMPLE_DATA = {
   },
   "grade3-15:wane": {
     "partOfSpeech": "verb",
-    "example": "By April 1970, man had already landed on the moon and the public's interest in the space program began to wane.",
-    "translation": "1970년 4월이 되자 인간은 이미 달에 착륙했고 우주 프로그램에 대한 대중의 관심은 줄어들기 시작했습니다.",
-    "example2": "The pattern could wane over time.",
-    "translation2": "시간이 지남에 따라 패턴이 약해질 수 있습니다."
+    "example": "Public interest began to wane after several months.",
+    "translation": "몇 달이 지나자 대중의 관심이 줄어들기 시작했습니다.",
+    "example2": "Her anxiety started to wane as she gained experience.",
+    "translation2": "그녀의 불안은 경험이 쌓이면서 줄어들기 시작했습니다."
   },
   "grade3-15:wholesome": {
     "partOfSpeech": "adjective",
