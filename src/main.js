@@ -3,7 +3,7 @@ import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.j
 import { stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, passingScore } from './data/levels.js';
 import { SCENES, sceneById, sceneForUnit } from './data/scenes.js';
 import { LAB_INFO, WORD_FAMILIES, SYNTAX_ITEMS, LOGIC_ITEMS, CSAT_LEVELS, CSAT_TYPE_INFO, CSAT_ITEMS, labItems, csatItems } from './data/csat-labs.js';
-import { api, isOnline, store } from './db.js';
+import { api, isOnline, isStudentSessionError, store } from './db.js';
 import { parseContentWorkbook } from './excel.js';
 
 // ================= 공통 도우미 =================
@@ -159,14 +159,37 @@ const state = {
   stage: stageById(store.get('ovh_stage', 'prep')).id,
   teacherPw: null,
   parentReady: false,
+  restoreError: null,
 };
-const session = { get: () => store.get('ovh_session', null), set: (v) => store.set('ovh_session', v), clear: () => store.del('ovh_session') };
+const session = {
+  get: () => store.get('ovh_session', null),
+  set: (v) => store.set('ovh_session', v),
+  remember: (me) => store.set('ovh_session', { id: me.id, token: me.token, profile: me, savedAt: Date.now() }),
+  clear: () => store.del('ovh_session'),
+};
+
+async function restoreStudentSession() {
+  const saved = session.get();
+  if (!saved?.id || !saved?.token) { state.restoreError = null; return false; }
+  try {
+    const me = await api.state(saved.id, saved.token);
+    state.me = me; state.restoreError = null; session.remember(me);
+    return true;
+  } catch (error) {
+    if (isStudentSessionError(error)) {
+      session.clear(); state.me = null; state.restoreError = null;
+      return false;
+    }
+    state.restoreError = '서버와 연결하지 못했어요. 로그인 정보는 이 기기에 안전하게 남아 있어요.';
+    return false;
+  }
+}
 
 async function save(result) {
   result.requestId ||= crypto.randomUUID();const savedRoute=location.hash;
   for(;;){
     try{
-      const me=await api.saveResult(state.me.id,state.me.token,result),before=rankOf(state.me.acorns);state.me=me;
+      const me=await api.saveResult(state.me.id,state.me.token,result),before=rankOf(state.me.acorns);state.me=me;session.remember(me);
       document.getElementById('save-retry-banner')?.remove();
       if(location.hash!==savedRoute)return new Promise(()=>{});
       const after=rankOf(me.acorns);if(after.min>before.min)setTimeout(()=>{confetti();toast(`${after.icon} ${after.name}(으)로 승급했어요!`);},600);
@@ -191,6 +214,7 @@ async function render() {
   const [path, ...args] = (location.hash.replace(/^#\/?/, '') || 'home').split('/');
   if (path === 'teacher') return routes.teacher();
   if (path === 'parent') return routes.parent();
+  if (!state.me && state.restoreError) return routes.reconnect();
   if (!state.me) return routes.login();
   const fn = routes[path] || routes.home;
   window.scrollTo(0, 0);
@@ -268,11 +292,29 @@ routes.login = async () => {
     const btn = $('#f button[type=submit]'); btn.disabled = true;
     try {
       const me = await api.enter(classId, $('#nm').value, $('#pin').value);
-      state.me = me; session.set({ id: me.id, token: me.token }); store.set('ovh_last_class', classId);
+      state.me = me; session.remember(me); state.restoreError = null; store.set('ovh_last_class', classId);
       speak('Welcome, explorer!');
       go('#/home');
     } catch (ex) { err.textContent = ex.message; btn.disabled = false; }
   };
+};
+
+routes.reconnect = () => {
+  app.innerHTML = `<div class="login">
+    <img class="login-logo" src="/logo.png" alt="뉴오리건영어학원">
+    <h1 class="title-kid">로그인을 복원하는 중이에요</h1>
+    <p class="muted">저장된 로그인은 지우지 않았어요.<br>인터넷 연결을 확인한 뒤 다시 시도해 주세요.</p>
+    <p class="err" id="restore-error">${esc(state.restoreError || '')}</p>
+    <button class="btn big primary" id="restore-session">다시 연결하기</button>
+    <button class="btn ghost" id="restore-logout">다른 학생으로 로그인</button>
+  </div>`;
+  $('#restore-session').onclick = async () => {
+    const button = $('#restore-session'); button.disabled = true; button.textContent = '연결하는 중…';
+    await restoreStudentSession();
+    if (state.me || !state.restoreError) render();
+    else { button.disabled = false; button.textContent = '다시 연결하기'; $('#restore-error').textContent = state.restoreError; }
+  };
+  $('#restore-logout').onclick = () => { session.clear(); state.restoreError = null; render(); };
 };
 
 routes.parent = async () => {
@@ -507,7 +549,7 @@ routes.learn = (id, partValue='0') => {
     const markExample=(index)=>{$$('[data-example]').forEach((node)=>node.classList.toggle('speaking',Number(node.dataset.example)===index));$('#sent').textContent=index<0?'💬 예문 2개 연속':`🔊 예문 ${index+1}/2 재생 중`;};
     speak(w.en);$('#card').onclick=()=>{flipped=!flipped;$('#card').classList.toggle('flipped',flipped);if(flipped)speak(w.ex);};
     $('#say').onclick=()=>speak(w.en);$('#slow').onclick=()=>speak(w.en,.5);$('#sent1').onclick=()=>{markExample(0);speak(w.ex).finally(()=>markExample(-1));};$('#sent2').onclick=()=>{markExample(1);speak(w.ex2).finally(()=>markExample(-1));};$('#sent').onclick=()=>speakExamples(w.ex,w.ex2,markExample);
-    const step=async(next,complete=false)=>{const b=$('#next');b.disabled=true;$('#prev').disabled=true;try{state.me=await api.checkpoint(state.me.id,state.me.token,t.id,part,next,complete);return true;}catch(err){$('#save-error').textContent='진도를 저장하지 못했어요: '+err.message;b.disabled=false;$('#prev').disabled=i===0;return false;}};
+    const step=async(next,complete=false)=>{const b=$('#next');b.disabled=true;$('#prev').disabled=true;try{state.me=await api.checkpoint(state.me.id,state.me.token,t.id,part,next,complete);session.remember(state.me);return true;}catch(err){$('#save-error').textContent='진도를 저장하지 못했어요: '+err.message;b.disabled=false;$('#prev').disabled=i===0;return false;}};
     $('#prev').onclick=async()=>{if(await step(i-1)){i--;flipped=false;draw();}};
     $('#next').onclick=async()=>{if(i<words.length-1){if(await step(i+1)){i++;flipped=false;draw();}return;}
       try{await save({requestId:completionId,kind:'learn',topic:t.id,score:words.length,total:words.length,acorns:3,words:words.map(w=>({id:w.id,ok:true}))});if(!await step(i,true))return;
@@ -947,9 +989,24 @@ routes.teacher = async () => {
 // ================= 시작 =================
 (async function boot() {
   if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
-  window.addEventListener('online', async () => { const out=await api.flushPendingResults(); if(out.sent) toast(`오프라인 학습 ${out.sent}건을 저장했어요`); });
+  window.addEventListener('online', async () => {
+    if (session.get() && (!state.me || state.restoreError)) { await restoreStudentSession(); render(); }
+    const out=await api.flushPendingResults(); if(out.sent) toast(`오프라인 학습 ${out.sent}건을 저장했어요`);
+  });
   if (typeof navigator !== 'undefined' && navigator.onLine) api.flushPendingResults().catch(() => {});
+  const initialPath = (location.hash.replace(/^#\/?/, '') || 'home').split('/')[0];
+  if ((initialPath === 'teacher' || initialPath === 'parent') && await api.hasAuthSession().catch(() => false)) {
+    if (initialPath === 'teacher') state.teacherPw = 'authenticated';
+    if (initialPath === 'parent') state.parentReady = true;
+  }
   const s = session.get();
-  if (s) { try { state.me = await api.state(s.id, s.token); } catch { session.clear(); } }
-  render();
+  if (s && s.profile?.id === s.id && s.profile?.token === s.token) {
+    state.me = s.profile;
+    render();
+    await restoreStudentSession();
+    if (!state.me) render();
+  } else {
+    if (s) await restoreStudentSession();
+    render();
+  }
 })();

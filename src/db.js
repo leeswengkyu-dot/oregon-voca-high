@@ -21,11 +21,18 @@ const store = {
 
 async function rpc(fn, args) {
   const { data, error } = await sb.rpc(fn, args);
-  if (error) throw new Error(cleanMsg(error.message));
-  if (data?.error) throw new Error(data.error);
+  if (error) throw taggedError(cleanMsg(error.message));
+  if (data?.error) throw taggedError(data.error);
   return data;
 }
 const cleanMsg = (m) => (m || '오류가 발생했어요').replace(/^.*?:\s(?=[가-힣])/, '');
+const taggedError = (message) => {
+  const error = new Error(message);
+  if (/다시 로그인해 주세요/.test(message)) error.code = 'OVH_STUDENT_SESSION';
+  return error;
+};
+export const isStudentSessionError = (error) => error?.code === 'OVH_STUDENT_SESSION'
+  || /다시 로그인해 주세요/.test(error?.message || '');
 
 // ---------------- 체험 모드(로컬) ----------------
 const LDB = 'ovh_local_db';
@@ -48,6 +55,7 @@ function weekStart() {
 const lteacher = (d, pw) => { if (pw !== d.teacherPw) throw new Error('선생님 비밀번호가 맞지 않아요'); };
 
 const local = {
+  async hasAuthSession(){ return false; },
   needsPasswordSetup: () => false,
   async completePasswordSetup(){ throw new Error('비밀번호 설정은 Supabase 온라인 모드에서만 사용할 수 있어요'); },
   async teacherLogin(email,pw){const d=ldb();lteacher(d,pw);return pw;},
@@ -152,6 +160,7 @@ const local = {
 
 // ---------------- Supabase 모드 ----------------
 const remote = {
+  async hasAuthSession(){const {data:{session}}=await sb.auth.getSession();return !!session;},
   needsPasswordSetup: () => authFlowType === 'invite' || authFlowType === 'recovery',
   async completePasswordSetup(password){
     if(password.length<8)throw new Error('비밀번호는 8자 이상이어야 해요');
