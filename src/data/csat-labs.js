@@ -38,6 +38,80 @@ export const WORD_FAMILIES = [
   { level:'challenge', base:'sustain', ko:'지속하다', forms:{ noun:'sustainability', verb:'sustain', adjective:'sustainable', adverb:'sustainably' }, example:'The city aims to use its resources sustainably.' },
 ];
 
+// 제시어와 정답이 같거나 완성 예문에 정답이 노출되지 않도록 문항을 직접 설계합니다.
+const FAMILY_QUESTION_SEEDS = [
+  {base:'decide',target:'noun',source:'verb',sentence:'The committee reached a final _____ after a long discussion.',translation:'위원회는 오랜 논의 끝에 최종 결정을 내렸다.',clue:'관사 a와 형용사 final 뒤에는 명사가 필요합니다.'},
+  {base:'decide',target:'verb',source:'noun',sentence:'The evidence helped the jury _____ quickly.',translation:'그 증거는 배심원단이 신속하게 결정하도록 도왔다.',clue:'helped 뒤의 목적격 보어 자리에는 동사원형이 필요합니다.'},
+  {base:'differ',target:'adjective',source:'noun',sentence:'The two approaches are fundamentally _____.',translation:'두 접근법은 근본적으로 다르다.',clue:'be동사 are 뒤에는 주어의 상태를 설명하는 형용사가 필요합니다.'},
+  {base:'differ',target:'adverb',source:'adjective',sentence:'Students may respond _____ to the same question.',translation:'학생들은 같은 질문에 다르게 반응할 수 있다.',clue:'동사 respond를 꾸미는 부사가 필요합니다.'},
+  {base:'create',target:'noun',source:'verb',sentence:'The _____ of a safe environment requires cooperation.',translation:'안전한 환경을 만드는 데에는 협력이 필요하다.',clue:'관사 The 뒤에서 문장의 주어가 되는 명사가 필요합니다.'},
+  {base:'create',target:'adjective',source:'noun',sentence:'She proposed a _____ solution to the problem.',translation:'그녀는 그 문제에 창의적인 해결책을 제안했다.',clue:'명사 solution을 꾸미는 형용사가 필요합니다.'},
+  {base:'effect',target:'verb',source:'noun',sentence:'Constant noise can _____ our ability to concentrate.',translation:'지속적인 소음은 집중하는 능력에 영향을 미칠 수 있다.',clue:'조동사 can 뒤에는 동사원형이 필요합니다.'},
+  {base:'effect',target:'adverb',source:'adjective',sentence:'The new schedule _____ reduced waiting time.',translation:'새 일정은 대기 시간을 효과적으로 줄였다.',clue:'동사 reduced를 꾸미는 부사가 필요합니다.'},
+  {base:'succeed',target:'noun',source:'verb',sentence:'Careful planning contributed to the project’s _____.',translation:'신중한 계획은 그 프로젝트의 성공에 기여했다.',clue:'소유격 project’s 뒤에는 명사가 필요합니다.'},
+  {base:'succeed',target:'verb',source:'noun',sentence:'Teams _____ when members share responsibility.',translation:'구성원들이 책임을 나눌 때 팀은 성공한다.',clue:'주어 Teams 뒤에서 서술어 역할을 하는 동사가 필요합니다.'},
+  {base:'vary',target:'adjective',source:'verb',sentence:'The survey included people from _____ backgrounds.',translation:'그 설문에는 다양한 배경의 사람들이 포함되었다.',clue:'명사 backgrounds를 꾸미는 형용사가 필요합니다.'},
+  {base:'vary',target:'verb',source:'noun',sentence:'The results _____ considerably across regions.',translation:'그 결과는 지역에 따라 상당히 달라진다.',clue:'주어 The results 뒤에는 서술어 동사가 필요합니다.'},
+  {base:'act',target:'noun',source:'verb',sentence:'Immediate _____ is required to prevent further damage.',translation:'추가 피해를 막기 위해 즉각적인 조치가 필요하다.',clue:'형용사 Immediate 뒤에는 명사가 필요합니다.'},
+  {base:'act',target:'adjective',source:'noun',sentence:'Students remain _____ when lessons involve discussion.',translation:'수업에 토론이 포함되면 학생들은 적극적인 상태를 유지한다.',clue:'remain 뒤에는 주어의 상태를 설명하는 형용사가 필요합니다.'},
+  {base:'compare',target:'verb',source:'noun',sentence:'Researchers _____ the results from the two groups.',translation:'연구자들은 두 집단의 결과를 비교한다.',clue:'주어 Researchers 뒤에는 서술어 동사가 필요합니다.'},
+  {base:'compare',target:'adverb',source:'adjective',sentence:'The second method is _____ less expensive.',translation:'두 번째 방법은 비교적 비용이 덜 든다.',clue:'형용사구 less expensive의 정도를 나타내는 부사가 필요합니다.'},
+  {base:'depend',target:'noun',source:'verb',sentence:'Their _____ on imported energy created a serious risk.',translation:'수입 에너지에 대한 그들의 의존은 심각한 위험을 만들었다.',clue:'소유격 Their 뒤에는 명사가 필요합니다.'},
+  {base:'depend',target:'verb',source:'noun',sentence:'The final result will _____ on several conditions.',translation:'최종 결과는 여러 조건에 달려 있을 것이다.',clue:'조동사 will 뒤에는 동사원형이 필요합니다.'},
+  {base:'describe',target:'adjective',source:'verb',sentence:'The report uses _____ language to explain the process.',translation:'그 보고서는 과정을 설명하기 위해 묘사적인 언어를 사용한다.',clue:'명사 language를 꾸미는 형용사가 필요합니다.'},
+  {base:'describe',target:'noun',source:'verb',sentence:'The witness gave a detailed _____ of the event.',translation:'그 목격자는 사건을 상세하게 묘사했다.',clue:'관사 a와 형용사 detailed 뒤에는 명사가 필요합니다.'},
+  {base:'develop',target:'noun',source:'verb',sentence:'The rapid _____ of technology changed daily life.',translation:'기술의 빠른 발전은 일상을 바꾸었다.',clue:'형용사 rapid 뒤에는 명사가 필요합니다.'},
+  {base:'develop',target:'adjective',source:'noun',sentence:'Play is important during every _____ stage.',translation:'놀이는 모든 발달 단계에서 중요하다.',clue:'명사 stage를 꾸미는 형용사가 필요합니다.'},
+  {base:'inform',target:'verb',source:'noun',sentence:'Please _____ the office if your address changes.',translation:'주소가 바뀌면 사무실에 알려 주세요.',clue:'Please 뒤에는 명령문을 만드는 동사원형이 필요합니다.'},
+  {base:'inform',target:'adjective',source:'noun',sentence:'The documentary was both engaging and _____.',translation:'그 다큐멘터리는 흥미로우면서도 유익했다.',clue:'and 앞의 형용사 engaging과 나란히 연결될 형용사가 필요합니다.'},
+  {base:'observe',target:'noun',source:'verb',sentence:'Careful _____ revealed a change in the pattern.',translation:'주의 깊은 관찰은 그 양식의 변화를 밝혀냈다.',clue:'형용사 Careful 뒤에서 주어가 되는 명사가 필요합니다.'},
+  {base:'observe',target:'verb',source:'noun',sentence:'Scientists _____ the animals without disturbing them.',translation:'과학자들은 동물들을 방해하지 않고 관찰한다.',clue:'주어 Scientists 뒤에는 서술어 동사가 필요합니다.'},
+  {base:'produce',target:'adjective',source:'noun',sentence:'The meeting ended with a _____ discussion.',translation:'그 회의는 생산적인 토론으로 마무리되었다.',clue:'명사 discussion을 꾸미는 형용사가 필요합니다.'},
+  {base:'produce',target:'adverb',source:'adjective',sentence:'The two teams worked _____ together.',translation:'두 팀은 함께 생산적으로 일했다.',clue:'동사 worked를 꾸미는 부사가 필요합니다.'},
+  {base:'relate',target:'noun',source:'verb',sentence:'The study found a close _____ between sleep and memory.',translation:'그 연구는 수면과 기억 사이의 밀접한 관련성을 발견했다.',clue:'관사 a와 형용사 close 뒤에는 명사가 필요합니다.'},
+  {base:'relate',target:'adjective',source:'noun',sentence:'The _____ importance of each factor changed over time.',translation:'각 요인의 상대적 중요성은 시간에 따라 변했다.',clue:'명사 importance를 꾸미는 형용사가 필요합니다.'},
+
+  {base:'analyze',target:'noun',source:'verb',sentence:'A careful _____ of the data revealed the error.',translation:'자료를 주의 깊게 분석한 결과 오류가 드러났다.',clue:'관사 A와 형용사 careful 뒤에는 명사가 필요합니다.'},
+  {base:'analyze',target:'verb',source:'noun',sentence:'Researchers must _____ the evidence before drawing a conclusion.',translation:'연구자들은 결론을 내리기 전에 증거를 분석해야 한다.',clue:'조동사 must 뒤에는 동사원형이 필요합니다.'},
+  {base:'interpret',target:'adjective',source:'noun',sentence:'The essay offers an _____ framework for the poem.',translation:'그 글은 시에 대한 해석적 틀을 제시한다.',clue:'명사 framework를 꾸미는 형용사가 필요합니다.'},
+  {base:'interpret',target:'verb',source:'noun',sentence:'Readers may _____ the final scene in several ways.',translation:'독자들은 마지막 장면을 여러 방식으로 해석할 수 있다.',clue:'조동사 may 뒤에는 동사원형이 필요합니다.'},
+  {base:'persist',target:'noun',source:'verb',sentence:'Her _____ helped her overcome repeated failure.',translation:'그녀의 끈기는 반복된 실패를 극복하는 데 도움이 되었다.',clue:'소유격 Her 뒤에는 명사가 필요합니다.'},
+  {base:'persist',target:'adjective',source:'noun',sentence:'The team solved the problem through _____ effort.',translation:'그 팀은 끈질긴 노력으로 문제를 해결했다.',clue:'명사 effort를 꾸미는 형용사가 필요합니다.'},
+  {base:'signify',target:'verb',source:'noun',sentence:'A sudden drop may _____ a change in demand.',translation:'갑작스러운 하락은 수요의 변화를 의미할 수 있다.',clue:'조동사 may 뒤에는 동사원형이 필요합니다.'},
+  {base:'signify',target:'adverb',source:'adjective',sentence:'The two groups performed _____ differently.',translation:'두 집단은 상당히 다르게 수행했다.',clue:'부사 differently의 정도를 강조하는 부사가 필요합니다.'},
+  {base:'infer',target:'noun',source:'verb',sentence:'The conclusion is based on a reasonable _____.',translation:'그 결론은 합리적인 추론에 근거한다.',clue:'관사 a와 형용사 reasonable 뒤에는 명사가 필요합니다.'},
+  {base:'infer',target:'verb',source:'noun',sentence:'We can _____ the writer’s attitude from the final paragraph.',translation:'우리는 마지막 문단에서 글쓴이의 태도를 추론할 수 있다.',clue:'조동사 can 뒤에는 동사원형이 필요합니다.'},
+  {base:'respond',target:'adjective',source:'noun',sentence:'The website uses a _____ design for mobile devices.',translation:'그 웹사이트는 모바일 기기에 반응하는 설계를 사용한다.',clue:'명사 design을 꾸미는 형용사가 필요합니다.'},
+  {base:'respond',target:'adverb',source:'adjective',sentence:'The system adjusts _____ to changes in demand.',translation:'그 시스템은 수요 변화에 반응하여 조정된다.',clue:'동사 adjusts를 꾸미는 부사가 필요합니다.'},
+  {base:'adapt',target:'noun',source:'verb',sentence:'The film is an _____ of a famous novel.',translation:'그 영화는 유명 소설을 각색한 작품이다.',clue:'관사 an 뒤에서 보어 역할을 하는 명사가 필요합니다.'},
+  {base:'adapt',target:'adjective',source:'noun',sentence:'An _____ strategy changes when conditions change.',translation:'적응형 전략은 조건이 바뀌면 함께 변화한다.',clue:'명사 strategy를 꾸미는 형용사가 필요합니다.'},
+  {base:'cohere',target:'verb',source:'noun',sentence:'The separate arguments must _____ into a single explanation.',translation:'개별 주장들은 하나의 설명으로 일관되게 결합되어야 한다.',clue:'조동사 must 뒤에는 동사원형이 필요합니다.'},
+  {base:'cohere',target:'adverb',source:'adjective',sentence:'The evidence is organized _____ throughout the essay.',translation:'그 글 전체에서 증거가 일관되게 구성되어 있다.',clue:'동사 is organized를 꾸미는 부사가 필요합니다.'},
+  {base:'comprehend',target:'noun',source:'verb',sentence:'Reading slowly improved her _____ of the argument.',translation:'천천히 읽는 것은 그 주장에 대한 이해를 높였다.',clue:'소유격 her 뒤에는 명사가 필요합니다.'},
+  {base:'comprehend',target:'verb',source:'noun',sentence:'Students need time to _____ unfamiliar concepts.',translation:'학생들은 낯선 개념을 이해할 시간이 필요하다.',clue:'to 뒤에는 동사원형이 필요합니다.'},
+  {base:'conclude',target:'adjective',source:'noun',sentence:'The study did not provide _____ evidence.',translation:'그 연구는 결정적인 증거를 제공하지 못했다.',clue:'명사 evidence를 꾸미는 형용사가 필요합니다.'},
+  {base:'conclude',target:'adverb',source:'adjective',sentence:'One experiment cannot _____ prove the theory.',translation:'한 번의 실험으로는 그 이론을 결정적으로 증명할 수 없다.',clue:'동사 prove를 꾸미는 부사가 필요합니다.'},
+  {base:'distinguish',target:'noun',source:'verb',sentence:'The law makes a clear _____ between the two cases.',translation:'그 법은 두 사례를 명확히 구별한다.',clue:'관사 a와 형용사 clear 뒤에는 명사가 필요합니다.'},
+  {base:'distinguish',target:'adjective',source:'noun',sentence:'The two concepts have _____ meanings.',translation:'두 개념은 서로 뚜렷이 다른 의미를 가진다.',clue:'명사 meanings를 꾸미는 형용사가 필요합니다.'},
+  {base:'evaluate',target:'verb',source:'noun',sentence:'Teachers should _____ both the process and the result.',translation:'교사는 과정과 결과를 모두 평가해야 한다.',clue:'조동사 should 뒤에는 동사원형이 필요합니다.'},
+  {base:'evaluate',target:'noun',source:'verb',sentence:'The program requires regular _____.',translation:'그 프로그램은 정기적인 평가가 필요하다.',clue:'형용사 regular 뒤에는 명사가 필요합니다.'},
+  {base:'justify',target:'noun',source:'verb',sentence:'There is no _____ for ignoring the evidence.',translation:'그 증거를 무시할 정당한 이유는 없다.',clue:'There is no 뒤에는 명사가 필요합니다.'},
+  {base:'justify',target:'verb',source:'noun',sentence:'The results do not _____ such a strong claim.',translation:'그 결과는 그렇게 강한 주장을 정당화하지 않는다.',clue:'do not 뒤에는 동사원형이 필요합니다.'},
+  {base:'perceive',target:'adjective',source:'noun',sentence:'A _____ reader notices subtle changes in tone.',translation:'통찰력 있는 독자는 어조의 미묘한 변화를 알아차린다.',clue:'명사 reader를 꾸미는 형용사가 필요합니다.'},
+  {base:'perceive',target:'adverb',source:'adjective',sentence:'She commented _____ on the weakness of the argument.',translation:'그녀는 그 주장의 약점을 예리하게 지적했다.',clue:'동사 commented를 꾸미는 부사가 필요합니다.'},
+  {base:'sustain',target:'noun',source:'verb',sentence:'Environmental _____ requires long-term planning.',translation:'환경적 지속 가능성에는 장기 계획이 필요하다.',clue:'형용사 Environmental 뒤에서 주어가 되는 명사가 필요합니다.'},
+  {base:'sustain',target:'adjective',source:'noun',sentence:'The city needs a more _____ transport system.',translation:'그 도시는 더 지속 가능한 교통 체계가 필요하다.',clue:'명사 transport system을 꾸미는 형용사가 필요합니다.'},
+];
+
+const familyLabels={noun:'명사',verb:'동사',adjective:'형용사',adverb:'부사'};
+export const FAMILY_QUESTIONS = FAMILY_QUESTION_SEEDS.map((seed,index) => {
+  const family=WORD_FAMILIES.find(item=>item.base===seed.base);
+  const answer=family.forms[seed.target],sourceWord=family.forms[seed.source];
+  return {id:`family-${index+1}`,level:family.level,base:family.base,ko:family.ko,target:seed.target,
+    source:sourceWord,sentence:seed.sentence,translation:seed.translation,answer,
+    choices:Object.values(family.forms),explain:`${seed.clue} 따라서 ${familyLabels[seed.target]} ${answer}가 알맞습니다.`};
+});
+
 export const SYNTAX_ITEMS = [
   { level:'core', sentence:'Regular exercise improves our ability to concentrate.', ko:'규칙적인 운동은 집중하는 능력을 향상시킨다.', prompt:'이 문장의 주절 동사를 고르세요.', chunks:['Regular exercise','improves','our ability','to concentrate'], answer:1, explain:'주어 Regular exercise 뒤에서 주절의 동작을 나타내는 동사는 improves입니다.' },
   { level:'core', sentence:'The book that you recommended was surprisingly useful.', ko:'네가 추천한 책은 놀랄 만큼 유용했다.', prompt:'주어 The book을 꾸미는 관계절을 고르세요.', chunks:['The book','that you recommended','was','surprisingly useful'], answer:1, explain:'that you recommended가 앞의 The book을 꾸미는 관계절입니다.' },
@@ -180,5 +254,5 @@ export const CSAT_ITEMS = Object.keys(CSAT_LEVELS).flatMap((level) => BASE_CSAT_
   guide:levelQuestions[level],
 })));
 
-export const labItems = (kind, course='core') => ({ family:WORD_FAMILIES, syntax:SYNTAX_ITEMS, logic:LOGIC_ITEMS }[kind] || []).filter(item=>item.level===course);
+export const labItems = (kind, course='core') => ({ family:FAMILY_QUESTIONS, syntax:SYNTAX_ITEMS, logic:LOGIC_ITEMS }[kind] || []).filter(item=>item.level===course);
 export const csatItems = (type, level='prep') => CSAT_ITEMS.filter(item=>item.type===type&&item.level===level);

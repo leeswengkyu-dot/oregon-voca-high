@@ -2,7 +2,7 @@ import './style.css';
 import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.js';
 import { stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, passingScore } from './data/levels.js';
 import { SCENES, sceneById, sceneForUnit } from './data/scenes.js';
-import { LAB_INFO, WORD_FAMILIES, SYNTAX_ITEMS, LOGIC_ITEMS, CSAT_LEVELS, CSAT_TYPE_INFO, CSAT_ITEMS, labItems, csatItems } from './data/csat-labs.js';
+import { LAB_INFO, CSAT_LEVELS, CSAT_TYPE_INFO, CSAT_ITEMS, labItems, csatItems } from './data/csat-labs.js';
 import { api, isOnline, isStudentSessionError, store } from './db.js';
 import { parseContentWorkbook } from './excel.js';
 
@@ -804,9 +804,8 @@ routes.lab = (kind, course='core') => {
   const draw=()=>{
     const item=items[index];checked=false;let prompt='',choices=[],answer='',explain=item.explain||item.example;
     if(kind==='family'){
-      const formKeys=['noun','verb','adjective','adverb'];const target=formKeys[index%formKeys.length];answer=item.forms[target];
-      choices=shuffle([answer,...sample(items.filter(x=>x!==item).map(x=>x.forms[target]).filter(Boolean),3)]);
-      prompt=`<p class="lab-eyebrow">기본형 ${esc(item.base)} · ${esc(item.ko)}</p><h2>${labels[target]} 형태를 고르세요.</h2><p class="lab-example">${esc(item.example)}</p>`;
+      answer=item.answer;choices=item.choices.slice();
+      prompt=`<p class="lab-eyebrow">제시어 ${esc(item.source)} · ${esc(item.ko)}</p><h2>문맥에 알맞은 ${labels[item.target]} 형태를 고르세요.</h2><p class="lab-example">${esc(item.sentence)}</p><p class="lab-translation">${esc(item.translation)}</p>`;
     }else if(kind==='syntax'){
       answer=item.chunks[item.answer];choices=item.chunks.slice();
       prompt=`<p class="lab-sentence">${esc(item.sentence)}</p><small>${esc(item.ko)}</small><h2>${esc(item.prompt)}</h2>`;
@@ -816,7 +815,7 @@ routes.lab = (kind, course='core') => {
     }
     const coreOn=course==='core'?'on':'',challengeOn=course==='challenge'?'on':'';
     app.innerHTML=`${topbar(`${info.icon} ${info.title}`,'#/home')}<div class="page center lab-page"><nav class="course-tabs"><a class="${coreOn}" href="#/lab/${kind}/core">기본 코스 · ${labItems(kind,'core').length}문항</a><a class="${challengeOn} ${challengeOpen?'':'locked'}" href="${challengeOpen?`#/lab/${kind}/challenge`:`#/lab/${kind}/core`}">${challengeOpen?`도전 코스 · ${labItems(kind,'challenge').length}문항`:'🔒 도전 코스'}</a></nav><div class="qhead"><span>${index+1} / ${items.length}</span><span>✅ ${score}</span></div><div class="progress"><i style="width:${index/items.length*100}%"></i></div><section class="lab-prompt">${prompt}</section><div class="sentence-choices">${shuffle(choices).map(choice=>`<button class="sentence-choice" data-answer="${esc(choice)}">${esc(choice)}</button>`).join('')}</div><div class="sentence-feedback" id="lab-feedback" role="status"></div><button class="btn primary" id="lab-next" hidden>${index===items.length-1?'연구 마치기':'다음 문제 →'}</button></div>`;
-    $$('.sentence-choice').forEach(button=>button.onclick=()=>{if(checked)return;checked=true;const ok=button.dataset.answer===answer;if(ok)score++;$$('.sentence-choice').forEach(x=>{x.disabled=true;if(x.dataset.answer===answer)x.classList.add('right');});if(!ok)button.classList.add('wrong');$('#lab-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정확해요!':'정답을 확인해 보세요.'}</b><span>${esc(answer)}</span><small>${esc(explain)}</small>`;$('#lab-next').hidden=false;beep(ok);if(kind==='family')speak(`${item.base}, ${answer}`);else if(kind==='syntax')speak(item.sentence);});
+    $$('.sentence-choice').forEach(button=>button.onclick=()=>{if(checked)return;checked=true;const ok=button.dataset.answer===answer;if(ok)score++;$$('.sentence-choice').forEach(x=>{x.disabled=true;if(x.dataset.answer===answer)x.classList.add('right');});if(!ok)button.classList.add('wrong');$('#lab-feedback').innerHTML=`<b class="${ok?'good':'err'}">${ok?'✅ 정확해요!':'정답을 확인해 보세요.'}</b><span>${esc(answer)}</span><small>${esc(explain)}</small>`;$('#lab-next').hidden=false;beep(ok);if(kind==='family')speak(item.sentence.replace('_____',answer));else if(kind==='syntax')speak(item.sentence);});
     $('#lab-next').onclick=()=>{index++;if(index<items.length)draw();else finishLab();};
   };draw();
 };
