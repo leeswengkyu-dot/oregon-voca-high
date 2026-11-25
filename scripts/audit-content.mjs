@@ -1,8 +1,8 @@
 import { ALL_WORDS, TOPICS } from '../src/data/words.js';
 
 const errors=[];const review=[];const seenExamples=new Map();
-const unsafeContext=/drowned in the deluge|nonbinary people|unarmed protesters|trying to get shot|promising to destroy your life|deadly skin cancers|colonial divide-and-conquer|political satire|culture war|violent argument|affect a smile/i;
-const reviewTerms=/\b(death|dead|killed|killing|murder|war|violence|violent|politics|political|religion|religious|suicide|gun|bomb|disaster|cancer|pandemic|atrocity|atrocities)\b|사망|죽음|살해|전쟁|폭력|종교|자살|폭탄|재난|폐암|피부암|참사/i;
+const unsafeContext=/drowned in the deluge|nonbinary people|unarmed protesters|trying to get shot|promising to destroy your life|deadly skin cancers|colonial divide-and-conquer|political satire|culture war|violent argument|affect a smile|dark[ -]?web|\bhack(?:ing|er|ed)?\b|pornography|sexually explicit|drag shows|\b(?:heroin|opioid|xylazine|cannabis|marijuana|cocaine)\b|nuclear (?:weapons|arms)|preserving slavery|massive twat|marginalized people|scope on (?:his|her|a) rifle|solitary confinement|election fraud|schadenfreude|\bguano\b|\bchampers\b|다크 ?웹|해킹|포르노|헤로인|오피오이드|마리화나/i;
+const reviewTerms=/\b(death|dead|killed|killing|murder|war|violence|violent|politics|political|religion|religious|suicide|gun|bomb|disaster|cancer|pandemic|atrocity|atrocities|rifle|firearm|prison|torture|slavery)\b|사망|죽음|살해|전쟁|폭력|종교|자살|폭탄|재난|폐암|피부암|참사|소총|교도소|노예/i;
 
 for(const word of ALL_WORDS){
   const escaped=word.en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const target=new RegExp(`(?<![a-z])${escaped}(?![a-z])`,'i');
