@@ -9,6 +9,18 @@ export const stageById = (id) => STAGES.find((stage) => stage.id === id) ?? STAG
 export const normalizeSentence = (sentence) => String(sentence).normalize('NFKC').trim().toLowerCase().replace(/[.!?]+$/, '').trim().replace(/\s+/g, ' ');
 export const passingScore = (total) => Math.ceil(total * 0.8);
 
+const normalizeMatchingLabel = (label) => String(label ?? '').normalize('NFKC').trim().replace(/\s+/g, ' ');
+
+export function matchingWords(topic, count = 6, random = Math.random) {
+  const labels = new Set();
+  return shuffleWith(topic?.words ?? [], random).filter((word) => {
+    const label = normalizeMatchingLabel(word.ko);
+    if (!label || labels.has(label)) return false;
+    labels.add(label);
+    return true;
+  }).slice(0, count);
+}
+
 export function wordProgress(progress, word) {
   return [word.id, ...(word.legacyIds ?? [])].reduce((sum, key) => {
     const value = progress?.[key] ?? [0, 0];

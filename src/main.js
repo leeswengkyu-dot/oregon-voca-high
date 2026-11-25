@@ -1,6 +1,6 @@
 import './style.css';
 import { STAGES, TOPICS, ALL_WORDS, WORD_BY_ID, topicById } from './data/words.js';
-import { stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, passingScore } from './data/levels.js';
+import { stageById, wordProgress, levelProgress, masteryFor, masterySummary, reviewCandidates, quizForTopic, matchingWords, passingScore } from './data/levels.js';
 import { SCENES, sceneById, sceneForUnit } from './data/scenes.js';
 import { LAB_INFO, CSAT_LEVELS, CSAT_TYPE_INFO, CSAT_ITEMS, labItems, csatItems } from './data/csat-labs.js';
 import { api, isOnline, isStudentSessionError, store } from './db.js';
@@ -622,13 +622,15 @@ routes.quiz = (id) => {
 // ---- 짝 맞추기 ----
 routes.match = (id) => {
   const t = topicById(id); if (!t) return go('#/home');
-  const words = sample(t.words, 6);
+  const words = matchingWords(t, 6);
+  if (!words.length) return go('#/topic/' + t.id);
+  const target = words.length;
   const cards = shuffle(words.flatMap((w) => [{ w, side: 'ko' }, { w, side: 'en' }]));
   let open = []; let found = 0; let tries = 0; let busy = false;
   app.innerHTML = `${topbar('🃏 짝 맞추기', '#/topic/' + t.id)}
   <div class="page center">
     <p class="ask">영어 단어와 한글 뜻의 짝을 찾아요!</p>
-    <div class="qhead"><span>찾은 짝 <b id="found">0</b>/6</span><span>시도 <b id="tries">0</b></span></div>
+    <div class="qhead"><span>찾은 짝 <b id="found">0</b>/${target}</span><span>시도 <b id="tries">0</b></span></div>
     <div class="memory">${cards.map((c, k) => `<button class="mcard" data-k="${k}" aria-label="카드 뒤집기"><span class="back">🌲</span><span class="front ${c.side === 'ko' ? 'match-ko' : 'match-en'}">${c.side === 'ko' ? `<b>${esc(c.w.ko)}</b><small>한글 뜻</small>` : `<b>${esc(c.w.en)}</b><small>English</small>`}</span></button>`).join('')}</div>
   </div>`;
   $$('.mcard').forEach((b) => b.onclick = () => {
@@ -642,9 +644,9 @@ routes.match = (id) => {
     if (cards[a].w.id === cards[c].w.id) {
       found++; $('#found').textContent = found; beep(true); speak(cards[a].w.en);
       $$('.mcard').filter((x) => [a, c].includes(Number(x.dataset.k))).forEach((x) => x.classList.add('matched'));
-      if (found === 6) setTimeout(async () => {
+      if (found === target) setTimeout(async () => {
         const stars = tries <= 8 ? 3 : tries <= 12 ? 2 : 1; const ac = 3 + stars;
-        await save({ kind: 'match', topic: t.id, score: 6, total: tries, acorns: ac, words: words.map((w) => ({ id: w.id, ok: true })) });
+        await save({ kind: 'match', topic: t.id, score: target, total: tries, acorns: ac, words: words.map((w) => ({ id: w.id, ok: true })) });
         finish({ title: '짝을 모두 찾았어요!', emoji: '🃏', stars, lines: [`${tries}번 만에 성공!`], acorns: ac, back: '#/topic/' + t.id, again: '#/match/' + t.id });
       }, 700);
     } else {
