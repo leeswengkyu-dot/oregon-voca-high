@@ -215,6 +215,7 @@ section { padding: 0 14px; }
 .hard .bar { grid-column: 3; grid-row: 1 / span 2; height: 10px; background: #f1f3f2; border-radius: 9px; overflow: hidden; } .hard .bar i { display: block; height: 100%; background: var(--red); }
 .hard .num { grid-column: 4; grid-row: 1 / span 2; font-size: 13px; text-align: right; }
 .class-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); } .class-row b { flex: 1; }
+.ranking-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.ranking-card h2{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;font-size:20px}.ranking-card h2 small{color:var(--green2);font-size:12px}.ranking-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}.ranking-list li{display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:8px;min-height:42px;padding:7px 10px;border-radius:12px;background:#f7faf6}.ranking-list li.me{background:#fff4cf;border:2px solid #f2c14e}.ranking-list .rank-no{font-size:14px;color:var(--green)}.ranking-list span{font-weight:800;overflow-wrap:anywhere}.ranking-list span small{display:inline-block;padding:2px 6px;border-radius:99px;background:var(--gold);color:#fff;font-size:10px}.ranking-list strong{font-family:'Nunito',sans-serif;white-space:nowrap;color:#8a6500}
 
 @media (max-width: 520px) {
   .two { grid-template-columns: 1fr; } .village { width: 92%; }

@@ -94,12 +94,12 @@ const local = {
     if (r.badge && !s.badges.includes(r.badge)) s.badges.push(r.badge);
     lsave(d); return lstate(d, s);
   },
-  async weeklyTop(sid, token) {
+  async classTop10(sid, token) {
     const d = ldb(); const me = d.students.find((x) => x.id === sid && x.token === token);
     if (!me) throw new Error('다시 로그인해 주세요');
-    const ws = weekStart();
-    return [{ acorns: d.students.filter((s) => s.class_id === me.class_id)
-      .reduce((sum, s) => sum + d.activity.filter((a) => a.sid === s.id && a.at >= ws).reduce((t, a) => t + a.acorns, 0), 0) }];
+    return d.students.filter((s) => s.class_id === me.class_id)
+      .sort((a, b) => b.acorns - a.acorns || a.name.localeCompare(b.name) || String(a.id).localeCompare(String(b.id)))
+      .slice(0, 10).map((s, index) => ({ rank_no: index + 1, name: s.name, acorns: s.acorns, is_me: s.id === sid }));
   },
   async studentInsights(sid, token) {
     const d=ldb();const s=d.students.find((item)=>item.id===sid&&item.token===token);if(!s)throw new Error('다시 로그인해 주세요');
@@ -182,7 +182,7 @@ const remote = {
     p_sid: sid, p_token: token, p_kind: r.kind, p_topic: r.topic || null, p_score: r.score, p_total: r.total,
     p_acorns: r.acorns, p_words: r.words || [], p_badge: r.badge || null,
   }),
-  weeklyTop: (sid, token) => rpc('ovh_class_weekly_top', { p_sid: sid, p_token: token }),
+  classTop10: (sid, token) => rpc('ovh_class_top10', { p_sid: sid, p_token: token }),
   studentInsights: (sid,token) => rpc('ovh_student_insights',{p_sid:sid,p_token:token}),
   teacherOverview: (pw) => rpc('ovh_teacher_overview', { p_pw: pw }),
   teacherStudentDetail: (pw,sid) => rpc('ovh_teacher_student_detail',{p_pw:pw,p_sid:sid}),

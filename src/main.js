@@ -412,7 +412,7 @@ routes.home = async () => {
 
   <section class="two">
     <div class="card">
-      <h3>🌳 이번 주 우리 반 공동 목표</h3>
+      <h3>🏆 우리 반 누적 랭킹 TOP 10</h3>
       <div id="top5"><p class="muted">포인트를 모으는 중…</p></div>
     </div>
     <div class="card">
@@ -425,11 +425,10 @@ routes.home = async () => {
   $$('.stage-tab').forEach((b) => b.onclick = () => { state.stage = b.dataset.s; store.set('ovh_stage', state.stage); render(); });
   $('#menu').onclick = settingsSheet;
   try {
-    const top = await api.weeklyTop(me.id, me.token);
+    const top = await api.classTop10(me.id, me.token);
     if(!$('#top5'))return;
-    const total = top.reduce((sum, item) => sum + Number(item.acorns || 0), 0); const goal = Math.max(100, Math.ceil((total + 1) / 100) * 100);
-    $('#top5').innerHTML = `<p><b>⭐ ${total} / ${goal}</b></p><div class="level-track"><i style="width:${Math.min(100, total / goal * 100)}%"></i></div><p class="muted small">친구 이름과 순위 없이, 반 친구 모두 함께 키우는 목표예요.</p>`;
-  } catch { if(!$('#top5'))return;$('#top5').innerHTML = '<li class="muted">순위를 불러오지 못했어요</li>'; }
+    $('#top5').innerHTML = top.length ? `<ol class="ranking-list">${top.map((item) => `<li class="${item.is_me ? 'me' : ''}"><b class="rank-no">${Number(item.rank_no) <= 3 ? ['🥇','🥈','🥉'][Number(item.rank_no)-1] : `${item.rank_no}위`}</b><span>${esc(item.name)}${item.is_me ? ' <small>나</small>' : ''}</span><strong>⭐ ${Number(item.acorns || 0)}</strong></li>`).join('')}</ol><p class="muted small">누적 포인트 기준 · 우리 반 학생에게만 공개됩니다.</p>` : '<p class="muted">아직 순위 기록이 없어요.</p>';
+  } catch { if(!$('#top5'))return;$('#top5').innerHTML = '<p class="muted">순위를 불러오지 못했어요</p>'; }
 };
 function badgeChip(b) {
   const [kind, ...parts] = b.split(':'); const id=parts.join(':');
@@ -886,9 +885,9 @@ routes.teacher = async () => {
   <div class="page wide">
     ${isOnline ? '' : '<p class="demo">체험 모드: 이 기기에 저장된 기록만 보여요. 초기 비밀번호 oregon1234</p>'}
     <nav class="ttabs">
-      ${[['students', '학생 현황'], ['hard', '어려운 단어'], ['assignments', '과제'], ['content', 'Excel 콘텐츠'], ['classes', '반 관리'], ['settings', '설정']].map(([k, n]) => `<button class="${k === tab ? 'on' : ''}" data-t="${k}">${n}</button>`).join('')}
+      ${[['students', '학생 현황'], ['ranking', '반별 랭킹'], ['hard', '어려운 단어'], ['assignments', '과제'], ['content', 'Excel 콘텐츠'], ['classes', '반 관리'], ['settings', '설정']].map(([k, n]) => `<button class="${k === tab ? 'on' : ''}" data-t="${k}">${n}</button>`).join('')}
     </nav>
-    ${tab === 'students' || tab === 'hard' ? `<div class="class-pick">
+    ${tab === 'students' || tab === 'ranking' || tab === 'hard' ? `<div class="class-pick">
       <button class="chip ${cls === 'all' ? 'on' : ''}" data-c="all">전체</button>
       ${data.classes.map((c) => `<button class="chip ${String(c.id) === String(cls) ? 'on' : ''}" data-c="${c.id}">${esc(c.name)}</button>`).join('')}</div>` : ''}
     <div id="tbody"></div>
@@ -933,6 +932,12 @@ routes.teacher = async () => {
       e.preventDefault();
       try { await api.teacherAddStudent(pw, Number($('#sc').value), $('#sn').value, $('#sp').value); toast('학생을 추가했어요'); render(); } catch (ex) { toast(ex.message); }
     };
+  } else if (tab === 'ranking') {
+    const classes = data.classes.filter((c) => cls === 'all' || String(c.id) === String(cls));
+    body.innerHTML = `<p class="muted">누적 포인트 기준으로 각 반의 1위부터 10위까지 표시합니다.</p><div class="ranking-grid">${classes.map((c) => {
+      const ranked = data.students.filter((s) => s.class_id === c.id).sort((a,b) => Number(b.acorns)-Number(a.acorns) || a.name.localeCompare(b.name) || String(a.id).localeCompare(String(b.id))).slice(0,10);
+      return `<section class="card ranking-card"><h2>${esc(c.name)} <small>TOP 10</small></h2>${ranked.length ? `<ol class="ranking-list">${ranked.map((s,index) => `<li><b class="rank-no">${index < 3 ? ['🥇','🥈','🥉'][index] : `${index+1}위`}</b><span>${esc(s.name)}</span><strong>⭐ ${Number(s.acorns||0)}</strong></li>`).join('')}</ol>` : '<p class="muted">등록된 학생이 없어요.</p>'}</section>`;
+    }).join('')}</div>`;
   } else if (tab === 'hard') {
     body.innerHTML = `<p class="muted">퀴즈·스펠링·문장 학습에서 많이 틀린 단어예요. 수업 시간 복습에 활용하세요.</p>
     <div class="hard-list">${hardAgg.map((h) => { const w = WORD_BY_ID[h.word_id]; if (!w) return '';
